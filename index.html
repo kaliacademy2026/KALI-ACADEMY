@@ -3,152 +3,116 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>KaliAcademy | تعلم كالي لينكس والأمن السيبراني</title>
-
-<meta name="description" content="منصة KaliAcademy لتعلم كالي لينكس والأمن السيبراني خطوة بخطوة بالعربي مع شروحات عملية وأدلة احترافية.">
-<meta name="keywords" content="Kali Linux, تعلم كالي لينكس, الأمن السيبراني, اختبار الاختراق">
-
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<style>
-:root{
---primary:#00ff41;
---dark:#0d1117;
---card:#161b22;
-}
-
-body{
-margin:0;
-background:var(--dark);
-color:white;
-font-family:'Share Tech Mono', monospace;
-}
-
-h1,h2{
-font-family:'Orbitron', sans-serif;
-}
-
-.section{
-padding:80px 20px;
-}
-
-.hero{
-text-align:center;
-padding:120px 20px;
-background:linear-gradient(135deg,#000,#111);
-}
-
-.hero h1{
-font-size:2.8rem;
-color:var(--primary);
-margin-bottom:10px;
-}
-
-.hero p{
-color:#ccc;
-font-size:1.1rem;
-}
-
-.btn{
-display:inline-block;
-padding:12px 25px;
-border-radius:8px;
-text-decoration:none;
-font-weight:bold;
-transition:0.3s;
-}
-
-.btn-primary{
-background:var(--primary);
-color:black;
-}
-
-.btn-primary:hover{
-opacity:0.85;
-}
-
-.card{
-background:var(--card);
-padding:30px;
-border-radius:14px;
-box-shadow:0 0 25px rgba(0,255,65,0.1);
-}
-
-footer{
-text-align:center;
-padding:30px;
-background:#000;
-color:#aaa;
-margin-top:60px;
-}
-</style>
-
+<title>KaliAcademy - منصة تعلم كالي لينكس والأمن السيبراني</title>
+<meta name="description" content="منصة KaliAcademy - تعلم الأمن السيبراني واختبار الاختراق بالعربي. 500+ أمر Kali Linux، 100 درس تعليمي، خطوات تنفيذ تفصيلية وأدوات الحماية.">
+<meta name="keywords" content="كالي لينكس, Kali Linux, اختبار اختراق, الأمن السيبراني, تعلم الهاكر, Nmap, Metasploit, تعليم عربي">
+<meta name="author" content="Kali Academy">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="KaliAcademy - منصة تعلم كالي لينكس والأمن السيبراني">
+<meta property="og:description" content="تعلم الأمن السيبراني بالعربي - 500+ أمر، 100 درس، خطوات تنفيذ تفصيلية">
+<meta property="og:image" content="images/logo.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="images/logo.png">
+<link rel="canonical" href="https://kali-academy.github.io/">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/enhanced.css">
+<link rel="stylesheet" href="css/cyber-theme.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
+<body class="grid-bg">
+<canvas id="matrix-canvas"></canvas>
 
-<body>
+<script src="js/disclaimer.js"></script>
+<script src="js/social-bar.js"></script>
+<script src="js/site-init.js"></script>
 
-<!-- HERO SECTION -->
-<section class="hero">
-<h1>🚀 KaliAcademy</h1>
-<p>تعلم كالي لينكس والأمن السيبراني باحتراف خطوة بخطوة</p>
-<br>
-<a href="tutorials.html" class="btn btn-primary">
-<i class="fas fa-graduation-cap"></i> ابدأ التعلم الآن
+<header class="site-header">
+<a href="index.html" class="logo">
+<div class="logo-icon"><img src="images/logo.png" alt="Kali Academy Logo" style="width:44px;height:44px;object-fit:contain;"></div>
+<div>
+<span class="logo-text">KALI ACADEMY</span>
+<span class="logo-sub">CYBER SECURITY LEARNING</span>
+</div>
 </a>
+<ul class="nav-menu">
+<li><a href="index.html" class="nav-link active"><i class="fas fa-home"></i> الرئيسية</a></li>
+<li><a href="commands.html" class="nav-link"><i class="fas fa-terminal"></i> الأوامر</a></li>
+<li><a href="tutorials.html" class="nav-link"><i class="fas fa-book-open"></i> الدروس</a></li>
+<li><a href="steps.html" class="nav-link"><i class="fas fa-list-ol"></i> خطوات التنفيذ</a></li>
+<li><a href="tools.html" class="nav-link"><i class="fas fa-tools"></i> الأدوات</a></li>
+</ul>
+<div class="header-status">
+<div class="status-dot"></div>
+<span>SYSTEM ONLINE</span>
+</div>
+<div class="hamburger"><span></span><span></span><span></span></div>
+</header>
+
+<div class="main-wrapper">
+
+<section class="hero">
+<div class="hero-badge">
+<i class="fas fa-shield-alt"></i> KALI LINUX CYBERSECURITY ACADEMY
+</div>
+<h1 class="hero-title">
+<span class="title-line1">تعلّم الأمن السيبراني</span>
+<span class="title-line2">KALI LINUX</span>
+<span class="title-line3">من الصفر إلى الاحتراف</span>
+</h1>
+
+<p class="hero-desc">
+منصة تعليمية شاملة لتعلم نظام كالي لينكس والأمن السيبراني — تشمل أكثر من
+<strong style="color: var(--primary);">500+ أمر</strong> موثق،
+<strong style="color: var(--primary);">100 درس</strong> و
+<strong style="color: var(--primary);">100 أداة</strong>.
+</p>
+
+<div class="hero-buttons">
+<a href="commands.html" class="btn btn-primary">
+<i class="fas fa-terminal"></i> استكشف الأوامر
+</a>
+<a href="tutorials.html" class="btn btn-secondary">
+<i class="fas fa-play-circle"></i> ابدأ التعلم
+</a>
+<a href="steps.html" class="btn btn-accent">
+<i class="fas fa-list-ol"></i> خطوات التنفيذ
+</a>
+</div>
 </section>
 
-
-<!-- FEATURED ARTICLE SECTION -->
+<!-- 🔥 ARTICLE CARD (الإضافة الوحيدة) -->
 <section class="section" style="padding-top:0;">
 <div style="
-max-width:900px;
+max-width:1000px;
 margin:40px auto;
-background:linear-gradient(135deg, rgba(0,255,65,0.08), rgba(0,0,0,0.6));
-border:1px solid rgba(0,255,65,0.3);
-border-radius:14px;
-padding:40px;
+background:linear-gradient(145deg, rgba(0,255,65,0.05), rgba(0,0,0,0.7));
+border:1px solid rgba(0,255,65,0.25);
+border-radius:16px;
+padding:35px;
 box-shadow:0 0 30px rgba(0,255,65,0.15);
 text-align:center;
 ">
-
-<span style="color:#00ff41;letter-spacing:2px;font-size:0.9rem;">
-🔥 دليل مميز جديد
+<span style="color:#00ff41;font-size:14px;letter-spacing:2px;font-family:'Share Tech Mono', monospace;">
+🔥 NEW GUIDE
 </span>
-
-<h2 style="margin:20px 0;font-size:1.9rem;">
-🚀 تعلم كالي لينكس للمبتدئين 2026 – الدليل الشامل
+<h2 style="margin:20px 0;font-family:'Orbitron', sans-serif;font-size:1.8rem;color:white;">
+🚀 تعلم Kali Linux للمبتدئين 2026 – الدليل الكامل
 </h2>
-
 <p style="color:#ccc;max-width:700px;margin:0 auto 25px;line-height:1.8;">
-دليل احترافي خطوة بخطوة لدخول عالم الأمن السيبراني باستخدام Kali Linux.
-يشمل التثبيت، أهم الأوامر، الأدوات الأساسية، وخطة احتراف خلال 90 يوم.
+شرح احترافي خطوة بخطوة لدخول عالم الأمن السيبراني باستخدام Kali Linux،
+يشمل التثبيت، أهم الأدوات، وخطة احتراف خلال 90 يوم.
 </p>
-
-<a href="learn-kali-linux-2026.html" class="btn btn-primary">
-<i class="fas fa-book-open"></i> اقرأ الدليل الكامل الآن
+<a href="learn-kali-linux-2026.html" style="
+display:inline-block;
+background:#00ff41;
+color:#000;
+padding:12px 28px;
+border-radius:8px;
+font-weight:bold;
+text-decoration:none;">
+📖 اقرأ الدليل الآن
 </a>
-
 </div>
 </section>
-
-
-<!-- ABOUT SECTION -->
-<section class="section">
-<div class="card" style="max-width:900px;margin:auto;">
-<h2>💻 ماذا ستتعلم في KaliAcademy؟</h2>
-<p style="color:#ccc;line-height:1.8;">
-تعلم أساسيات Kali Linux، أدوات اختبار الاختراق، تحليل الثغرات،
-مفاهيم الشبكات، وأساسيات الأمن السيبراني بطريقة عملية وسهلة الفهم.
-</p>
-</div>
-</section>
-
-
-<footer>
-© 2026 KaliAcademy - جميع الحقوق محفوظة
-</footer>
-
-</body>
-</html>
