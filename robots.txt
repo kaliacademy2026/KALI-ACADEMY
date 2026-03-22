@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# منع فهرسة ملفات GitHub غير المهمة
+Disallow: /.github/
+Disallow: /README.md
+
+# خريطة الموقع
+Sitemap: https://kali-academy.github.io/sitemap.xml
