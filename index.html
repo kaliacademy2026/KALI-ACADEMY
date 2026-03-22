@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<link rel="icon" type="image/png" href="images/logo.png">
-<meta charset="UTF-8">
+<link rel="icon" type="image/png" sizes="32x32" href="images/logo.png">
+<link rel="icon" type="image/png" sizes="16x16" href="images/logo.png">
+<link rel="apple-touch-icon" href="images/logo.png">
+<link rel="shortcut icon" type="image/png" href="images/logo.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KaliAcademy - منصة تعلم كالي لينكس والأمن السيبراني</title>
-<meta name="description" content="منصة KaliAcademy - تعلم الأمن السيبراني واختبار الاختراق بالعربي. 500+ أمر Kali Linux، 100 درس تعليمي، خطوات تنفيذ تفصيلية وأدوات الحماية.">
+<meta name="description" content="منصة KaliAcademy - تعلم الأمن السيبراني واختبار الاختراق بالعربي. 504+ أمر Kali Linux، 100 درس تعليمي، خطوات تنفيذ تفصيلية وأدوات الحماية.">
 <meta name="keywords" content="كالي لينكس, Kali Linux, اختبار اختراق, الأمن السيبراني, تعلم الهاكر, Nmap, Metasploit, تعليم عربي">
 <meta name="author" content="Kali Academy">
 <meta name="robots" content="index, follow">
@@ -88,7 +90,7 @@
     </h1>
     
     <p class="hero-desc">
-      منصة تعليمية شاملة لتعلم نظام كالي لينكس والأمن السيبراني — تشمل أكثر من <strong style="color: var(--primary);">500+ أمر</strong> موثق، <strong style="color: var(--primary);">100 درس</strong> و<strong style="color: var(--primary);">100 أداة</strong>، 
+      منصة تعليمية شاملة لتعلم نظام كالي لينكس والأمن السيبراني — تشمل أكثر من <strong style="color: var(--primary);">504+ أمر</strong> موثق، <strong style="color: var(--primary);">100+ درس</strong> و<strong style="color: var(--primary);">100+ أداة</strong>، 
       مع شروحات تفصيلية، خطوات تطبيقية، ودروس تفاعلية لكل المستويات.
     </p>
     
@@ -207,27 +209,27 @@
     <div class="stats-grid">
       <div class="stat-card">
         <span class="stat-icon">💻</span>
-        <span class="stat-number" data-count="500" data-suffix="+">0</span>
+        <span class="stat-number" id="stat-cmds" data-target="504">0</span>
         <span class="stat-label">أمر موثق</span>
       </div>
       <div class="stat-card">
         <span class="stat-icon">📚</span>
-        <span class="stat-number" data-count="100" data-suffix="">0</span>
+        <span class="stat-number" id="stat-lessons" data-target="100">0</span>
         <span class="stat-label">درس تعليمي</span>
       </div>
       <div class="stat-card">
         <span class="stat-icon">🔧</span>
-        <span class="stat-number" data-count="100" data-suffix="">0</span>
+        <span class="stat-number" id="stat-tools" data-target="100">0</span>
         <span class="stat-label">أداة مشروحة</span>
       </div>
       <div class="stat-card">
         <span class="stat-icon">🎯</span>
-        <span class="stat-number" data-count="150" data-suffix="+">0</span>
+        <span class="stat-number" id="stat-scenarios" data-target="150">0</span>
         <span class="stat-label">سيناريو تطبيقي</span>
       </div>
       <div class="stat-card">
         <span class="stat-icon">🏆</span>
-        <span class="stat-number" data-count="50" data-suffix="+">0</span>
+        <span class="stat-number" id="stat-paths" data-target="50">0</span>
         <span class="stat-label">مسار تعليمي</span>
       </div>
     </div>
@@ -528,6 +530,10 @@
 <script src="js/commands-db-part11.js"></script>
 <script src="js/commands-db-part12.js"></script>
 <script src="js/commands-db-part13.js"></script>
+<script src="js/commands-db-part14.js"></script>
+<script src="js/commands-db-part15.js"></script>
+<script src="js/commands-db-part16.js"></script>
+<script src="js/commands-db-part17.js"></script>
 <script src="js/commands-data.js"></script>
 <script src="js/tutorials-extra.js"></script>
 <script src="js/tutorials-extra2.js"></script>
@@ -535,53 +541,80 @@
 <script src="js/matrix.js"></script>
 <script src="js/main.js"></script>
 <script>
-// ── حساب الأرقام الحقيقية ──
-function calcRealStats() {
-  // حساب الأوامر الفعلية
+// ══════════════════════════════════════════════════════
+// حساب الأرقام الحقيقية وتحديثها تلقائياً مع أنيميشن
+// ══════════════════════════════════════════════════════
+function getRealCmdCount() {
   const seen = new Set();
-  let totalCmds = 0;
   [
     ...(window.CMD_PART1||[]), ...(window.CMD_PART2||[]), ...(window.CMD_PART3||[]),
     ...(window.CMD_PART4||[]), ...(window.CMD_PART5||[]), ...(window.CMD_PART6||[]),
     ...(window.CMD_PART7||[]), ...(window.CMD_PART8||[]), ...(window.CMD_PART9||[]),
     ...(window.CMD_PART10||[]), ...(window.CMD_PART11||[]), ...(window.CMD_PART12||[]),
-    ...(window.CMD_PART13||[])
-  ].forEach(c => { seen.add(c.name.toLowerCase()); });
-  (window.COMMANDS_DB||[]).forEach(c => {
-    if (!seen.has(c.name.toLowerCase())) seen.add(c.name.toLowerCase());
-  });
-  totalCmds = seen.size;
+    ...(window.CMD_PART13||[]), ...(window.CMD_PART14||[]), ...(window.CMD_PART15||[]),
+    ...(window.CMD_PART16||[]), ...(window.CMD_PART17||[])
+  ].forEach(c => seen.add(c.name.toLowerCase()));
+  (window.COMMANDS_DB||[]).forEach(c => seen.add(c.name.toLowerCase()));
+  return Math.max(500, seen.size);
+}
 
-  // حساب الدروس الفعلية
-  const allLessons = [
+// أنيميشن العداد من القيمة الحالية إلى الهدف
+function animateCounter(el, target, duration, suffix) {
+  if (!el) return;
+  const startVal = parseInt(el.getAttribute('data-current') || '0');
+  const startTime = performance.now();
+  el.setAttribute('data-current', target);
+  function step(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    const val = Math.round(startVal + (target - startVal) * ease);
+    el.textContent = val.toLocaleString() + (suffix || '');
+    if (progress < 1) requestAnimationFrame(step);
+    else el.textContent = target.toLocaleString() + (suffix || '');
+  }
+  requestAnimationFrame(step);
+}
+
+window.addEventListener('load', function() {
+  const realCmds = getRealCmdCount();
+  const realLessons = Math.max(100, [
     ...(window.TUTORIALS_EXTRA||[]),
     ...(window.TUTORIALS_EXTRA2||[]),
     ...(window.TUTORIALS_PART2||[])
-  ];
-  const totalLessons = allLessons.length + 10; // +10 للدروس الأساسية في tutorials.html
+  ].length + 10);
 
-  // حساب الأدوات من tools.html (نقدر تقريبياً من الـ commands database)
-  const toolsCount = 100; // ثابت - 100 أداة موثقة
+  // تحديث Hero description
+  const heroStrong = document.querySelector('.hero-desc strong');
+  if (heroStrong) heroStrong.textContent = realCmds + '+';
 
-  // تحديث stat-number بالأرقام الحقيقية
-  const statNums = document.querySelectorAll('.stat-number[data-count]');
-  if (statNums[0]) { statNums[0].setAttribute('data-count', Math.max(500, totalCmds)); statNums[0].setAttribute('data-suffix', '+'); }
-  if (statNums[1]) { statNums[1].setAttribute('data-count', totalLessons); }
-  if (statNums[2]) { statNums[2].setAttribute('data-count', toolsCount); }
+  // تشغيل أنيميشن العدادات
+  animateCounter(document.getElementById('stat-cmds'), realCmds, 2500, '+');
+  animateCounter(document.getElementById('stat-lessons'), realLessons, 2000, '+');
+  animateCounter(document.getElementById('stat-tools'), 100, 1800, '+');
+  animateCounter(document.getElementById('stat-scenarios'), 150, 2200, '+');
+  animateCounter(document.getElementById('stat-paths'), 50, 1500, '+');
 
-  // تحديث النص في hero-desc
-  const heroDesc = document.querySelector('.hero-desc strong');
-  if (heroDesc) heroDesc.textContent = Math.max(500, totalCmds) + '+';
-}
-
-// استدعاء بعد تحميل الصفحة
-window.addEventListener('load', calcRealStats);
+  // تحديث مستمر كل 60 ثانية (يحاكي بيانات حية)
+  setInterval(function() {
+    const liveCount = getRealCmdCount();
+    const el = document.getElementById('stat-cmds');
+    if (el) {
+      const shown = parseInt(el.getAttribute('data-current') || liveCount);
+      if (shown !== liveCount) animateCounter(el, liveCount, 1000, '+');
+    }
+    const hStrong = document.querySelector('.hero-desc strong');
+    if (hStrong) hStrong.textContent = liveCount + '+';
+  }, 60000);
+});
 
 // Terminal typing demo
 const commands = [
   { cmd: 'nmap -sV -p 1-65535 192.168.1.0/24', delay: 800, output: 'Scanning 256 hosts... [████████████] 100%\n<span style="color:var(--primary)">Nmap scan report for 192.168.1.1\nPORT    STATE  SERVICE  VERSION\n22/tcp  open   ssh      OpenSSH 8.4\n80/tcp  open   http     Apache 2.4.51\n443/tcp open   ssl/http Apache 2.4.51</span>' },
   { cmd: 'nikto -h http://target.example.com', delay: 1000, output: '<span style="color:var(--warning)">+ Server: Apache/2.4.51\n+ XSS: /search.php?q=[XSS_PAYLOAD]\n+ SQL: /login.php?user=admin--</span>' },
   { cmd: 'hydra -l admin -P /usr/share/wordlists/rockyou.txt ssh://192.168.1.50', delay: 800, output: '<span style="color:var(--primary)">[22][ssh] host: 192.168.1.50  login: admin  password: password123</span>' },
+  { cmd: 'sqlmap -u "http://target.com/item?id=1" --dbs --batch', delay: 900, output: '<span style="color:var(--primary)">available databases [3]:\n[*] information_schema\n[*] target_db\n[*] admin_secrets</span>' },
+  { cmd: 'gobuster dir -u http://target.com -w /usr/share/wordlists/dirb/common.txt', delay: 700, output: '<span style="color:var(--secondary)">/admin         (Status: 302)\n/login         (Status: 200)\n/uploads       (Status: 403)\n/.git          (Status: 200)</span>' },
 ];
 
 let cmdIndex = 0;
