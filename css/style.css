@@ -45,6 +45,20 @@ body {
   min-height: 100vh;
 }
 
+body.lang-en {
+  direction: ltr;
+}
+
+body.lang-en .nav-menu {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+body.lang-en .terminal-title {
+  margin-right: 0;
+  margin-left: auto;
+}
+
 /* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: var(--bg-dark); }
@@ -242,6 +256,37 @@ body {
   font-family: 'Share Tech Mono', monospace;
   font-size: 0.8rem;
   color: var(--primary);
+}
+
+.lang-toggle-btn {
+  border: 1px solid var(--border);
+  background: rgba(0, 255, 65, 0.08);
+  color: var(--primary);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-family: 'Share Tech Mono', monospace;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.lang-toggle-btn:hover {
+  border-color: var(--border-hover);
+  background: rgba(0, 255, 65, 0.15);
+  box-shadow: 0 0 15px var(--primary-glow);
+}
+
+.mobile-lang-toggle-btn {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: rgba(0, 255, 65, 0.08);
+  color: var(--primary);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
 }
 
 .status-dot {

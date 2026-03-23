@@ -1,5 +1,118 @@
 // ===== KALI LINUX LEARNING PLATFORM - MAIN JS =====
 
+const LANGUAGE_STORAGE_KEY = 'site_language';
+const DEFAULT_LANGUAGE = 'ar';
+
+const NAV_TRANSLATIONS = {
+  ar: {
+    'index.html': 'الرئيسية',
+    'commands.html': 'الأوامر',
+    'tutorials.html': 'الدروس',
+    'steps.html': 'خطوات التنفيذ',
+    'tools.html': 'الأدوات',
+    'disclaimer-owner.html': 'إخلاء المسؤولية'
+  },
+  en: {
+    'index.html': 'Home',
+    'commands.html': 'Commands',
+    'tutorials.html': 'Tutorials',
+    'steps.html': 'Execution Steps',
+    'tools.html': 'Tools',
+    'disclaimer-owner.html': 'Disclaimer'
+  }
+};
+
+function getSavedLanguage() {
+  const lang = localStorage.getItem(LANGUAGE_STORAGE_KEY);
+  return (lang === 'en' || lang === 'ar') ? lang : DEFAULT_LANGUAGE;
+}
+
+function applyCommonLanguage(lang) {
+  const isArabic = lang === 'ar';
+
+  document.documentElement.lang = lang;
+  document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
+  document.body.classList.toggle('lang-en', !isArabic);
+
+  document.querySelectorAll('.nav-link, .mobile-nav-link').forEach((link) => {
+    const hrefRaw = link.getAttribute('href') || '';
+    const page = hrefRaw.split('?')[0];
+    const translatedLabel = NAV_TRANSLATIONS[lang][page];
+    if (!translatedLabel) return;
+
+    const icon = link.querySelector('i');
+    if (icon) {
+      link.innerHTML = `${icon.outerHTML} ${translatedLabel}`;
+    } else {
+      link.textContent = translatedLabel;
+    }
+  });
+
+  const statusSpan = document.querySelector('.header-status span');
+  if (statusSpan) {
+    statusSpan.textContent = isArabic ? 'النظام يعمل' : 'SYSTEM ONLINE';
+  }
+
+  const langBtn = document.getElementById('lang-toggle-btn');
+  if (langBtn) {
+    langBtn.textContent = isArabic ? 'EN' : 'AR';
+    langBtn.setAttribute('aria-label', isArabic ? 'Switch to English' : 'التحويل إلى العربية');
+  }
+
+  const mobileLangBtn = document.getElementById('mobile-lang-toggle-btn');
+  if (mobileLangBtn) {
+    mobileLangBtn.textContent = isArabic ? 'English' : 'العربية';
+  }
+
+  window.dispatchEvent(new CustomEvent('siteLanguageChanged', { detail: { lang } }));
+}
+
+function setSiteLanguage(lang) {
+  if (lang !== 'ar' && lang !== 'en') return;
+  localStorage.setItem(LANGUAGE_STORAGE_KEY, lang);
+  applyCommonLanguage(lang);
+}
+
+function createLanguageToggle() {
+  const header = document.querySelector('.site-header');
+  if (header && !document.getElementById('lang-toggle-btn')) {
+    const btn = document.createElement('button');
+    btn.id = 'lang-toggle-btn';
+    btn.className = 'lang-toggle-btn';
+    btn.type = 'button';
+    btn.textContent = 'EN';
+    btn.addEventListener('click', () => {
+      const next = getSavedLanguage() === 'ar' ? 'en' : 'ar';
+      setSiteLanguage(next);
+    });
+
+    const hamburger = header.querySelector('.hamburger');
+    if (hamburger) {
+      header.insertBefore(btn, hamburger);
+    } else {
+      header.appendChild(btn);
+    }
+  }
+
+  const mobileMenu = document.querySelector('.mobile-menu');
+  if (mobileMenu && !document.getElementById('mobile-lang-toggle-btn')) {
+    const mobileBtn = document.createElement('button');
+    mobileBtn.id = 'mobile-lang-toggle-btn';
+    mobileBtn.className = 'mobile-lang-toggle-btn';
+    mobileBtn.type = 'button';
+    mobileBtn.textContent = 'English';
+    mobileBtn.addEventListener('click', () => {
+      const next = getSavedLanguage() === 'ar' ? 'en' : 'ar';
+      setSiteLanguage(next);
+      mobileMenu.classList.remove('open');
+    });
+    mobileMenu.appendChild(mobileBtn);
+  }
+}
+
+window.setSiteLanguage = setSiteLanguage;
+window.getCurrentSiteLanguage = getSavedLanguage;
+
 // ===== HAMBURGER MENU =====
 const hamburger = document.querySelector('.hamburger');
 const mobileMenu = document.querySelector('.mobile-menu');
@@ -18,7 +131,7 @@ if (hamburger && mobileMenu) {
 function setActiveNav() {
   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(link => {
-    const href = link.getAttribute('href');
+    const href = (link.getAttribute('href') || '').split('?')[0];
     if (href === currentPage || (currentPage === '' && href === 'index.html')) {
       link.classList.add('active');
     } else {
@@ -30,8 +143,10 @@ setActiveNav();
 
 // ===== COPY TO CLIPBOARD =====
 function copyToClipboard(text) {
+  const copiedMsg = getSavedLanguage() === 'en' ? '✅ Command copied!' : '✅ تم نسخ الأمر!';
+
   navigator.clipboard.writeText(text).then(() => {
-    showNotification('✅ تم نسخ الأمر!');
+    showNotification(copiedMsg);
   }).catch(() => {
     const ta = document.createElement('textarea');
     ta.value = text;
@@ -39,7 +154,7 @@ function copyToClipboard(text) {
     ta.select();
     document.execCommand('copy');
     document.body.removeChild(ta);
-    showNotification('✅ تم نسخ الأمر!');
+    showNotification(copiedMsg);
   });
 }
 
@@ -132,6 +247,9 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
 
 // ===== INITIALIZE =====
 document.addEventListener('DOMContentLoaded', () => {
+  createLanguageToggle();
+  applyCommonLanguage(getSavedLanguage());
+
   // Start counter animation if stats are in view
   const statsSection = document.querySelector('.stats-section');
   if (statsSection) {
@@ -143,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     statsObserver.observe(statsSection);
   }
-  
+
   // Add fade-in animation to cards
   document.querySelectorAll('.feature-card, .category-card').forEach((card, i) => {
     card.style.animationDelay = `${i * 0.1}s`;

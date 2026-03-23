@@ -90,7 +90,7 @@
     </h1>
     
     <p class="hero-desc">
-      منصة تعليمية شاملة لتعلم نظام كالي لينكس والأمن السيبراني — تشمل أكثر من <strong style="color: var(--primary);">504+ أمر</strong> موثق، <strong style="color: var(--primary);">100+ درس</strong> و<strong style="color: var(--primary);">100+ أداة</strong>، 
+      منصة تعليمية شاملة لتعلم نظام كالي لينكس والأمن السيبراني — تشمل <strong id="hero-commands-count" style="color: var(--primary);">0 أمر</strong> موثق، <strong id="hero-lessons-count" style="color: var(--primary);">0 درس</strong> و<strong id="hero-tools-count" style="color: var(--primary);">0 أداة</strong>، 
       مع شروحات تفصيلية، خطوات تطبيقية، ودروس تفاعلية لكل المستويات.
     </p>
     
@@ -377,7 +377,7 @@
         <div class="progress-bar" style="margin-top: 1rem;">
           <div class="progress-fill" style="width: 100%;"></div>
         </div>
-        <span style="font-size: 0.8rem; color: var(--primary); font-family: 'Share Tech Mono';">50 درس متاح</span>
+        <span id="beginner-lessons-count" style="font-size: 0.8rem; color: var(--primary); font-family: 'Share Tech Mono';">0 درس متاح</span>
       </div>
       
       <div class="feature-card" style="border-top: 3px solid var(--warning); cursor: pointer;" onclick="location.href='tutorials.html?level=intermediate'">
@@ -387,7 +387,7 @@
         <div class="progress-bar" style="margin-top: 1rem;">
           <div class="progress-fill" style="width: 100%; background: linear-gradient(90deg, var(--warning), #ff8800);"></div>
         </div>
-        <span style="font-size: 0.8rem; color: var(--warning); font-family: 'Share Tech Mono';">80 درس متاح</span>
+        <span id="intermediate-lessons-count" style="font-size: 0.8rem; color: var(--warning); font-family: 'Share Tech Mono';">0 درس متاح</span>
       </div>
       
       <div class="feature-card" style="border-top: 3px solid var(--accent); cursor: pointer;" onclick="location.href='tutorials.html?level=advanced'">
@@ -397,7 +397,7 @@
         <div class="progress-bar" style="margin-top: 1rem;">
           <div class="progress-fill" style="width: 100%; background: linear-gradient(90deg, var(--accent), #cc0066);"></div>
         </div>
-        <span style="font-size: 0.8rem; color: var(--accent); font-family: 'Share Tech Mono';">70 درس متاح</span>
+        <span id="advanced-lessons-count" style="font-size: 0.8rem; color: var(--accent); font-family: 'Share Tech Mono';">0 درس متاح</span>
       </div>
     </div>
   </section>
@@ -542,71 +542,184 @@
 <script src="js/main.js"></script>
 <script>
 // ══════════════════════════════════════════════════════
-// حساب الأرقام الحقيقية وتحديثها تلقائياً مع أنيميشن
+// حساب الأرقام الحقيقية وتحديثها من البيانات الفعلية
 // ══════════════════════════════════════════════════════
-function getRealCmdCount() {
-  const seen = new Set();
-  [
-    ...(window.CMD_PART1||[]), ...(window.CMD_PART2||[]), ...(window.CMD_PART3||[]),
-    ...(window.CMD_PART4||[]), ...(window.CMD_PART5||[]), ...(window.CMD_PART6||[]),
-    ...(window.CMD_PART7||[]), ...(window.CMD_PART8||[]), ...(window.CMD_PART9||[]),
-    ...(window.CMD_PART10||[]), ...(window.CMD_PART11||[]), ...(window.CMD_PART12||[]),
-    ...(window.CMD_PART13||[]), ...(window.CMD_PART14||[]), ...(window.CMD_PART15||[]),
-    ...(window.CMD_PART16||[]), ...(window.CMD_PART17||[])
-  ].forEach(c => seen.add(c.name.toLowerCase()));
-  (window.COMMANDS_DB||[]).forEach(c => seen.add(c.name.toLowerCase()));
-  return Math.max(500, seen.size);
+let statsCache = null;
+
+function getLangUnits() {
+  const isEn = document.documentElement.lang === 'en';
+  return isEn
+    ? { command: 'commands', lesson: 'lessons', tool: 'tools', available: 'lessons available' }
+    : { command: 'أمر', lesson: 'درس', tool: 'أداة', available: 'درس متاح' };
+}
+
+function numberLocale() {
+  return document.documentElement.lang === 'en' ? 'en-US' : 'ar-EG';
+}
+
+function collectCommands() {
+  const allCommands = [
+    ...(window.CMD_PART1 || []), ...(window.CMD_PART2 || []), ...(window.CMD_PART3 || []),
+    ...(window.CMD_PART4 || []), ...(window.CMD_PART5 || []), ...(window.CMD_PART6 || []),
+    ...(window.CMD_PART7 || []), ...(window.CMD_PART8 || []), ...(window.CMD_PART9 || []),
+    ...(window.CMD_PART10 || []), ...(window.CMD_PART11 || []), ...(window.CMD_PART12 || []),
+    ...(window.CMD_PART13 || []), ...(window.CMD_PART14 || []), ...(window.CMD_PART15 || []),
+    ...(window.CMD_PART16 || []), ...(window.CMD_PART17 || []), ...(window.COMMANDS_DB || [])
+  ];
+
+  const unique = new Map();
+  allCommands.forEach((cmd) => {
+    if (!cmd?.name) return;
+    const key = cmd.name.trim().toLowerCase();
+    if (!unique.has(key)) unique.set(key, cmd);
+  });
+
+  const categoryCounts = {};
+  unique.forEach((cmd) => {
+    const cat = (cmd.cat || 'other').toLowerCase();
+    categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+  });
+
+  return { totalCommands: unique.size, categoryCounts };
+}
+
+function collectLessons() {
+  const lessons = [
+    ...(window.TUTORIALS_EXTRA || []),
+    ...(window.TUTORIALS_EXTRA2 || []),
+    ...(window.TUTORIALS_PART2 || [])
+  ];
+
+  const uniqueLessons = new Map();
+  lessons.forEach((lesson, idx) => {
+    const key = lesson?.id ? `id-${lesson.id}` : `idx-${idx}`;
+    if (!uniqueLessons.has(key)) uniqueLessons.set(key, lesson);
+  });
+
+  const levelCounts = { beginner: 0, intermediate: 0, advanced: 0 };
+  uniqueLessons.forEach((lesson) => {
+    const level = (lesson?.level || '').toLowerCase();
+    if (levelCounts[level] !== undefined) levelCounts[level] += 1;
+  });
+
+  // 10 دروس أساسية في tutorials.html
+  levelCounts.beginner += 10;
+
+  return { totalLessons: uniqueLessons.size + 10, levelCounts };
+}
+
+async function getRealToolsCount() {
+  if (Array.isArray(window.TOOLS)) return window.TOOLS.length;
+
+  try {
+    const response = await fetch('tools.html', { cache: 'no-cache' });
+    const html = await response.text();
+    const toolsBlock = html.match(/const\s+TOOLS\s*=\s*\[(.*?)\];/s);
+    if (!toolsBlock) return 0;
+    const toolIds = toolsBlock[1].match(/\bid\s*:\s*\d+/g);
+    return toolIds ? toolIds.length : 0;
+  } catch (_) {
+    return 0;
+  }
+}
+
+function getDisplayCategoryCounts(raw) {
+  return {
+    network: (raw.network || 0),
+    pentest: (raw.pentest || 0) + (raw.exploit || 0) + (raw.exploitation || 0) + (raw.privesc || 0),
+    forensics: (raw.forensics || 0),
+    crypto: (raw.crypto || 0),
+    web: (raw.web || 0) + (raw.webapp || 0),
+    wireless: (raw.wireless || 0),
+    exploit: (raw.exploit || 0) + (raw.exploitation || 0),
+    recon: (raw.recon || 0),
+    password: (raw.password || 0),
+    malware: (raw.malware || 0),
+    linux: (raw.linux || 0),
+    system: (raw.system || 0)
+  };
 }
 
 // أنيميشن العداد من القيمة الحالية إلى الهدف
-function animateCounter(el, target, duration, suffix) {
+function animateCounter(el, target, duration) {
   if (!el) return;
-  const startVal = parseInt(el.getAttribute('data-current') || '0');
+  const startVal = parseInt(el.getAttribute('data-current') || '0', 10);
   const startTime = performance.now();
+  const locale = numberLocale();
   el.setAttribute('data-current', target);
+
   function step(now) {
     const elapsed = now - startTime;
     const progress = Math.min(elapsed / duration, 1);
     const ease = 1 - Math.pow(1 - progress, 3);
     const val = Math.round(startVal + (target - startVal) * ease);
-    el.textContent = val.toLocaleString() + (suffix || '');
+    el.textContent = val.toLocaleString(locale);
     if (progress < 1) requestAnimationFrame(step);
-    else el.textContent = target.toLocaleString() + (suffix || '');
+    else el.textContent = target.toLocaleString(locale);
   }
+
   requestAnimationFrame(step);
 }
 
-window.addEventListener('load', function() {
-  const realCmds = getRealCmdCount();
-  const realLessons = Math.max(100, [
-    ...(window.TUTORIALS_EXTRA||[]),
-    ...(window.TUTORIALS_EXTRA2||[]),
-    ...(window.TUTORIALS_PART2||[])
-  ].length + 10);
+function renderStatsText(stats) {
+  const units = getLangUnits();
+  const locale = numberLocale();
 
-  // تحديث Hero description
-  const heroStrong = document.querySelector('.hero-desc strong');
-  if (heroStrong) heroStrong.textContent = realCmds + '+';
+  const heroCommands = document.getElementById('hero-commands-count');
+  const heroLessons = document.getElementById('hero-lessons-count');
+  const heroTools = document.getElementById('hero-tools-count');
+  if (heroCommands) heroCommands.textContent = `${stats.totalCommands.toLocaleString(locale)} ${units.command}`;
+  if (heroLessons) heroLessons.textContent = `${stats.totalLessons.toLocaleString(locale)} ${units.lesson}`;
+  if (heroTools) heroTools.textContent = `${stats.toolsCount.toLocaleString(locale)} ${units.tool}`;
 
-  // تشغيل أنيميشن العدادات
-  animateCounter(document.getElementById('stat-cmds'), realCmds, 2500, '+');
-  animateCounter(document.getElementById('stat-lessons'), realLessons, 2000, '+');
-  animateCounter(document.getElementById('stat-tools'), 100, 1800, '+');
-  animateCounter(document.getElementById('stat-scenarios'), 150, 2200, '+');
-  animateCounter(document.getElementById('stat-paths'), 50, 1500, '+');
+  const beginnerEl = document.getElementById('beginner-lessons-count');
+  const intermediateEl = document.getElementById('intermediate-lessons-count');
+  const advancedEl = document.getElementById('advanced-lessons-count');
+  if (beginnerEl) beginnerEl.textContent = `${stats.levelCounts.beginner.toLocaleString(locale)} ${units.available}`;
+  if (intermediateEl) intermediateEl.textContent = `${stats.levelCounts.intermediate.toLocaleString(locale)} ${units.available}`;
+  if (advancedEl) advancedEl.textContent = `${stats.levelCounts.advanced.toLocaleString(locale)} ${units.available}`;
 
-  // تحديث مستمر كل 60 ثانية (يحاكي بيانات حية)
-  setInterval(function() {
-    const liveCount = getRealCmdCount();
-    const el = document.getElementById('stat-cmds');
-    if (el) {
-      const shown = parseInt(el.getAttribute('data-current') || liveCount);
-      if (shown !== liveCount) animateCounter(el, liveCount, 1000, '+');
-    }
-    const hStrong = document.querySelector('.hero-desc strong');
-    if (hStrong) hStrong.textContent = liveCount + '+';
-  }, 60000);
+  document.querySelectorAll('.category-card').forEach((card) => {
+    const href = card.getAttribute('href') || '';
+    const match = href.match(/[?&]cat=([^&]+)/);
+    const cat = match ? match[1] : null;
+    if (!cat) return;
+    const countEl = card.querySelector('.category-count');
+    if (!countEl) return;
+    const count = stats.displayCategoryCounts[cat] || 0;
+    countEl.textContent = `${count.toLocaleString(locale)} ${units.command}`;
+  });
+}
+
+async function calcRealStats() {
+  const { totalCommands, categoryCounts } = collectCommands();
+  const { totalLessons, levelCounts } = collectLessons();
+  const toolsCount = await getRealToolsCount();
+  const scenariosCount = Array.isArray(window.LESSON_STEPS) ? window.LESSON_STEPS.length : 0;
+  const levelsCount = Object.values(levelCounts).filter(v => v > 0).length;
+
+  statsCache = {
+    totalCommands,
+    totalLessons,
+    toolsCount,
+    levelCounts,
+    displayCategoryCounts: getDisplayCategoryCounts(categoryCounts)
+  };
+
+  animateCounter(document.getElementById('stat-cmds'), totalCommands, 2000);
+  animateCounter(document.getElementById('stat-lessons'), totalLessons, 2000);
+  animateCounter(document.getElementById('stat-tools'), toolsCount, 1800);
+  animateCounter(document.getElementById('stat-scenarios'), scenariosCount, 1800);
+  animateCounter(document.getElementById('stat-paths'), levelsCount, 1400);
+
+  renderStatsText(statsCache);
+}
+
+window.addEventListener('siteLanguageChanged', () => {
+  if (statsCache) renderStatsText(statsCache);
 });
+
+window.addEventListener('load', calcRealStats);
 
 // Terminal typing demo
 const commands = [
