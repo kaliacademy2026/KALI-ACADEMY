@@ -107,9 +107,24 @@
   padding: 0.7rem 1.2rem;
   border-top: 1px solid var(--border);
   display: flex; align-items: center; justify-content: space-between;
+  gap: 0.5rem;
   background: rgba(0,0,0,0.2);
 }
 .lesson-steps { color: var(--text-muted); font-size: 0.78rem; font-family: 'Cairo', sans-serif; }
+.lesson-actions { display: inline-flex; align-items: center; gap: 0.5rem; }
+.lesson-share-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  border: 1px solid rgba(0, 200, 255, 0.28);
+  background: rgba(0, 200, 255, 0.1);
+  color: #0cf;
+  border-radius: 7px;
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  font-family: 'Cairo', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.lesson-share-btn:hover { background: rgba(0, 200, 255, 0.18); border-color: rgba(0, 200, 255, 0.45); }
 .lesson-arrow { color: var(--primary); font-size: 0.85rem; }
 
 /* LESSON MODAL */
@@ -177,6 +192,14 @@
   cursor: pointer; font-size: 0.75rem; transition: all 0.2s;
 }
 .tut-step-cmd .tut-copy:hover { background: rgba(0,255,65,0.25); }
+.tut-step-actions { margin-top: 6px; display: flex; gap: 8px; flex-wrap: wrap; }
+.tut-share {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: rgba(0,200,255,0.1); border: 1px solid rgba(0,200,255,0.3);
+  color: #0cf; border-radius: 7px; padding: 5px 10px;
+  font-size: 0.76rem; font-family: 'Cairo', sans-serif; cursor: pointer;
+}
+.tut-share:hover { background: rgba(0,200,255,0.2); }
 
 .tut-note {
   background: rgba(255,200,0,0.07); border: 1px solid rgba(255,200,0,0.2);
@@ -1548,7 +1571,12 @@ function renderLessons() {
       </div>
       <div class="lesson-footer">
         <span class="lesson-steps"><i class="fas fa-list-ol" style="margin-left:4px;color:var(--primary);"></i>${t.steps.length} خطوات</span>
-        <span class="lesson-arrow"><i class="fas fa-arrow-left"></i></span>
+        <div class="lesson-actions">
+          <button class="lesson-share-btn" onclick="shareLesson(event, ${t.id})">
+            <i class="fas fa-share-alt"></i> مشاركة
+          </button>
+          <span class="lesson-arrow"><i class="fas fa-arrow-left"></i></span>
+        </div>
       </div>
     </div>
   `).join('');
@@ -1582,6 +1610,9 @@ function openLesson(id) {
             <pre style="margin:0;font-family:'Share Tech Mono',monospace;overflow-x:auto;">${s.cmd}</pre>
             <button class="tut-copy" onclick="tutCopy(this,'${encodeURIComponent(s.cmd)}')">📋</button>
           </div>
+          <div class="tut-step-actions">
+            <button class="tut-share" onclick="shareLessonStep(${t.id}, ${i + 1})"><i class="fas fa-share-alt"></i> مشاركة الخطوة</button>
+          </div>
           <div style="color:var(--text-muted);font-size:0.78rem;margin-top:4px;font-family:'Cairo',sans-serif;">⟵ ${s.cmdDesc}</div>
           ${s.note ? `<div class="tut-note">💡 ${s.note}</div>` : ''}
         </div>
@@ -1603,6 +1634,55 @@ function closeTutModal(e) {
 function closeTutModalDirect() {
   document.getElementById('tutModal').style.display = 'none';
   document.body.style.overflow = '';
+}
+
+async function shareFallback(data, copiedMessage) {
+  try {
+    if (window.kaliShare) {
+      await window.kaliShare(data);
+      return;
+    }
+
+    if (navigator.share) {
+      await navigator.share(data);
+      return;
+    }
+  } catch (err) {
+    if (err && err.name === 'AbortError') return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(data.url);
+    alert(copiedMessage || 'تم نسخ الرابط للمشاركة');
+  } catch (_) {
+    // no-op
+  }
+}
+
+async function shareLesson(event, lessonId) {
+  if (event) event.stopPropagation();
+  const lesson = TUTORIALS.find(x => x.id === lessonId);
+  if (!lesson) return;
+
+  const shareUrl = `${window.location.origin}${window.location.pathname}?lesson=${lesson.id}`;
+  await shareFallback({
+    title: `Kali Academy | ${lesson.title}`,
+    text: `شاهد هذا الدرس: ${lesson.title}`,
+    url: shareUrl,
+  }, 'تم نسخ رابط الدرس');
+}
+
+async function shareLessonStep(lessonId, stepNo) {
+  const lesson = TUTORIALS.find(x => x.id === lessonId);
+  if (!lesson) return;
+  const step = lesson.steps[stepNo - 1];
+
+  const shareUrl = `${window.location.origin}${window.location.pathname}?lesson=${lesson.id}&step=${stepNo}`;
+  await shareFallback({
+    title: `Kali Academy | ${lesson.title} - الخطوة ${stepNo}`,
+    text: step ? `خطوة ${stepNo}: ${step.title}` : `خطوة ${stepNo} من الدرس ${lesson.title}`,
+    url: shareUrl,
+  }, 'تم نسخ رابط الخطوة');
 }
 
 function tutCopy(btn, encodedCmd) {
@@ -1627,6 +1707,20 @@ renderLessons();
 document.querySelector('.hamburger')?.addEventListener('click',()=>{
   document.querySelector('.mobile-menu')?.classList.toggle('open');
 });
+
+const tutorialParams = new URLSearchParams(window.location.search);
+const lessonFromUrl = Number(tutorialParams.get('lesson') || 0);
+if (lessonFromUrl) {
+  setTimeout(() => openLesson(lessonFromUrl), 150);
+}
+
+const stepFromUrl = Number(tutorialParams.get('step') || 0);
+if (lessonFromUrl && stepFromUrl > 0) {
+  setTimeout(() => {
+    const stepElement = document.querySelector(`#modalBody .tut-step:nth-child(${stepFromUrl + 3})`);
+    if (stepElement) stepElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 300);
+}
 </script>
 </body>
 </html>

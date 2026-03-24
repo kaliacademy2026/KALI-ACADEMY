@@ -561,23 +561,27 @@
 <script>
 // ── حساب الأرقام الحقيقية ──
 function countUniqueCommands() {
+  const TARGET_COUNT = 500;
   const names = new Set();
 
-  Object.keys(window)
+  const partKeys = Object.keys(window)
     .filter(key => /^CMD_PART\d+$/.test(key) && Array.isArray(window[key]))
-    .forEach(key => {
-      window[key].forEach(command => {
-        if (command && command.name) {
-          names.add(String(command.name).trim().toLowerCase());
-        }
-      });
-    });
+    .sort((a, b) => Number(a.replace('CMD_PART', '')) - Number(b.replace('CMD_PART', '')));
 
-  (window.COMMANDS_DB || []).forEach(command => {
-    if (command && command.name) {
+  for (const key of partKeys) {
+    for (const command of window[key]) {
+      if (!command || !command.name) continue;
       names.add(String(command.name).trim().toLowerCase());
+      if (names.size >= TARGET_COUNT) return TARGET_COUNT;
     }
-  });
+  }
+
+  const fallbackCommands = window.COMMANDS_DB || (typeof COMMANDS_DB !== 'undefined' ? COMMANDS_DB : []);
+  for (const command of fallbackCommands) {
+    if (!command || !command.name) continue;
+    names.add(String(command.name).trim().toLowerCase());
+    if (names.size >= TARGET_COUNT) return TARGET_COUNT;
+  }
 
   return names.size;
 }

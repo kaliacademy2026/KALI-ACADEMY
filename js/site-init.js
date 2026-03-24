@@ -13,8 +13,10 @@
   function applyArabicOnly() {
     document.documentElement.lang = 'ar';
     document.documentElement.dir = 'rtl';
-    document.body.setAttribute('dir', 'rtl');
-    document.body.classList.remove('lang-en');
+    if (document.body) {
+      document.body.setAttribute('dir', 'rtl');
+      document.body.classList.remove('lang-en');
+    }
     try {
       localStorage.setItem('kali_lang', 'ar');
     } catch (_) { /* ignore */ }
@@ -78,10 +80,15 @@
       opacity: 0.75 !important;
     }
 
-    body { transition: opacity 0.18s ease !important; }
+    body {
+      transition: opacity 0.12s ease !important;
+      will-change: opacity;
+    }
+
     body.page-leaving { opacity: 0 !important; }
 
-    .nav-link.active, .nav-link:hover {
+    .nav-link.active,
+    .nav-link:hover {
       transition: all 0.2s ease !important;
     }
 
@@ -109,14 +116,15 @@
       height: 3px;
       background: linear-gradient(90deg, #00ff41, #0cf, #00ff41);
       background-size: 200% 100%;
-      animation: loaderBar 0.6s linear forwards;
+      animation: loaderBar 0.45s linear forwards;
       z-index: 999999;
       transform-origin: left;
+      pointer-events: none;
     }
 
     @keyframes loaderBar {
       0%   { transform: scaleX(0); opacity: 1; }
-      80%  { transform: scaleX(0.9); opacity: 1; }
+      80%  { transform: scaleX(0.92); opacity: 1; }
       100% { transform: scaleX(1); opacity: 0; }
     }
   `;
@@ -142,38 +150,94 @@
   // التنقل السريع
   function fastNav() {
     const preloaded = new Set();
+    const sameOrigin = window.location.origin;
 
-    function preloadPage(href) {
-      if (!href || preloaded.has(href) || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto')) return;
-      preloaded.add(href);
-      const link = document.createElement('link');
-      link.rel = 'prefetch';
-      link.href = href;
-      document.head.appendChild(link);
+    function shouldHandleLink(a) {
+      if (!a) return false;
+      const href = a.getAttribute('href');
+      if (!href) return false;
+      if (href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) return false;
+      if (a.target === '_blank' || a.hasAttribute('download')) return false;
+      if (a.getAttribute('rel') === 'external') return false;
+      if (a.dataset.noFastNav === 'true') return false;
+      return /\.html($|[?#])/.test(href) || href === '/';
     }
 
-    document.addEventListener('click', function (e) {
-      const a = e.target.closest('a');
-      if (!a) return;
-      const href = a.getAttribute('href');
-      if (!href || href.startsWith('#') || href.startsWith('http') || href.startsWith('mailto') || a.target === '_blank') return;
+    function toAbsolute(href) {
+      try {
+        return new URL(href, window.location.href);
+      } catch (_) {
+        return null;
+      }
+    }
 
-      if (href.endsWith('.html') || href === '/') {
-        e.preventDefault();
+    function preloadPage(href) {
+      const abs = toAbsolute(href);
+      if (!abs || abs.origin !== sameOrigin) return;
+
+      const cacheKey = abs.href;
+      if (preloaded.has(cacheKey)) return;
+      preloaded.add(cacheKey);
+
+      const link = document.createElement('link');
+      link.rel = 'prefetch';
+      link.href = abs.href;
+      link.as = 'document';
+      document.head.appendChild(link);
+
+      // fetch منخفض الأولوية لرفع فرصة وجود الصفحة في الكاش
+      try {
+        fetch(abs.href, { mode: 'same-origin', credentials: 'same-origin', cache: 'force-cache' }).catch(() => {});
+      } catch (_) { /* ignore */ }
+    }
+
+    function navigateFast(href) {
+      const abs = toAbsolute(href);
+      if (!abs) return;
+
+      if (abs.href === window.location.href) return;
+
+      if (!document.getElementById('page-loader')) {
         const loader = document.createElement('div');
         loader.id = 'page-loader';
         document.body.appendChild(loader);
-        document.body.classList.add('page-leaving');
-        setTimeout(() => { window.location.href = href; }, 170);
       }
+
+      document.body.classList.add('page-leaving');
+
+      requestAnimationFrame(() => {
+        window.location.assign(abs.href);
+      });
+    }
+
+    // prefetch روابط التنقل الأساسية مباشرة بعد الجاهزية
+    document.querySelectorAll('a[href]').forEach((a) => {
+      if (shouldHandleLink(a)) preloadPage(a.getAttribute('href'));
+    });
+
+    document.addEventListener('pointerenter', function (e) {
+      const a = e.target.closest('a[href]');
+      if (!shouldHandleLink(a)) return;
+      preloadPage(a.getAttribute('href'));
     }, true);
 
-    document.addEventListener('mouseover', function (e) {
-      const a = e.target.closest('a');
-      if (!a) return;
-      const href = a.getAttribute('href');
-      if (href && href.endsWith('.html')) preloadPage(href);
-    });
+    document.addEventListener('touchstart', function (e) {
+      const a = e.target.closest('a[href]');
+      if (!shouldHandleLink(a)) return;
+      preloadPage(a.getAttribute('href'));
+    }, { passive: true, capture: true });
+
+    document.addEventListener('click', function (e) {
+      const a = e.target.closest('a[href]');
+      if (!shouldHandleLink(a)) return;
+
+      if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) {
+        return;
+      }
+
+      e.preventDefault();
+      navigateFast(a.getAttribute('href'));
+    }, true);
   }
 
   function init() {
