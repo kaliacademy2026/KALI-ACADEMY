@@ -32,8 +32,23 @@
 .steps-hero h1 span { color: #0cf; }
 .steps-hero p { color: var(--text-secondary); font-size: 0.95rem; max-width: 600px; margin: 0.8rem auto 0; line-height: 1.7; }
 .scenarios-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.2rem; margin-top: 2rem; }
-.scenario-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; cursor: pointer; transition: all 0.3s; }
+.scenario-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; cursor: pointer; transition: all 0.3s; position: relative; }
 .scenario-card:hover { border-color: #0cf; transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,200,255,0.12); }
+.scenario-rank {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  min-width: 64px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,200,255,0.35);
+  background: linear-gradient(135deg, rgba(0,200,255,0.18), rgba(0,255,65,0.08));
+  color: #8ddfff;
+  font-size: 0.72rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-weight: 700;
+  text-align: center;
+}
 .scenario-header { padding: 1.2rem; display: flex; align-items: center; gap: 1rem; }
 .scenario-icon { width: 54px; height: 54px; border-radius: 14px; background: rgba(0,200,255,0.08); border: 1px solid rgba(0,200,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; flex-shrink: 0; }
 .scenario-info h3 { font-family: 'Cairo', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin: 0 0 4px; }
@@ -79,6 +94,20 @@
 .step-circle { width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(135deg, rgba(0,200,255,0.2), rgba(0,255,65,0.1)); border: 2px solid rgba(0,200,255,0.4); color: #0cf; font-weight: 900; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; font-family: 'Share Tech Mono', monospace; flex-shrink: 0; }
 .step-circle.done { background: linear-gradient(135deg, #0cf, #00ff41); color: #000; border-color: #0cf; }
 .step-body { flex: 1; padding: 0 0 2rem 1rem; }
+.step-order-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,200,255,0.35);
+  background: rgba(0,200,255,0.09);
+  color: #7fe8ff;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 2px 10px;
+  margin: 2px 0 8px;
+}
 .step-title { font-family: 'Cairo', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin: 6px 0 6px; }
 .step-desc { color: var(--text-secondary); font-size: 0.84rem; line-height: 1.7; margin-bottom: 10px; }
 .step-commands { display: flex; flex-direction: column; gap: 6px; }
@@ -141,6 +170,7 @@
   .steps-wrapper { padding: 0 0.8rem 2rem; }
   .steps-hero { padding: 2rem 0.8rem 1.6rem; }
   .scenarios-grid { grid-template-columns: 1fr; gap: 0.9rem; }
+  .scenario-rank { top: 8px; left: 8px; min-width: 58px; font-size: 0.68rem; }
   .scenario-header { padding: 1rem; }
   .scenario-meta { padding: 0 1rem 0.7rem; }
   .steps-modal { margin-top: 0.2rem; border-radius: 14px; }
@@ -1283,10 +1313,35 @@ const SCENARIOS = [
 // ============================================================
 // LOGIC - دمج SCENARIOS مع LESSON_STEPS
 // ============================================================
-let doneSteps = {};
+const DONE_STEPS_KEY = 'kaliacademy_done_steps_v2';
+let doneSteps = loadDoneSteps();
 let activeScenarioDiff = 'all';
 let activeScenarioType = 'all';
 let currentOpenedScenario = null;
+
+function loadDoneSteps() {
+  try {
+    const raw = localStorage.getItem(DONE_STEPS_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw);
+    return Object.fromEntries(
+      Object.entries(parsed).map(([scenarioId, steps]) => [scenarioId, new Set(Array.isArray(steps) ? steps : [])])
+    );
+  } catch (_) {
+    return {};
+  }
+}
+
+function saveDoneSteps() {
+  try {
+    const serializable = Object.fromEntries(
+      Object.entries(doneSteps).map(([scenarioId, stepSet]) => [scenarioId, Array.from(stepSet)])
+    );
+    localStorage.setItem(DONE_STEPS_KEY, JSON.stringify(serializable));
+  } catch (_) {
+    // no-op
+  }
+}
 
 // دمج السيناريوهات مع خطوات الدروس
 function getAllScenarios() {
@@ -1332,11 +1387,13 @@ function renderScenarios() {
     return;
   }
   
-  grid.innerHTML = list.map(s => {
+  grid.innerHTML = list.map((s, index) => {
     const diffLabel = s.difficulty === 'easy' ? 'سهل' : s.difficulty === 'medium' ? 'متوسط' : 'صعب';
     const diffClass = s.difficulty === 'easy' ? 'badge-easy' : s.difficulty === 'medium' ? 'badge-medium' : 'badge-hard';
+    const doneCount = doneSteps[s.id] ? doneSteps[s.id].size : 0;
     return `
     <div class="scenario-card" onclick="openScenario(${s.id})">
+      <span class="scenario-rank">سيناريو ${String(s.id).padStart(3, '0')}</span>
       <div class="scenario-header">
         <div class="scenario-icon">${s.icon}</div>
         <div class="scenario-info">
@@ -1351,7 +1408,7 @@ function renderScenarios() {
         <span class="scenario-badge" style="background:rgba(255,255,255,0.05);color:#888;border:1px solid #333;">${s.steps.length} خطوات</span>
       </div>
       <div class="scenario-footer">
-        <span class="scenario-time"><i class="fas fa-clock" style="margin-left:4px;color:#0cf;"></i>${s.time}</span>
+        <span class="scenario-time"><i class="fas fa-clock" style="margin-left:4px;color:#0cf;"></i>${s.time} • ${doneCount}/${s.steps.length}</span>
         <span class="scenario-open"><i class="fas fa-arrow-left"></i></span>
       </div>
     </div>`;
@@ -1386,6 +1443,7 @@ function renderScenarioContent(s) {
     if (!isLast) html += '<div class="step-line"></div>';
     html += '<div class="step-num-col"><div class="step-circle ' + (isDone ? 'done' : '') + '">' + (isDone ? '✓' : (i + 1)) + '</div></div>';
     html += '<div class="step-body">';
+    html += '<div class="step-order-label">الخطوة ' + String(i + 1).padStart(2, '0') + '</div>';
     html += '<div class="step-title">' + step.title + '</div>';
     html += '<div class="step-desc">' + step.desc + '</div>';
     html += '<div class="step-commands">';
@@ -1420,8 +1478,12 @@ function markDone(sId, stepIdx) {
   if (!doneSteps[sId]) doneSteps[sId] = new Set();
   if (doneSteps[sId].has(stepIdx)) doneSteps[sId].delete(stepIdx);
   else doneSteps[sId].add(stepIdx);
+  saveDoneSteps();
   const s = getAllScenarios().find(x => x.id === sId);
-  if (s) renderScenarioContent(s);
+  if (s) {
+    renderScenarioContent(s);
+    renderScenarios();
+  }
 }
 
 function stepCopy(btn, enc) {

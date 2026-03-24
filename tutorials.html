@@ -85,10 +85,50 @@
   border-color: var(--primary); transform: translateY(-4px);
   box-shadow: 0 8px 30px rgba(0,255,65,0.1);
 }
+.lesson-id-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  min-width: 54px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,255,65,0.35);
+  background: linear-gradient(135deg, rgba(0,255,65,0.18), rgba(0,200,255,0.12));
+  color: #9effbf;
+  font-size: 0.72rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: 0 0 12px rgba(0,255,65,0.14);
+}
 .lesson-card-top {
   padding: 1.2rem 1.2rem 0.8rem;
   display: flex; align-items: flex-start; gap: 0.8rem;
 }
+.lesson-resume-bar {
+  margin: 0 0 1.2rem;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(0,200,255,0.25);
+  background: linear-gradient(135deg, rgba(0,200,255,0.08), rgba(0,255,65,0.05));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+.lesson-resume-bar .resume-title { color: #9de8ff; font-size: 0.84rem; font-family: 'Cairo', sans-serif; }
+.lesson-resume-bar .resume-btn {
+  border: 1px solid rgba(0,200,255,0.35);
+  background: rgba(0,200,255,0.14);
+  color: #8ce9ff;
+  border-radius: 9px;
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-family: 'Cairo', sans-serif;
+  cursor: pointer;
+}
+.lesson-resume-bar .resume-btn:hover { background: rgba(0,200,255,0.25); }
 .lesson-icon {
   width: 50px; height: 50px; border-radius: 12px; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
@@ -294,6 +334,11 @@
     <button class="tut-tab" data-filter="webapp" onclick="setFilter('webapp',this)">🌐 ويب</button>
     <button class="tut-tab" data-filter="forensics" onclick="setFilter('forensics',this)">🔬 جنائي</button>
     <button class="tut-tab" data-filter="privesc" onclick="setFilter('privesc',this)">⬆️ صلاحيات</button>
+  </div>
+
+  <div class="lesson-resume-bar" id="lessonResumeBar" style="display:none;">
+    <div class="resume-title" id="lessonResumeTitle"></div>
+    <button type="button" class="resume-btn" id="lessonResumeBtn">↩️ متابعة الدرس</button>
   </div>
 
   <!-- GRID -->
@@ -1558,6 +1603,7 @@ const TUTORIALS = [
 
 let activeFilter = 'all';
 let searchQ = '';
+const LESSON_BOOKMARK_KEY = 'kaliacademy_last_lesson';
 
 function renderLessons() {
   const grid = document.getElementById('lessonsGrid');
@@ -1581,8 +1627,10 @@ function renderLessons() {
     return;
   }
   noRes.style.display = 'none';
-  grid.innerHTML = filtered.map(t => `
+  renderLessonResumeBar();
+  grid.innerHTML = filtered.map((t, index) => `
     <div class="lesson-card" onclick="openLesson(${t.id})">
+      <span class="lesson-id-badge">درس ${String(t.id).padStart(3, '0')}</span>
       <div class="lesson-card-top">
         <div class="lesson-icon" style="background:rgba(0,255,65,0.08);border-color:rgba(0,255,65,0.2);">${t.icon}</div>
         <div class="lesson-meta">
@@ -1611,6 +1659,7 @@ function renderLessons() {
 function openLesson(id) {
   const t = TUTORIALS.find(x => x.id === id);
   if(!t) return;
+  localStorage.setItem(LESSON_BOOKMARK_KEY, String(id));
   document.getElementById('modalTitle').textContent = `${t.icon} ${t.title}`;
   const levelColors = {beginner:'#00ff41', intermediate:'#ffc800', advanced:'#ff0080'};
   const levelNames = {beginner:'مبتدئ', intermediate:'متوسط', advanced:'متقدم'};
@@ -1716,6 +1765,23 @@ function tutCopy(btn, encodedCmd) {
   navigator.clipboard.writeText(cmd).then(()=>{ btn.textContent='✅'; setTimeout(()=>btn.textContent='📋',1500); });
 }
 
+function renderLessonResumeBar() {
+  const bar = document.getElementById('lessonResumeBar');
+  const title = document.getElementById('lessonResumeTitle');
+  const btn = document.getElementById('lessonResumeBtn');
+  const savedId = parseInt(localStorage.getItem(LESSON_BOOKMARK_KEY), 10);
+  const lesson = TUTORIALS.find(item => item.id === savedId);
+
+  if (!bar || !title || !btn || !lesson) {
+    if (bar) bar.style.display = 'none';
+    return;
+  }
+
+  title.innerHTML = `<i class="fas fa-history" style="margin-left:6px;color:#0cf;"></i> آخر درس فتحته: <strong style="color:#fff;">${lesson.title}</strong>`;
+  btn.onclick = () => openLesson(lesson.id);
+  bar.style.display = 'flex';
+}
+
 function setFilter(filter, el) {
   activeFilter = filter;
   document.querySelectorAll('.tut-tab').forEach(b=>b.classList.remove('active'));
@@ -1730,6 +1796,7 @@ function filterTutorials() {
 
 // INIT
 renderLessons();
+renderLessonResumeBar();
 document.querySelector('.hamburger')?.addEventListener('click',()=>{
   document.querySelector('.mobile-menu')?.classList.toggle('open');
 });

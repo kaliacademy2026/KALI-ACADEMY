@@ -92,6 +92,22 @@
   border-color: #ff6600; transform: translateY(-4px);
   box-shadow: 0 8px 30px rgba(255,102,0,0.12);
 }
+.tool-rank-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  min-width: 58px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,102,0,0.35);
+  background: linear-gradient(135deg, rgba(255,102,0,0.2), rgba(255,0,128,0.12));
+  color: #ffc094;
+  font-size: 0.72rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: 0 0 12px rgba(255,102,0,0.16);
+}
 .tool-card-top {
   padding: 1.2rem; display: flex; align-items: flex-start; gap: 0.9rem;
 }
@@ -216,6 +232,32 @@
 .no-tools { text-align: center; padding: 5rem 2rem; color: var(--text-muted); font-family: 'Cairo', sans-serif; }
 .no-tools span { font-size: 3rem; display: block; margin-bottom: 1rem; }
 
+.recent-tools {
+  margin: 0 0 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255,102,0,0.25);
+  background: linear-gradient(135deg, rgba(255,102,0,0.1), rgba(255,0,128,0.06));
+}
+.recent-tools-title {
+  color: #ffb685;
+  font-size: 0.82rem;
+  margin-bottom: 0.6rem;
+  font-family: 'Cairo', sans-serif;
+}
+.recent-tools-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.recent-tool-chip {
+  border: 1px solid rgba(255,102,0,0.35);
+  background: rgba(255,102,0,0.12);
+  color: #ffd0aa;
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 0.78rem;
+  font-family: 'Share Tech Mono', monospace;
+  cursor: pointer;
+}
+.recent-tool-chip:hover { background: rgba(255,102,0,0.24); }
+
 /* NOTIFICATION */
 #tool-notif { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px); opacity: 0; background: rgba(255,102,0,0.95); color: #fff; padding: 10px 24px; border-radius: 30px; font-family: 'Cairo', sans-serif; font-size: 0.85rem; z-index: 9999; transition: all 0.3s; pointer-events: none; white-space: nowrap; }
 #tool-notif.show { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -335,6 +377,11 @@
       <option value="name">أبجدي</option>
       <option value="cat">حسب الفئة</option>
     </select>
+  </div>
+
+  <div class="recent-tools" id="recentTools" style="display:none;">
+    <div class="recent-tools-title"><i class="fas fa-clock" style="margin-left:6px;"></i> آخر الأدوات التي فتحتها</div>
+    <div class="recent-tools-list" id="recentToolsList"></div>
   </div>
 
   <!-- GRID -->
@@ -2401,6 +2448,7 @@ let activeCat = 'all';
 let searchTerm = '';
 let sortMode = 'default';
 let currentToolData = null;
+const RECENT_TOOLS_KEY = 'kaliacademy_recent_tools_v1';
 
 function getFiltered() {
   return TOOLS.filter(t => {
@@ -2465,7 +2513,7 @@ function renderTools() {
   }
   noTools.style.display = 'none';
 
-  grid.innerHTML = filtered.map(t => {
+  grid.innerHTML = filtered.map((t, index) => {
     const tagsHtml = (t.tags || []).slice(0, 3).map(tag => {
       const info = TAG_LABELS[tag] || { cls: 'tag-network', label: tag };
       return `<span class="tool-tag ${info.cls}">${info.label}</span>`;
@@ -2473,6 +2521,7 @@ function renderTools() {
 
     return `
       <div class="tool-card" onclick="openTool(${t.id})">
+        <span class="tool-rank-badge">أداة ${String(t.id).padStart(3, '0')}</span>
         <div class="tool-card-top">
           <div class="tool-logo" style="background:${t.color}">${t.icon}</div>
           <div class="tool-info">
@@ -2495,6 +2544,7 @@ function openTool(id) {
   const t = TOOLS.find(x => x.id === id);
   if (!t) return;
   currentToolData = t;
+  trackRecentTool(id);
 
   document.getElementById('mIcon').textContent = t.icon;
   document.getElementById('mIcon').style.background = t.color;
@@ -2645,6 +2695,42 @@ function showToolNotif(msg) {
   setTimeout(() => n.classList.remove('show'), 2000);
 }
 
+function getRecentTools() {
+  try {
+    const raw = localStorage.getItem(RECENT_TOOLS_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (_) {
+    return [];
+  }
+}
+
+function trackRecentTool(id) {
+  const current = getRecentTools().filter(item => item !== id);
+  current.unshift(id);
+  const next = current.slice(0, 6);
+  localStorage.setItem(RECENT_TOOLS_KEY, JSON.stringify(next));
+  renderRecentTools();
+}
+
+function renderRecentTools() {
+  const container = document.getElementById('recentTools');
+  const list = document.getElementById('recentToolsList');
+  if (!container || !list) return;
+
+  const ids = getRecentTools();
+  const tools = ids.map(id => TOOLS.find(tool => tool.id === id)).filter(Boolean);
+
+  if (!tools.length) {
+    container.style.display = 'none';
+    return;
+  }
+
+  list.innerHTML = tools.map(tool => `<button type="button" class="recent-tool-chip" onclick="openTool(${tool.id})">${tool.name}</button>`).join('');
+  container.style.display = 'block';
+}
+
 function escH(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function escJ(s) { return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n'); }
 
@@ -2678,6 +2764,7 @@ if (urlSearch) { searchTerm = urlSearch; const si = document.getElementById('too
 document.getElementById('total-count').textContent = TOOLS.length.toLocaleString('ar');
 document.getElementById('tools-total-badge').textContent = TOOLS.length.toLocaleString('ar');
 renderTools();
+renderRecentTools();
 </script>
 </body>
 </html>
