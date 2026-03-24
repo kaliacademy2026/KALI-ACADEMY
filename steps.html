@@ -71,6 +71,19 @@
 .step-done-btn { margin-top: 8px; padding: 5px 14px; background: rgba(0,200,255,0.1); border: 1px solid rgba(0,200,255,0.3); border-radius: 8px; color: #0cf; font-family: 'Cairo', sans-serif; font-size: 0.8rem; cursor: pointer; transition: all 0.2s; }
 .step-done-btn.done { background: rgba(0,255,65,0.15); border-color: #00ff41; color: #00ff41; }
 .step-done-btn:hover { filter: brightness(1.2); }
+.step-action-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.step-share-btn {
+  padding: 5px 14px;
+  background: rgba(0,200,255,0.1);
+  border: 1px solid rgba(0,200,255,0.3);
+  border-radius: 8px;
+  color: #0cf;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.step-share-btn:hover { background: rgba(0,200,255,0.2); }
 
 /* Filter Buttons */
 .scenario-filter-btn {
@@ -1365,9 +1378,12 @@ function renderScenarioContent(s) {
     html += '</div>';
     if (step.warning) html += '<div class="step-warning">⚠️ ' + step.warning + '</div>';
     if (step.tip) html += '<div class="step-tip">💡 ' + step.tip + '</div>';
+    html += '<div class="step-action-row">';
     html += '<button class="step-done-btn ' + (isDone ? 'done' : '') + '" onclick="markDone(' + s.id + ',' + i + ')">';
     html += isDone ? '✅ مكتملة' : '☐ وضع علامة مكتملة';
     html += '</button>';
+    html += '<button class="step-share-btn" onclick="shareScenarioStep(' + s.id + ',' + (i + 1) + ')"><i class="fas fa-share-alt"></i> مشاركة الخطوة</button>';
+    html += '</div>';
     html += '</div></div>';
   });
   
@@ -1403,6 +1419,11 @@ function closeStepsModalDirect() {
 
 async function shareDataFallback(data, successMessage = 'تم نسخ الرابط') {
   try {
+    if (window.kaliShare) {
+      await window.kaliShare(data);
+      return;
+    }
+
     if (navigator.share) {
       await navigator.share(data);
       return;
@@ -1417,7 +1438,17 @@ async function shareDataFallback(data, successMessage = 'تم نسخ الراب�
     await navigator.clipboard.writeText(data.url);
     alert(successMessage);
   } catch (_) {
-    // no-op
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = data.url;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      alert(successMessage);
+    } catch (__){
+      // no-op
+    }
   }
 }
 
@@ -1440,6 +1471,19 @@ async function shareScenario() {
   }, 'تم نسخ رابط السيناريو');
 }
 
+async function shareScenarioStep(scenarioId, stepNo) {
+  const scenario = getAllScenarios().find(x => x.id === scenarioId);
+  if (!scenario) return;
+  const step = scenario.steps[stepNo - 1];
+  const shareUrl = `${window.location.origin}${window.location.pathname}?lesson=${scenario.id}&step=${stepNo}`;
+
+  await shareDataFallback({
+    title: `Kali Academy | ${scenario.title} - الخطوة ${stepNo}`,
+    text: step ? `خطوة ${stepNo}: ${step.title}` : `خطوة ${stepNo} من السيناريو ${scenario.title}`,
+    url: shareUrl,
+  }, 'تم نسخ رابط الخطوة');
+}
+
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeStepsModalDirect();
 });
@@ -1455,12 +1499,22 @@ document.addEventListener('DOMContentLoaded', function() {
   // دعم URL parameter ?lesson=ID للوصول المباشر
   const params = new URLSearchParams(window.location.search);
   const lessonId = params.get('lesson');
+  const stepNo = parseInt(params.get('step') || '0', 10);
+
   if (lessonId) {
-    const id = parseInt(lessonId);
+    const id = parseInt(lessonId, 10);
     // ابحث في كل السيناريوهات (SCENARIOS + LESSON_STEPS)
     const scenario = getAllScenarios().find(s => s.id === id || s.lessonId === id);
     if (scenario) {
-      setTimeout(() => openScenario(scenario.id), 300);
+      setTimeout(() => {
+        openScenario(scenario.id);
+        if (stepNo > 0) {
+          const targetStep = document.querySelector(`#stepsModalBody .exec-step:nth-child(${stepNo + 1})`);
+          if (targetStep) {
+            targetStep.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        }
+      }, 300);
     } else {
       // إذا لم يوجد، أظهر رسالة
       showLessonFromTutorials(id);
