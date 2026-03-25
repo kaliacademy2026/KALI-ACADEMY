@@ -37,4 +37,18 @@
 <priority>0.8</priority>
 </url>
 
+<url>
+<loc>https://kali-academy.github.io/articles.html</loc>
+<lastmod>2026-03-25</lastmod>
+<priority>0.8</priority>
+<changefreq>weekly</changefreq>
+</url>
+
+<url>
+<loc>https://kali-academy.github.io/article-roadmap-cybersecurity-2026.html</loc>
+<lastmod>2026-03-25</lastmod>
+<priority>0.7</priority>
+<changefreq>monthly</changefreq>
+</url>
+
 </urlset>

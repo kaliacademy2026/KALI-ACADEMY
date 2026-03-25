@@ -1,38 +1,162 @@
 // ============================================================
-// SITE INIT - تحسينات الموقع الأساسية
-// - تحسين الشعار
-// - تنقل سريع بين الصفحات
-// - إخفاء رابط التسجيل من القائمة
-// - تثبيت اللغة العربية وإزالة أي تبديل لغة
+// SITE INIT - Core site enhancements
 // ============================================================
 
 (function () {
   'use strict';
 
-  // تثبيت اللغة العربية فقط
-  function applyArabicOnly() {
-    document.documentElement.lang = 'ar';
-    document.documentElement.dir = 'rtl';
-    if (document.body) {
-      document.body.setAttribute('dir', 'rtl');
-      document.body.classList.remove('lang-en');
+  const LANG_STORAGE_KEY = 'kali_lang';
+  const DEFAULT_LANG = 'en';
+
+  const TRANSLATIONS = {
+    en: {
+      navHome: 'Home',
+      navCommands: 'Commands',
+      navTutorials: 'Tutorials',
+      navSteps: 'Execution Steps',
+      navTools: 'Tools',
+      navArticles: 'Articles',
+      navDisclaimer: 'Disclaimer',
+      systemOnline: 'SYSTEM ONLINE',
+      indexTitle: 'Kali Academy | Learn Kali Linux and Cybersecurity',
+      tutorialsTitle: 'Tutorials - KaliAcademy | Cybersecurity Lessons',
+      commandsTitle: 'Commands Database - KaliAcademy | 500+ Kali Linux Commands',
+      stepsTitle: 'Execution Steps - KaliAcademy | Practical Pentest Scenarios',
+      toolsTitle: 'Tools Directory - KaliAcademy | Cybersecurity Tools',
+      articlesTitle: 'Articles - KaliAcademy | Cybersecurity Learning Blog',
+      educationalOnly: 'For educational purposes only'
+    },
+    ar: {
+      navHome: 'الرئيسية',
+      navCommands: 'الأوامر',
+      navTutorials: 'الدروس',
+      navSteps: 'خطوات التنفيذ',
+      navTools: 'الأدوات',
+      navArticles: 'المقالات',
+      navDisclaimer: 'إخلاء المسؤولية',
+      systemOnline: 'SYSTEM ONLINE',
+      indexTitle: 'Kali Academy | تعلم كالي لينكس والأمن السيبراني بالعربي',
+      tutorialsTitle: 'الدروس التعليمية - KaliAcademy | تعلم الأمن السيبراني',
+      commandsTitle: 'قاعدة الأوامر - KaliAcademy | 500+ أمر Kali Linux',
+      stepsTitle: 'خطوات التنفيذ - KaliAcademy | سيناريوهات اختبار الاختراق خطوة بخطوة',
+      toolsTitle: 'دليل الأدوات - KaliAcademy | 100 أداة أمن سيبراني',
+      articlesTitle: 'المقالات - KaliAcademy | مدونة تعلم الأمن السيبراني',
+      educationalOnly: 'للأغراض التعليمية فقط'
     }
+  };
+
+  function getCurrentLang() {
     try {
-      localStorage.setItem('kali_lang', 'ar');
-    } catch (_) { /* ignore */ }
+      const saved = localStorage.getItem(LANG_STORAGE_KEY);
+      if (saved === 'ar' || saved === 'en') return saved;
+    } catch (_) {}
+    return document.documentElement.lang === 'ar' ? 'ar' : DEFAULT_LANG;
   }
 
-  // توافق مع أي سكربتات تعتمد على هذه الدوال
-  window.kaliGetCurrentLang = function () {
-    return 'ar';
-  };
+  function t(lang, key, fallback = '') {
+    return (TRANSLATIONS[lang] && TRANSLATIONS[lang][key]) || fallback || key;
+  }
 
-  window.kaliSetLanguage = function () {
-    applyArabicOnly();
-  };
+  function setLang(lang) {
+    const next = lang === 'ar' ? 'ar' : 'en';
+    document.documentElement.lang = next;
+    document.documentElement.dir = next === 'ar' ? 'rtl' : 'ltr';
+    if (document.body) {
+      document.body.setAttribute('dir', next === 'ar' ? 'rtl' : 'ltr');
+      document.body.classList.toggle('lang-en', next === 'en');
+    }
+    try { localStorage.setItem(LANG_STORAGE_KEY, next); } catch (_) {}
+    document.dispatchEvent(new CustomEvent('kali:langChanged', { detail: { lang: next } }));
+    return next;
+  }
 
-  // تحسينات CSS عامة
-  const css = document.createElement('style');
+  function replaceLinkLabel(el, text) {
+    if (!el) return;
+    const span = el.querySelector('span[data-i18n]');
+    if (span) {
+      span.textContent = text;
+      return;
+    }
+    const icon = el.querySelector('i');
+    if (icon) {
+      const textNodes = Array.from(el.childNodes).filter((n) => n.nodeType === Node.TEXT_NODE);
+      textNodes.forEach((n) => n.remove());
+      el.appendChild(document.createTextNode(' ' + text));
+    } else {
+      el.textContent = text;
+    }
+  }
+
+  function applySharedTexts(lang) {
+    const navKeys = {
+      'index.html': 'navHome',
+      'commands.html': 'navCommands',
+      'tutorials.html': 'navTutorials',
+      'steps.html': 'navSteps',
+      'tools.html': 'navTools',
+      'articles.html': 'navArticles',
+      'article-roadmap-cybersecurity-2026.html': 'navArticles',
+      'disclaimer-owner.html': 'navDisclaimer'
+    };
+
+    Object.entries(navKeys).forEach(([href, key]) => {
+      document.querySelectorAll(`a[href="${href}"]`).forEach((link) => {
+        replaceLinkLabel(link, t(lang, key, link.textContent.trim()));
+      });
+    });
+
+    const status = document.querySelector('.header-status span');
+    if (status) status.textContent = t(lang, 'systemOnline', status.textContent);
+
+    const langBtn = document.getElementById('langToggleBtn');
+    if (langBtn) langBtn.textContent = lang === 'en' ? 'AR' : 'EN';
+  }
+
+  function applyPageSpecificTexts(lang) {
+    const page = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    if (page === 'index.html' || page === '') document.title = t(lang, 'indexTitle', document.title);
+    if (page === 'tutorials.html') document.title = t(lang, 'tutorialsTitle', document.title);
+    if (page === 'commands.html') document.title = t(lang, 'commandsTitle', document.title);
+    if (page === 'steps.html') document.title = t(lang, 'stepsTitle', document.title);
+    if (page === 'tools.html') document.title = t(lang, 'toolsTitle', document.title);
+    if (page === 'articles.html' || page === 'article-roadmap-cybersecurity-2026.html') document.title = t(lang, 'articlesTitle', document.title);
+
+    document.querySelectorAll('.footer-bottom').forEach((el) => {
+      if (el.textContent.includes('للأغراض التعليمية فقط') || el.textContent.includes('For educational purposes only')) {
+        el.textContent = `⚠️ ${t(lang, 'educationalOnly')} | © 2026 Kali Academy`;
+      }
+    });
+  }
+
+  function applyLanguage(lang) {
+    const applied = setLang(lang);
+    applySharedTexts(applied);
+    applyPageSpecificTexts(applied);
+  }
+
+  function createLanguageToggle() {
+    const header = document.querySelector('.site-header');
+    if (!header || document.getElementById('langToggleBtn')) return;
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.id = 'langToggleBtn';
+    btn.className = 'lang-toggle-btn';
+    btn.setAttribute('aria-label', 'Language Toggle');
+    btn.addEventListener('click', () => {
+      const next = getCurrentLang() === 'en' ? 'ar' : 'en';
+      applyLanguage(next);
+    });
+
+    const status = header.querySelector('.header-status');
+    if (status) status.insertAdjacentElement('afterend', btn);
+    else header.appendChild(btn);
+  }
+
+  window.kaliGetCurrentLang = getCurrentLang;
+  window.kaliSetLanguage = applyLanguage;
+
+const css = document.createElement('style');
   css.textContent = `
     .site-header .logo,
     header .logo { gap: 12px !important; }
@@ -241,7 +365,8 @@
   }
 
   function init() {
-    applyArabicOnly();
+    createLanguageToggle();
+    applyLanguage(getCurrentLang());
     removeRegisterLinks();
     fastNav();
   }
