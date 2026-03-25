@@ -6,7 +6,7 @@
   'use strict';
 
   const LANG_STORAGE_KEY = 'kali_lang';
-  const DEFAULT_LANG = 'en';
+  const DEFAULT_LANG = 'ar';
 
   const TRANSLATIONS = {
     en: {
@@ -119,7 +119,7 @@
     if (page === 'commands.html') document.title = t(lang, 'commandsTitle', document.title);
     if (page === 'steps.html') document.title = t(lang, 'stepsTitle', document.title);
     if (page === 'tools.html') document.title = t(lang, 'toolsTitle', document.title);
-    if (page === 'articles.html' || page === 'article-roadmap-cybersecurity-2026.html') document.title = t(lang, 'articlesTitle', document.title);
+    if (page === 'articles.html') document.title = t(lang, 'articlesTitle', document.title);
 
     document.querySelectorAll('.footer-bottom').forEach((el) => {
       if (el.textContent.includes('للأغراض التعليمية فقط') || el.textContent.includes('For educational purposes only')) {

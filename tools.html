@@ -92,21 +92,27 @@
   border-color: #ff6600; transform: translateY(-4px);
   box-shadow: 0 8px 30px rgba(255,102,0,0.12);
 }
-.tool-rank-badge {
+.card-num-badge {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  min-width: 58px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(255,102,0,0.35);
-  background: linear-gradient(135deg, rgba(255,102,0,0.2), rgba(255,0,128,0.12));
-  color: #ffc094;
-  font-size: 0.72rem;
-  font-family: 'Share Tech Mono', monospace;
-  font-weight: 700;
-  text-align: center;
-  box-shadow: 0 0 12px rgba(255,102,0,0.16);
+  top: 0;
+  right: 0;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 16px 0 14px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 900;
+  z-index: 2;
+  pointer-events: none;
+}
+.tool-card .card-num-badge {
+  background: linear-gradient(135deg, rgba(255,102,0,0.22), rgba(255,0,128,0.14));
+  border-bottom: 1px solid rgba(255,102,0,0.3);
+  border-left: 1px solid rgba(255,102,0,0.3);
+  color: #ffb070;
 }
 .tool-card-top {
   padding: 1.2rem; display: flex; align-items: flex-start; gap: 0.9rem;
@@ -117,21 +123,7 @@
   font-size: 1.6rem; border: 1px solid rgba(255,255,255,0.1);
 }
 .tool-info { flex: 1; min-width: 0; }
-.tool-id-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 62px;
-  height: 22px;
-  padding: 0 9px;
-  border-radius: 20px;
-  border: 1px solid rgba(255,102,0,0.35);
-  background: rgba(255,102,0,0.1);
-  color: #ff9944;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.68rem;
-  margin-bottom: 5px;
-}
+
 .tool-name { font-family: 'Share Tech Mono', monospace; font-size: 1rem; font-weight: 700; color: #fff; margin: 0 0 4px; }
 .tool-short { color: var(--text-muted); font-size: 0.8rem; margin: 0; line-height: 1.5; font-family: 'Cairo', sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
@@ -2523,11 +2515,10 @@ function renderTools() {
 
     return `
       <div class="tool-card" onclick="openTool(${t.id})">
-        <span class="tool-rank-badge">أداة ${String(t.id).padStart(3, '0')}</span>
+        <span class="card-num-badge">${index + 1}</span>
         <div class="tool-card-top">
           <div class="tool-logo" style="background:${t.color}">${t.icon}</div>
           <div class="tool-info">
-            <span class="tool-id-badge">أداة #${t.id}</span>
             <div class="tool-name">${t.name}</div>
             <div class="tool-short">${t.short}</div>
           </div>

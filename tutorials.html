@@ -85,21 +85,27 @@
   border-color: var(--primary); transform: translateY(-4px);
   box-shadow: 0 8px 30px rgba(0,255,65,0.1);
 }
-.lesson-id-badge {
+.card-num-badge {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  min-width: 54px;
-  padding: 4px 10px;
-  border-radius: 999px;
-  border: 1px solid rgba(0,255,65,0.35);
-  background: linear-gradient(135deg, rgba(0,255,65,0.18), rgba(0,200,255,0.12));
+  top: 0;
+  right: 0;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 16px 0 14px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 900;
+  z-index: 2;
+  pointer-events: none;
+}
+.lesson-card .card-num-badge {
+  background: linear-gradient(135deg, rgba(0,255,65,0.2), rgba(0,200,255,0.12));
+  border-bottom: 1px solid rgba(0,255,65,0.3);
+  border-left: 1px solid rgba(0,255,65,0.3);
   color: #9effbf;
-  font-size: 0.72rem;
-  font-family: 'Share Tech Mono', monospace;
-  font-weight: 700;
-  text-align: center;
-  box-shadow: 0 0 12px rgba(0,255,65,0.14);
 }
 .lesson-card-top {
   padding: 1.2rem 1.2rem 0.8rem;
@@ -135,20 +141,7 @@
   font-size: 1.5rem; border: 1px solid rgba(255,255,255,0.1);
 }
 .lesson-meta { flex: 1; }
-.lesson-id-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 52px;
-  height: 24px;
-  border-radius: 20px;
-  border: 1px solid rgba(0,255,65,0.3);
-  background: rgba(0,255,65,0.08);
-  color: var(--primary);
-  font-size: 0.7rem;
-  font-family: 'Share Tech Mono', monospace;
-  margin-bottom: 6px;
-}
+
 .lesson-meta h3 {
   font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 0.95rem;
   color: var(--text-primary); margin: 0 0 4px;
@@ -1632,11 +1625,10 @@ function renderLessons() {
   renderLessonResumeBar();
   grid.innerHTML = filtered.map((t, index) => `
     <div class="lesson-card" onclick="openLesson(${t.id})">
-      <span class="lesson-id-badge">درس ${String(t.id).padStart(3, '0')}</span>
+      <span class="card-num-badge">${index + 1}</span>
       <div class="lesson-card-top">
         <div class="lesson-icon" style="background:rgba(0,255,65,0.08);border-color:rgba(0,255,65,0.2);">${t.icon}</div>
         <div class="lesson-meta">
-          <span class="lesson-id-badge">درس #${t.id}</span>
           <h3>${t.title}</h3>
           <p>${t.desc}</p>
         </div>
