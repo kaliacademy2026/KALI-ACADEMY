@@ -32,7 +32,7 @@
       navTutorials: 'الدروس',
       navSteps: 'خطوات التنفيذ',
       navTools: 'الأدوات',
-      navArticles: 'المقالات',
+      navArticles: 'كيف تبدأ في تعلم الأمن السيبراني',
       navDisclaimer: 'إخلاء المسؤولية',
       systemOnline: 'SYSTEM ONLINE',
       indexTitle: 'Kali Academy | تعلم كالي لينكس والأمن السيبراني بالعربي',
