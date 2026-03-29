@@ -3,13 +3,987 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KaliAcademy - إعادة توجيه</title>
+<title>تسجيل الدخول / إنشاء حساب - KaliAcademy</title>
+<meta name="description" content="سجّل دخولك أو أنشئ حسابك في KaliAcademy لتتبع تقدمك وكسب نقاط XP.">
 <meta name="robots" content="noindex, nofollow">
-<meta http-equiv="refresh" content="0; url=index.html">
 <link rel="icon" type="image/png" href="images/logo.png">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ===== REGISTER PAGE ===== */
+body { overflow-x: hidden; }
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 960px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+  position: relative;
+}
+
+/* ===== LEFT PANEL (Visual) ===== */
+.auth-panel-left {
+  background: linear-gradient(135deg, #020b14 0%, rgba(0,255,65,0.08) 50%, #020b14 100%);
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-left: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.auth-panel-left::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+}
+.auth-panel-left::after {
+  content: '// KALI\n// ACADEMY\n// 2026';
+  position: absolute;
+  bottom: 1rem; left: 1rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  color: rgba(0,255,65,0.08);
+  white-space: pre;
+  line-height: 1.8;
+  pointer-events: none;
+}
+
+.auth-logo {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: float-anim 3s ease-in-out infinite;
+}
+@keyframes float-anim {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.auth-brand-name {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: 3px;
+  margin-bottom: 0.3rem;
+}
+.auth-brand-sub {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  color: rgba(0,255,65,0.4);
+  letter-spacing: 2px;
+  margin-bottom: 2rem;
+}
+.auth-feature-list {
+  list-style: none;
+  text-align: right;
+  width: 100%;
+}
+.auth-feature-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.6rem 0;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.75);
+  border-bottom: 1px solid rgba(0,255,65,0.06);
+}
+.auth-feature-list li:last-child { border-bottom: none; }
+.auth-feature-list li .feat-icon {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  background: rgba(0,255,65,0.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  color: var(--primary);
+}
+.auth-stats-row {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  width: 100%;
+  justify-content: center;
+}
+.auth-stat {
+  background: rgba(0,255,65,0.06);
+  border: 1px solid rgba(0,255,65,0.15);
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  text-align: center;
+  flex: 1;
+}
+.auth-stat .n {
+  font-family: 'Orbitron', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary);
+  display: block;
+}
+.auth-stat .l {
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.4);
+  display: block;
+}
+
+/* ===== RIGHT PANEL (Form) ===== */
+.auth-panel-right {
+  padding: 2.5rem 2rem;
+  overflow-y: auto;
+  max-height: 100vh;
+}
+
+/* TABS */
+.auth-tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 2rem;
+  background: rgba(0,0,0,0.3);
+  border-radius: 10px;
+  padding: 4px;
+  border: 1px solid rgba(0,255,65,0.1);
+}
+.auth-tab {
+  flex: 1;
+  padding: 10px 16px;
+  text-align: center;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  transition: all 0.25s;
+}
+.auth-tab.active {
+  background: linear-gradient(135deg, rgba(0,255,65,0.15), rgba(0,255,65,0.08));
+  color: var(--primary);
+  border: 1px solid rgba(0,255,65,0.25);
+}
+
+/* FORM */
+.auth-form { display: none; }
+.auth-form.active { display: block; }
+
+.form-title {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  color: var(--primary);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-group {
+  margin-bottom: 1.1rem;
+}
+.form-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 0.5rem;
+}
+.form-label a { color: var(--primary); text-decoration: none; font-size: 0.75rem; }
+.form-label a:hover { text-decoration: underline; }
+
+.form-input-wrap {
+  position: relative;
+}
+.form-input {
+  width: 100%;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(0,255,65,0.18);
+  border-radius: 10px;
+  padding: 0.75rem 1rem 0.75rem 2.8rem;
+  color: #fff;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  outline: none;
+}
+.form-input::placeholder { color: rgba(255,255,255,0.25); }
+.form-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0,255,65,0.08);
+  background: rgba(0,255,65,0.03);
+}
+.form-input.error { border-color: #ff3333; }
+.form-input.success { border-color: var(--primary); }
+.input-icon {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(0,255,65,0.4);
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+.toggle-pw {
+  position: absolute;
+  right: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: color 0.2s;
+}
+.toggle-pw:hover { color: var(--primary); }
+
+/* PASSWORD STRENGTH */
+.pw-strength {
+  margin-top: 0.5rem;
+  height: 4px;
+  background: rgba(0,0,0,0.4);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.pw-strength-fill {
+  height: 100%;
+  border-radius: 4px;
+  width: 0%;
+  transition: width 0.4s, background 0.4s;
+}
+.pw-strength-text { font-family: 'Share Tech Mono', monospace; font-size: 0.68rem; margin-top: 3px; }
+
+/* SELECT */
+.form-select {
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%2300ff41' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 12px center;
+  padding-right: 2.5rem;
+}
+
+/* FORM ROW */
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+
+/* AVATAR SELECTOR */
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  margin-top: 0.5rem;
+}
+.av-opt {
+  aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  background: rgba(0,0,0,0.3);
+  transition: all 0.2s;
+}
+.av-opt:hover { border-color: rgba(0,255,65,0.4); transform: scale(1.08); }
+.av-opt.selected { border-color: var(--primary); background: rgba(0,255,65,0.1); }
+
+/* CHECKBOX */
+.form-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 0.7rem;
+  background: rgba(0,0,0,0.2);
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.form-check input[type="checkbox"] {
+  width: 16px; height: 16px;
+  margin-top: 2px;
+  accent-color: var(--primary);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.form-check label {
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.6);
+  cursor: pointer;
+  line-height: 1.6;
+}
+.form-check label a { color: var(--primary); text-decoration: none; }
+
+/* ERROR MESSAGE */
+.form-error {
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.75rem;
+  color: #ff5555;
+  margin-top: 4px;
+  display: none;
+}
+.form-error.visible { display: block; }
+
+/* SUBMIT BUTTON */
+.btn-auth {
+  width: 100%;
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #000;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 1.2rem;
+}
+.btn-auth:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,255,65,0.3);
+}
+.btn-auth:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+/* DIVIDER */
+.or-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 1rem 0;
+  color: rgba(255,255,255,0.2);
+  font-size: 0.75rem;
+  font-family: 'Share Tech Mono', monospace;
+}
+.or-divider::before, .or-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.08);
+}
+
+/* GUEST BUTTON */
+.btn-guest {
+  width: 100%;
+  padding: 10px 24px;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.5);
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-guest:hover { border-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.75); }
+
+/* TOAST */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #041628;
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.9rem;
+  color: #fff;
+  z-index: 99999;
+  opacity: 0;
+  transition: all 0.4s;
+  max-width: 90vw;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.toast.success { border: 1px solid var(--primary); }
+.toast.error { border: 1px solid #ff3333; }
+
+/* MEMBER COUNT */
+.member-count-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 1.5rem;
+  padding: 5px 14px;
+  background: rgba(0,255,65,0.06);
+  border: 1px solid rgba(0,255,65,0.2);
+  border-radius: 20px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.68rem;
+  color: rgba(0,255,65,0.7);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .auth-container { grid-template-columns: 1fr; }
+  .auth-panel-left { display: none; }
+  .auth-panel-right { padding: 2rem 1.5rem; }
+  .form-row { grid-template-columns: 1fr; }
+}
+</style>
 </head>
-<body>
-<script>window.location.replace('index.html');</script>
-<p>جارٍ إعادة التوجيه... <a href="index.html">اضغط هنا</a></p>
+<body class="grid-bg">
+<canvas id="matrix-canvas"></canvas>
+
+<script src="js/matrix.js"></script>
+
+<div class="auth-page">
+  <div class="auth-container">
+
+    <!-- ===== LEFT PANEL ===== -->
+    <div class="auth-panel-left">
+      <div class="auth-logo">🐉</div>
+      <div class="auth-brand-name">KALI ACADEMY</div>
+      <div class="auth-brand-sub">CYBER SECURITY LEARNING</div>
+
+      <div class="member-count-badge">
+        <i class="fas fa-users"></i>
+        <span id="member-count">+1,200</span> عضو مسجل
+      </div>
+
+      <ul class="auth-feature-list">
+        <li>
+          <span class="feat-icon"><i class="fas fa-star"></i></span>
+          نظام نقاط XP وتتبع التقدم
+        </li>
+        <li>
+          <span class="feat-icon"><i class="fas fa-trophy"></i></span>
+          لوحة المتصدرين والمنافسة
+        </li>
+        <li>
+          <span class="feat-icon"><i class="fas fa-medal"></i></span>
+          شارات الإنجازات (12+ شارة)
+        </li>
+        <li>
+          <span class="feat-icon"><i class="fas fa-book-open"></i></span>
+          100+ درس تعليمي تفاعلي
+        </li>
+        <li>
+          <span class="feat-icon"><i class="fas fa-terminal"></i></span>
+          3500+ أمر موثق
+        </li>
+      </ul>
+
+      <div class="auth-stats-row">
+        <div class="auth-stat">
+          <span class="n">3500+</span>
+          <span class="l">أمر</span>
+        </div>
+        <div class="auth-stat">
+          <span class="n">100+</span>
+          <span class="l">درس</span>
+        </div>
+        <div class="auth-stat">
+          <span class="n">500+</span>
+          <span class="l">أداة</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== RIGHT PANEL ===== -->
+    <div class="auth-panel-right">
+
+      <!-- TABS -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">
+          <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+        </button>
+        <button class="auth-tab" id="tab-register" onclick="switchTab('register')">
+          <i class="fas fa-user-plus"></i> إنشاء حساب
+        </button>
+      </div>
+
+      <!-- ===== LOGIN FORM ===== -->
+      <form class="auth-form active" id="login-form" onsubmit="handleLogin(event)">
+        <div class="form-title"><i class="fas fa-terminal"></i> LOGIN TO YOUR ACCOUNT</div>
+
+        <div class="form-group">
+          <div class="form-label">البريد الإلكتروني أو اسم المستخدم</div>
+          <div class="form-input-wrap">
+            <i class="fas fa-user input-icon"></i>
+            <input type="text" class="form-input" id="login-identifier" placeholder="email@example.com أو username" required autocomplete="username">
+          </div>
+          <div class="form-error" id="login-id-error">هذا الحقل مطلوب</div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label">
+            كلمة المرور
+            <a href="#" onclick="showForgotPassword(); return false;">نسيت كلمة المرور؟</a>
+          </div>
+          <div class="form-input-wrap">
+            <i class="fas fa-lock input-icon"></i>
+            <input type="password" class="form-input" id="login-password" placeholder="كلمة المرور" required autocomplete="current-password">
+            <i class="fas fa-eye toggle-pw" onclick="togglePw('login-password', this)"></i>
+          </div>
+          <div class="form-error" id="login-pw-error">كلمة المرور خاطئة</div>
+        </div>
+
+        <div class="form-check">
+          <input type="checkbox" id="remember-me" checked>
+          <label for="remember-me">تذكرني على هذا الجهاز</label>
+        </div>
+
+        <div class="form-error visible" id="login-general-error" style="display:none;margin-top:0.5rem;"></div>
+
+        <button type="submit" class="btn-auth" id="login-btn">
+          <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+        </button>
+
+        <div class="or-divider">أو</div>
+
+        <button type="button" class="btn-guest" onclick="continueAsGuest()">
+          <i class="fas fa-user-secret"></i> تصفح كضيف (بدون تسجيل)
+        </button>
+
+        <p style="text-align:center;margin-top:1.2rem;font-family:'Cairo',sans-serif;font-size:0.82rem;color:var(--text-muted);">
+          ليس لديك حساب؟ <a href="#" onclick="switchTab('register');return false;" style="color:var(--primary);text-decoration:none;font-weight:700;">أنشئ حساباً مجانياً</a>
+        </p>
+      </form>
+
+      <!-- ===== REGISTER FORM ===== -->
+      <form class="auth-form" id="register-form" onsubmit="handleRegister(event)">
+        <div class="form-title"><i class="fas fa-user-plus"></i> CREATE YOUR ACCOUNT</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <div class="form-label">الاسم الكامل</div>
+            <div class="form-input-wrap">
+              <i class="fas fa-id-card input-icon"></i>
+              <input type="text" class="form-input" id="reg-fullname" placeholder="اسمك الكامل" required>
+            </div>
+            <div class="form-error" id="reg-name-error">الاسم مطلوب</div>
+          </div>
+          <div class="form-group">
+            <div class="form-label">اسم المستخدم</div>
+            <div class="form-input-wrap">
+              <i class="fas fa-at input-icon"></i>
+              <input type="text" class="form-input" id="reg-username" placeholder="username" required oninput="checkUsername(this.value)">
+              <span class="toggle-pw" id="username-check" style="pointer-events:none;"></span>
+            </div>
+            <div class="form-error" id="reg-username-error">اسم المستخدم مأخوذ</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="form-label">البريد الإلكتروني</div>
+          <div class="form-input-wrap">
+            <i class="fas fa-envelope input-icon"></i>
+            <input type="email" class="form-input" id="reg-email" placeholder="email@example.com" required>
+          </div>
+          <div class="form-error" id="reg-email-error">البريد مستخدم مسبقاً</div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <div class="form-label">كلمة المرور</div>
+            <div class="form-input-wrap">
+              <i class="fas fa-lock input-icon"></i>
+              <input type="password" class="form-input" id="reg-password" placeholder="8+ أحرف" required oninput="checkPwStrength(this.value)" autocomplete="new-password">
+              <i class="fas fa-eye toggle-pw" onclick="togglePw('reg-password', this)"></i>
+            </div>
+            <div class="pw-strength">
+              <div class="pw-strength-fill" id="pw-fill"></div>
+            </div>
+            <div class="pw-strength-text" id="pw-strength-text" style="color:var(--text-muted);">...</div>
+            <div class="form-error" id="reg-pw-error">كلمة المرور ضعيفة جداً</div>
+          </div>
+          <div class="form-group">
+            <div class="form-label">تأكيد كلمة المرور</div>
+            <div class="form-input-wrap">
+              <i class="fas fa-lock input-icon"></i>
+              <input type="password" class="form-input" id="reg-password2" placeholder="أعد كتابة كلمة المرور" required autocomplete="new-password">
+              <i class="fas fa-eye toggle-pw" onclick="togglePw('reg-password2', this)"></i>
+            </div>
+            <div class="form-error" id="reg-pw2-error">كلمات المرور غير متطابقة</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <div class="form-label">مستوى الخبرة</div>
+            <div class="form-input-wrap">
+              <i class="fas fa-signal input-icon"></i>
+              <select class="form-input form-select" id="reg-level" required>
+                <option value="">اختر مستواك</option>
+                <option value="beginner">مبتدئ</option>
+                <option value="intermediate">متوسط</option>
+                <option value="advanced">متقدم</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="form-label">الدولة</div>
+            <div class="form-input-wrap">
+              <i class="fas fa-globe input-icon"></i>
+              <select class="form-input form-select" id="reg-country" required>
+                <option value="">اختر دولتك</option>
+                <option value="SA">🇸🇦 السعودية</option>
+                <option value="EG">🇪🇬 مصر</option>
+                <option value="AE">🇦🇪 الإمارات</option>
+                <option value="IQ">🇮🇶 العراق</option>
+                <option value="MA">🇲🇦 المغرب</option>
+                <option value="DZ">🇩🇿 الجزائر</option>
+                <option value="TN">🇹🇳 تونس</option>
+                <option value="JO">🇯🇴 الأردن</option>
+                <option value="SY">🇸🇾 سوريا</option>
+                <option value="LB">🇱🇧 لبنان</option>
+                <option value="LY">🇱🇾 ليبيا</option>
+                <option value="SD">🇸🇩 السودان</option>
+                <option value="YE">🇾🇪 اليمن</option>
+                <option value="KW">🇰🇼 الكويت</option>
+                <option value="QA">🇶🇦 قطر</option>
+                <option value="BH">🇧🇭 البحرين</option>
+                <option value="OM">🇴🇲 عمان</option>
+                <option value="OTHER">🌍 أخرى</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- AVATAR -->
+        <div class="form-group">
+          <div class="form-label">اختر صورتك الرمزية</div>
+          <div class="avatar-grid" id="reg-avatar-grid">
+            <!-- يُملأ ديناميكياً -->
+          </div>
+          <input type="hidden" id="reg-avatar" value="🐉">
+        </div>
+
+        <!-- TERMS -->
+        <div class="form-check">
+          <input type="checkbox" id="reg-terms" required>
+          <label for="reg-terms">
+            أوافق على <a href="legal.html" target="_blank">شروط الاستخدام</a> وأقر بأنني سأستخدم هذه المنصة للأغراض التعليمية القانونية فقط، ولن أستخدم المعرفة المكتسبة في أنشطة غير مشروعة.
+          </label>
+        </div>
+        <div class="form-error" id="reg-terms-error" style="margin-top:4px;">يجب الموافقة على الشروط للمتابعة</div>
+
+        <button type="submit" class="btn-auth" id="register-btn">
+          <i class="fas fa-rocket"></i> إنشاء حسابي مجاناً
+        </button>
+
+        <p style="text-align:center;margin-top:1.2rem;font-family:'Cairo',sans-serif;font-size:0.82rem;color:var(--text-muted);">
+          لديك حساب؟ <a href="#" onclick="switchTab('login');return false;" style="color:var(--primary);text-decoration:none;font-weight:700;">تسجيل الدخول</a>
+        </p>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== AVATARS =====
+const AVATARS = ['🐉','🦊','🐺','🦁','🐯','🐻','🦝','🐼','🐨','🐸','🦋','🐙','🦂','💀','🤖','👾','🎭','🛡️','⚔️','🔥','💎','🌙','⚡','🎯'];
+let selectedAvatar = '🐉';
+
+// بناء avatar grid
+const grid = document.getElementById('reg-avatar-grid');
+AVATARS.forEach(a => {
+  const el = document.createElement('div');
+  el.className = 'av-opt' + (a === '🐉' ? ' selected' : '');
+  el.textContent = a;
+  el.addEventListener('click', () => {
+    document.querySelectorAll('.av-opt').forEach(e => e.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedAvatar = a;
+    document.getElementById('reg-avatar').value = a;
+  });
+  grid.appendChild(el);
+});
+
+// عرض عدد الأعضاء
+const users = (() => { try { return JSON.parse(localStorage.getItem('kali_users_db') || '[]'); } catch { return []; } })();
+if (users.length > 0) document.getElementById('member-count').textContent = '+' + (users.length + 1200).toLocaleString();
+
+// ===== TAB SWITCHING =====
+function switchTab(tab) {
+  document.getElementById('login-form').classList.toggle('active', tab === 'login');
+  document.getElementById('register-form').classList.toggle('active', tab === 'register');
+  document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+  document.getElementById('tab-register').classList.toggle('active', tab === 'register');
+}
+
+// ===== UTILS =====
+function showToast(msg, type = 'success') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+function togglePw(id, icon) {
+  const inp = document.getElementById(id);
+  if (inp.type === 'password') {
+    inp.type = 'text';
+    icon.className = 'fas fa-eye-slash toggle-pw';
+  } else {
+    inp.type = 'password';
+    icon.className = 'fas fa-eye toggle-pw';
+  }
+}
+
+function showError(id, msg) {
+  const el = document.getElementById(id);
+  if (el) { el.textContent = msg; el.style.display = 'block'; }
+}
+function hideError(id) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = 'none';
+}
+
+async function hashPassword(pw) {
+  const enc = new TextEncoder().encode(pw);
+  const buf = await crypto.subtle.digest('SHA-256', enc);
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+function generateId() {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2, 8);
+}
+
+// ===== PASSWORD STRENGTH =====
+function checkPwStrength(pw) {
+  const fill = document.getElementById('pw-fill');
+  const text = document.getElementById('pw-strength-text');
+  let score = 0;
+  if (pw.length >= 8) score++;
+  if (pw.length >= 12) score++;
+  if (/[A-Z]/.test(pw)) score++;
+  if (/[0-9]/.test(pw)) score++;
+  if (/[^A-Za-z0-9]/.test(pw)) score++;
+
+  const levels = [
+    { pct: 0,   color: '#444',    text: '' },
+    { pct: 20,  color: '#ff3333', text: 'ضعيف جداً' },
+    { pct: 40,  color: '#ff8800', text: 'ضعيف' },
+    { pct: 60,  color: '#ffcc00', text: 'متوسط' },
+    { pct: 80,  color: '#88ff44', text: 'جيد' },
+    { pct: 100, color: '#00ff41', text: 'قوي جداً 🔥' },
+  ];
+  const lvl = levels[Math.min(score, 5)];
+  fill.style.width = lvl.pct + '%';
+  fill.style.background = lvl.color;
+  text.textContent = lvl.text;
+  text.style.color = lvl.color;
+}
+
+// ===== USERNAME CHECK =====
+let usernameTimer;
+function checkUsername(val) {
+  clearTimeout(usernameTimer);
+  const icon = document.getElementById('username-check');
+  if (!val.trim()) { icon.textContent = ''; return; }
+  icon.textContent = '⏳';
+  usernameTimer = setTimeout(() => {
+    const users = (() => { try { return JSON.parse(localStorage.getItem('kali_users_db') || '[]'); } catch { return []; } })();
+    const taken = users.some(u => u.username.toLowerCase() === val.toLowerCase().trim());
+    if (taken) {
+      icon.textContent = '❌';
+      document.getElementById('reg-username-error').textContent = 'اسم المستخدم مأخوذ';
+      document.getElementById('reg-username-error').style.display = 'block';
+    } else {
+      icon.textContent = '✅';
+      document.getElementById('reg-username-error').style.display = 'none';
+    }
+  }, 600);
+}
+
+// ===== REGISTER =====
+async function handleRegister(e) {
+  e.preventDefault();
+  hideError('reg-name-error'); hideError('reg-username-error');
+  hideError('reg-email-error'); hideError('reg-pw-error');
+  hideError('reg-pw2-error'); hideError('reg-terms-error');
+
+  const fullname = document.getElementById('reg-fullname').value.trim();
+  const username = document.getElementById('reg-username').value.trim();
+  const email = document.getElementById('reg-email').value.trim().toLowerCase();
+  const pw1 = document.getElementById('reg-password').value;
+  const pw2 = document.getElementById('reg-password2').value;
+  const level = document.getElementById('reg-level').value;
+  const country = document.getElementById('reg-country').value;
+  const terms = document.getElementById('reg-terms').checked;
+  const avatar = selectedAvatar;
+
+  let valid = true;
+  if (!fullname) { showError('reg-name-error', 'الاسم مطلوب'); valid = false; }
+  if (!username || username.length < 3) { showError('reg-username-error', 'يجب أن يكون 3 أحرف على الأقل'); valid = false; }
+  if (!/^[a-zA-Z0-9_]+$/.test(username)) { showError('reg-username-error', 'أحرف إنجليزية وأرقام وـ فقط'); valid = false; }
+  if (!email.includes('@')) { showError('reg-email-error', 'بريد إلكتروني غير صالح'); valid = false; }
+  if (pw1.length < 8) { showError('reg-pw-error', 'كلمة المرور يجب أن تكون 8 أحرف على الأقل'); valid = false; }
+  if (pw1 !== pw2) { showError('reg-pw2-error', 'كلمات المرور غير متطابقة'); valid = false; }
+  if (!terms) { showError('reg-terms-error', 'يجب الموافقة على الشروط للمتابعة'); valid = false; }
+  if (!valid) return;
+
+  const users = (() => { try { return JSON.parse(localStorage.getItem('kali_users_db') || '[]'); } catch { return []; } })();
+  if (users.some(u => u.username.toLowerCase() === username.toLowerCase())) {
+    showError('reg-username-error', 'اسم المستخدم مأخوذ'); return;
+  }
+  if (users.some(u => u.email === email)) {
+    showError('reg-email-error', 'البريد الإلكتروني مستخدم مسبقاً'); return;
+  }
+
+  const btn = document.getElementById('register-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جارٍ الإنشاء...';
+
+  const pwHash = await hashPassword(pw1);
+  const newUser = {
+    id: generateId(),
+    username, email, full_name: fullname,
+    password_hash: pwHash,
+    level: level || 'beginner',
+    country: country || 'OTHER',
+    avatar,
+    is_active: true,
+    is_verified: false,
+    created_at: new Date().toISOString(),
+    last_login: new Date().toISOString(),
+  };
+
+  users.push(newUser);
+  localStorage.setItem('kali_users_db', JSON.stringify(users));
+  localStorage.setItem('kali_user', JSON.stringify(newUser));
+  localStorage.setItem('kali_session', JSON.stringify({ id: newUser.id, exp: Date.now() + 86400000 * 30 }));
+
+  // إنشاء Profile
+  const profile = {
+    user_id: newUser.id,
+    xp: 50,
+    avatar,
+    bio: '',
+    completed_lessons: [],
+    completed_scenarios: [],
+    badges: ['security_aware'],
+    activity: [
+      { type: 'badge', title: 'مرحباً بك في KaliAcademy!', time: new Date().toISOString(), xp: 50 }
+    ],
+    joined: newUser.created_at,
+    last_login: newUser.created_at,
+  };
+  localStorage.setItem('kali_profile', JSON.stringify(profile));
+
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fas fa-check"></i> تم الإنشاء!';
+  showToast('🎉 أهلاً ' + fullname + '! تم إنشاء حسابك بنجاح.', 'success');
+
+  setTimeout(() => { window.location.href = 'profile.html'; }, 1800);
+}
+
+// ===== LOGIN =====
+async function handleLogin(e) {
+  e.preventDefault();
+  hideError('login-id-error');
+  hideError('login-pw-error');
+  const errorEl = document.getElementById('login-general-error');
+  errorEl.style.display = 'none';
+
+  const identifier = document.getElementById('login-identifier').value.trim();
+  const pw = document.getElementById('login-password').value;
+
+  if (!identifier) { showError('login-id-error', 'هذا الحقل مطلوب'); return; }
+  if (!pw) { showError('login-pw-error', 'كلمة المرور مطلوبة'); return; }
+
+  const btn = document.getElementById('login-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جارٍ التحقق...';
+
+  const users = (() => { try { return JSON.parse(localStorage.getItem('kali_users_db') || '[]'); } catch { return []; } })();
+  const user = users.find(u =>
+    u.username.toLowerCase() === identifier.toLowerCase() ||
+    u.email.toLowerCase() === identifier.toLowerCase()
+  );
+
+  if (!user) {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> تسجيل الدخول';
+    errorEl.textContent = '❌ المستخدم غير موجود. تحقق من الاسم أو البريد.';
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  const pwHash = await hashPassword(pw);
+  if (pwHash !== user.password_hash) {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> تسجيل الدخول';
+    errorEl.textContent = '❌ كلمة المرور خاطئة. حاول مرة أخرى.';
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  user.last_login = new Date().toISOString();
+  const idx = users.findIndex(u => u.id === user.id);
+  if (idx >= 0) users[idx] = user;
+  localStorage.setItem('kali_users_db', JSON.stringify(users));
+  localStorage.setItem('kali_user', JSON.stringify(user));
+  localStorage.setItem('kali_session', JSON.stringify({ id: user.id, exp: Date.now() + 86400000 * 30 }));
+
+  btn.innerHTML = '<i class="fas fa-check"></i> مرحباً بك!';
+  showToast('✅ أهلاً وسهلاً ' + (user.full_name || user.username) + '!', 'success');
+  setTimeout(() => { window.location.href = 'profile.html'; }, 1500);
+}
+
+function continueAsGuest() {
+  showToast('👤 تصفح كضيف. لن يُحفظ تقدمك.', 'success');
+  setTimeout(() => { window.location.href = 'index.html'; }, 1200);
+}
+
+function showForgotPassword() {
+  const id = document.getElementById('login-identifier').value.trim();
+  if (!id) {
+    showToast('أدخل بريدك الإلكتروني أو اسم المستخدم أولاً', 'error');
+    document.getElementById('login-identifier').focus();
+    return;
+  }
+  showToast('📧 تحقق من بريدك الإلكتروني (قريباً - الميزة قيد التطوير)', 'success');
+}
+
+// التحقق إن المستخدم مسجل مسبقاً
+(function() {
+  const session = (() => { try { return JSON.parse(localStorage.getItem('kali_session') || 'null'); } catch { return null; } })();
+  if (session && session.exp > Date.now()) {
+    const user = (() => { try { return JSON.parse(localStorage.getItem('kali_user') || 'null'); } catch { return null; } })();
+    if (user) {
+      // عرض رسالة للمستخدم المسجل
+      setTimeout(() => {
+        showToast('✅ أنت مسجل الدخول بالفعل كـ ' + (user.full_name || user.username), 'success');
+      }, 500);
+    }
+  }
+})();
+</script>
 </body>
 </html>

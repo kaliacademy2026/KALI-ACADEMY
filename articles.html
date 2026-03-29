@@ -28,6 +28,10 @@
 .article-card.card-green:hover { border-color: #00ff41; box-shadow: 0 12px 32px rgba(0,255,65,0.12); }
 .article-card.card-blue:hover { border-color: #00aaff; box-shadow: 0 12px 32px rgba(0,170,255,0.12); }
 .article-card.card-orange:hover { border-color: #ff6600; box-shadow: 0 12px 32px rgba(255,100,0,0.12); }
+.article-card.card-pink:hover { border-color: #ff0080; box-shadow: 0 12px 32px rgba(255,0,128,0.12); }
+.article-card.card-cyan:hover { border-color: #00ffff; box-shadow: 0 12px 32px rgba(0,255,255,0.12); }
+.card-pink .read-more { color: #ff0080; }
+.card-cyan .read-more { color: #00ffff; }
 .article-card-thumb { width: 100%; height: 180px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
 .article-card-thumb .thumb-icon { font-size: 3rem; position: relative; z-index: 1; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3)); }
 .article-card-thumb .thumb-tag { position: absolute; top: 12px; right: 12px; font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; letter-spacing: 2px; padding: 3px 10px; border-radius: 6px; z-index: 2; }
@@ -77,7 +81,7 @@
   <section class="articles-hero">
     <h1>المقالات وخرائط الطريق</h1>
     <p>مقالات عملية في الأمن السيبراني، خرائط طريق للمبتدئين، وإرشادات مختارة من فريق KaliAcademy.</p>
-    <div class="articles-count"><i class="fas fa-file-alt"></i> 3 مقالات متاحة</div>
+    <div class="articles-count"><i class="fas fa-file-alt"></i> 7 مقالات متاحة</div>
   </section>
 
   <section class="article-grid">
@@ -122,6 +126,70 @@
       <div class="article-card-body">
         <h2>أفضل 10 أدوات للهاكر الأخلاقي في 2026</h2>
         <p>دليل شامل لأقوى أدوات اختبار الاختراق: Nmap, Metasploit, Burp Suite, Wireshark وغيرها مع شرح عملي.</p>
+        <div class="article-meta">
+          <span><i class="fas fa-user-edit"></i> KALI ACADEMY</span>
+          <span class="read-more">اقرأ المقال <i class="fas fa-arrow-left"></i></span>
+        </div>
+      </div>
+    </a>
+
+    <!-- المقال الرابع -->
+    <a class="article-card card-orange" href="article-bug-bounty-guide-2026.html">
+      <div class="article-card-thumb" style="background: linear-gradient(135deg, #020b14, rgba(255,100,0,0.12));">
+        <span class="thumb-icon">🐛💰</span>
+        <span class="thumb-tag" style="background: rgba(255,100,0,0.12); border: 1px solid rgba(255,100,0,0.3); color: #ff6600;">BUG BOUNTY</span>
+      </div>
+      <div class="article-card-body">
+        <h2>دليل Bug Bounty الشامل للمبتدئين 2026</h2>
+        <p>كيف تبدأ في Bug Bounty وتكسب مكافآت مالية من اكتشاف ثغرات الشركات بطريقة قانونية وأخلاقية.</p>
+        <div class="article-meta">
+          <span><i class="fas fa-user-edit"></i> KALI ACADEMY</span>
+          <span class="read-more">اقرأ المقال <i class="fas fa-arrow-left"></i></span>
+        </div>
+      </div>
+    </a>
+
+    <!-- المقال الخامس -->
+    <a class="article-card card-blue" href="article-ctf-guide-2026.html">
+      <div class="article-card-thumb" style="background: linear-gradient(135deg, #020b14, rgba(0,170,255,0.12));">
+        <span class="thumb-icon">🚩🔓</span>
+        <span class="thumb-tag" style="background: rgba(0,170,255,0.12); border: 1px solid rgba(0,170,255,0.3); color: #00aaff;">CTF GUIDE</span>
+      </div>
+      <div class="article-card-body">
+        <h2>دليل CTF للمبتدئين 2026 - Capture The Flag</h2>
+        <p>تعلم كيف تحل تحديات CTF وتطور مهاراتك الأمنية بطريقة ممتعة. أفضل المنصات، الأدوات، والنصائح.</p>
+        <div class="article-meta">
+          <span><i class="fas fa-user-edit"></i> KALI ACADEMY</span>
+          <span class="read-more">اقرأ المقال <i class="fas fa-arrow-left"></i></span>
+        </div>
+      </div>
+    </a>
+
+    <!-- المقال السادس -->
+    <a class="article-card card-green" href="article-linux-commands-cheatsheet-2026.html">
+      <div class="article-card-thumb" style="background: linear-gradient(135deg, #020b14, rgba(0,255,65,0.12));">
+        <span class="thumb-icon">💻📋</span>
+        <span class="thumb-tag" style="background: rgba(0,255,65,0.12); border: 1px solid rgba(0,255,65,0.3); color: #00ff41;">CHEATSHEET</span>
+      </div>
+      <div class="article-card-body">
+        <h2>أهم 50 أمر Linux يجب حفظها 2026</h2>
+        <p>Cheat Sheet شامل لأهم أوامر Linux الأساسية مع أمثلة عملية. انسخ أي أمر بنقرة واحدة.</p>
+        <div class="article-meta">
+          <span><i class="fas fa-user-edit"></i> KALI ACADEMY</span>
+          <span class="read-more">اقرأ المقال <i class="fas fa-arrow-left"></i></span>
+        </div>
+      </div>
+    </a>
+
+    <!-- المقال السابع -->
+    <a class="article-card card-pink" href="article-metasploit-beginners-2026.html">
+      <div class="article-card-thumb" style="background: linear-gradient(135deg, #020b14, rgba(255,0,128,0.12));">
+        <span class="thumb-icon">💥🐚</span>
+        <span class="thumb-tag" style="background: rgba(255,0,128,0.12); border: 1px solid rgba(255,0,128,0.3); color: #ff0080;">METASPLOIT</span>
+      </div>
+      <div class="article-card-body">
+        <h2>دليل Metasploit الشامل للمبتدئين 2026</h2>
+        <p>تعلم Metasploit Framework من الصفر - msfconsole, Meterpreter, msfvenom مع أمثلة عملية حقيقية.</p>
         <div class="article-meta">
           <span><i class="fas fa-user-edit"></i> KALI ACADEMY</span>
           <span class="read-more">اقرأ المقال <i class="fas fa-arrow-left"></i></span>
