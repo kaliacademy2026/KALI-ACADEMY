@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الملف الشخصي - KaliAcademy</title>
+<meta name="description" content="ملفك الشخصي في KaliAcademy - تتبع تقدمك، نقاط XP، الشارات، والدروس المكتملة.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="images/logo.png">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/enhanced.css">
+<link rel="stylesheet" href="css/cyber-theme.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ===== PROFILE PAGE STYLES ===== */
+.profile-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* ===== PROFILE HERO CARD ===== */
+.profile-hero-card {
+  background: linear-gradient(135deg, var(--bg-card), rgba(0,255,65,0.05));
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.profile-hero-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+}
+
+.profile-top {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.profile-avatar-area {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.profile-avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  border: 3px solid var(--primary);
+  background: var(--bg-card2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  box-shadow: 0 0 30px rgba(0,255,65,0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile-level-badge {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  background: var(--bg-dark);
+  border: 2px solid var(--primary);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-family: 'Share Tech Mono', monospace;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.profile-info {
+  flex: 1;
+  min-width: 200px;
+}
+
+.profile-name {
+  font-family: 'Cairo', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 0.3rem;
+}
+
+.profile-username {
+  font-family: 'Share Tech Mono', monospace;
+  color: var(--primary);
+  font-size: 0.9rem;
+  margin-bottom: 0.6rem;
+}
+.profile-username span { opacity: 0.5; margin: 0 4px; }
+
+.profile-bio {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+  font-family: 'Cairo', sans-serif;
+}
+
+.profile-badges-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.profile-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+}
+.badge-level-beginner { background: rgba(0,255,65,0.1); border: 1px solid rgba(0,255,65,0.3); color: #00ff41; }
+.badge-level-intermediate { background: rgba(255,204,0,0.1); border: 1px solid rgba(255,204,0,0.3); color: #ffcc00; }
+.badge-level-advanced { background: rgba(255,0,128,0.1); border: 1px solid rgba(255,0,128,0.3); color: #ff0080; }
+.badge-country { background: rgba(0,170,255,0.1); border: 1px solid rgba(0,170,255,0.3); color: #00aaff; }
+.badge-joined { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); }
+
+.profile-stats-mini {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.profile-stat-mini {
+  text-align: center;
+}
+.profile-stat-mini .num {
+  display: block;
+  font-family: 'Orbitron', monospace;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+.profile-stat-mini .lbl {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: 'Cairo', sans-serif;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+.btn-edit-profile {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid var(--primary);
+  background: rgba(0,255,65,0.08);
+  color: var(--primary);
+  transition: all 0.25s;
+  text-decoration: none;
+}
+.btn-edit-profile:hover { background: rgba(0,255,65,0.18); transform: translateY(-1px); }
+.btn-logout {
+  border-color: rgba(255,0,128,0.4);
+  background: rgba(255,0,128,0.06);
+  color: #ff0080;
+}
+.btn-logout:hover { background: rgba(255,0,128,0.14); }
+
+/* ===== XP BAR ===== */
+.xp-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+.xp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.xp-title {
+  font-family: 'Share Tech Mono', monospace;
+  color: var(--primary);
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+}
+.xp-level-info {
+  font-family: 'Orbitron', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+}
+.xp-level-info span { color: var(--primary); }
+.xp-bar-container {
+  background: rgba(0,0,0,0.4);
+  border-radius: 30px;
+  height: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(0,255,65,0.15);
+  position: relative;
+}
+.xp-bar-fill {
+  height: 100%;
+  border-radius: 30px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+.xp-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%; right: 0; bottom: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+@keyframes shimmer { to { left: 200%; } }
+.xp-numbers {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+.xp-numbers strong { color: var(--primary); }
+
+/* ===== GRID LAYOUT ===== */
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+@media (max-width: 768px) {
+  .profile-grid { grid-template-columns: 1fr; }
+  .profile-top { flex-direction: column; align-items: flex-start; }
+}
+
+/* ===== SECTION CARDS ===== */
+.profile-section-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+}
+.profile-section-card.full-width {
+  grid-column: 1 / -1;
+}
+.section-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(0,255,65,0.1);
+}
+.section-card-title {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 2px;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-card-count {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ===== ACHIEVEMENTS / BADGES ===== */
+.achievements-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 0.8rem;
+}
+.achievement-item {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 0.8rem 0.5rem;
+  text-align: center;
+  transition: all 0.25s;
+  cursor: pointer;
+  position: relative;
+}
+.achievement-item:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
+.achievement-item.earned { border-color: rgba(0,255,65,0.35); background: rgba(0,255,65,0.06); }
+.achievement-item.locked { opacity: 0.35; filter: grayscale(1); }
+.achievement-icon { font-size: 1.8rem; display: block; margin-bottom: 0.3rem; }
+.achievement-name { font-size: 0.6rem; color: rgba(255,255,255,0.6); font-family: 'Cairo', sans-serif; }
+.achievement-item.earned .achievement-name { color: var(--primary); }
+.achievement-earned-tick {
+  position: absolute;
+  top: 4px; left: 4px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--primary);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.5rem;
+  color: #000;
+}
+
+/* ===== RECENT ACTIVITY ===== */
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.7rem;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: background 0.2s;
+}
+.activity-item:hover { background: rgba(0,255,65,0.04); }
+.activity-icon {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.act-lesson { background: rgba(0,255,65,0.1); }
+.act-command { background: rgba(0,170,255,0.1); }
+.act-badge { background: rgba(255,204,0,0.1); }
+.act-step { background: rgba(255,0,128,0.1); }
+.activity-info { flex: 1; }
+.activity-title { font-size: 0.85rem; color: #fff; font-family: 'Cairo', sans-serif; font-weight: 600; }
+.activity-time { font-size: 0.72rem; color: var(--text-muted); font-family: 'Share Tech Mono', monospace; }
+.activity-xp { font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; color: var(--primary); white-space: nowrap; }
+
+/* ===== PROGRESS TABS ===== */
+.progress-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1.2rem;
+  border-bottom: 1px solid rgba(0,255,65,0.1);
+  padding-bottom: 0.8rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.progress-tab {
+  padding: 5px 14px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid rgba(0,255,65,0.15);
+  background: transparent;
+  color: var(--text-muted);
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.progress-tab.active, .progress-tab:hover {
+  border-color: var(--primary);
+  background: rgba(0,255,65,0.1);
+  color: var(--primary);
+}
+
+/* ===== COMPLETED LESSONS LIST ===== */
+.completed-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-left: 4px;
+}
+.completed-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  background: rgba(0,255,65,0.04);
+  border: 1px solid rgba(0,255,65,0.1);
+}
+.completed-item .check { color: var(--primary); font-size: 0.8rem; }
+.completed-item .lesson-name { flex: 1; font-size: 0.83rem; color: #ddd; font-family: 'Cairo', sans-serif; }
+.completed-item .lesson-xp { font-family: 'Share Tech Mono', monospace; font-size: 0.72rem; color: var(--primary); }
+
+/* ===== EDIT MODAL ===== */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  padding: 1rem;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+}
+.modal-overlay.active { opacity: 1; pointer-events: all; }
+.modal-box {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 540px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: scale(0.9);
+  transition: transform 0.3s;
+}
+.modal-overlay.active .modal-box { transform: scale(1); }
+.modal-title {
+  font-family: 'Share Tech Mono', monospace;
+  color: var(--primary);
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(0,255,65,0.15);
+}
+.modal-form-group { margin-bottom: 1.2rem; }
+.modal-label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+  font-family: 'Cairo', sans-serif;
+}
+.modal-input {
+  width: 100%;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(0,255,65,0.2);
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  color: #fff;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.9rem;
+  transition: border-color 0.2s;
+  outline: none;
+}
+.modal-input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(0,255,65,0.1); }
+.avatar-picker {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 8px;
+  margin-top: 0.5rem;
+}
+.avatar-option {
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  background: rgba(0,0,0,0.3);
+  transition: all 0.2s;
+}
+.avatar-option:hover { border-color: var(--primary); transform: scale(1.1); }
+.avatar-option.selected { border-color: var(--primary); background: rgba(0,255,65,0.1); }
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+.btn-save {
+  padding: 8px 22px;
+  border-radius: 8px;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  border: none;
+  background: var(--primary);
+  color: #000;
+  transition: all 0.2s;
+}
+.btn-save:hover { background: var(--primary-dark); transform: translateY(-1px); }
+.btn-cancel {
+  padding: 8px 22px;
+  border-radius: 8px;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: transparent;
+  color: var(--text-muted);
+  transition: all 0.2s;
+}
+
+/* ===== EMPTY STATE ===== */
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+}
+.empty-state .empty-icon { font-size: 2.5rem; margin-bottom: 0.8rem; opacity: 0.5; }
+.empty-state p { font-family: 'Cairo', sans-serif; font-size: 0.88rem; }
+.empty-state a { color: var(--primary); text-decoration: none; }
+
+/* ===== NO LOGIN STATE ===== */
+.login-required {
+  text-align: center;
+  padding: 5rem 2rem;
+  max-width: 500px;
+  margin: 0 auto;
+}
+.login-required .lock-icon { font-size: 4rem; margin-bottom: 1.5rem; opacity: 0.7; }
+.login-required h2 {
+  font-family: 'Cairo', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  margin-bottom: 0.8rem;
+}
+.login-required p { color: var(--text-muted); font-family: 'Cairo', sans-serif; line-height: 1.8; margin-bottom: 2rem; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  .profile-hero-card { padding: 1.5rem; }
+  .profile-name { font-size: 1.4rem; }
+  .profile-stats-mini { gap: 1rem; }
+  .achievements-grid { grid-template-columns: repeat(4, 1fr); }
+  .avatar-picker { grid-template-columns: repeat(6, 1fr); }
+}
+
+/* ===== RANK COLORS ===== */
+.rank-bronze { color: #cd7f32; }
+.rank-silver { color: #c0c0c0; }
+.rank-gold { color: #ffd700; }
+.rank-platinum { color: #00e5ff; }
+.rank-diamond { color: #b9f2ff; }
+</style>
+</head>
+<body class="grid-bg">
+<canvas id="matrix-canvas"></canvas>
+<script src="js/disclaimer.js"></script>
+<script src="js/social-bar.js"></script>
+<script src="js/free-offer.js"></script>
+<script src="js/site-init.js"></script>
+
+<!-- HEADER -->
+<header class="site-header">
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><img src="images/logo.png" alt="Kali Academy Logo" style="width:44px;height:44px;object-fit:contain;"></div>
+    <div><span class="logo-text">KALI ACADEMY</span><span class="logo-sub">CYBER SECURITY LEARNING</span></div>
+  </a>
+  <ul class="nav-menu">
+    <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a></li>
+    <li><a href="commands.html" class="nav-link"><i class="fas fa-terminal"></i> الأوامر</a></li>
+    <li><a href="tutorials.html" class="nav-link"><i class="fas fa-book-open"></i> الدروس</a></li>
+    <li><a href="steps.html" class="nav-link"><i class="fas fa-list-ol"></i> خطوات التنفيذ</a></li>
+    <li><a href="tools.html" class="nav-link"><i class="fas fa-tools"></i> الأدوات</a></li>
+    <li><a href="articles.html" class="nav-link"><i class="fas fa-newspaper"></i> المقالات</a></li>
+    <li><a href="leaderboard.html" class="nav-link"><i class="fas fa-trophy"></i> المتصدرون</a></li>
+  </ul>
+  <div class="header-status"><div class="status-dot"></div><span>SYSTEM ONLINE</span></div>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</header>
+
+<div class="mobile-menu">
+  <a href="index.html" class="nav-link mobile-nav-link"><i class="fas fa-home"></i> الرئيسية</a>
+  <a href="commands.html" class="nav-link mobile-nav-link"><i class="fas fa-terminal"></i> الأوامر</a>
+  <a href="tutorials.html" class="nav-link mobile-nav-link"><i class="fas fa-book-open"></i> الدروس</a>
+  <a href="steps.html" class="nav-link mobile-nav-link"><i class="fas fa-list-ol"></i> خطوات التنفيذ</a>
+  <a href="tools.html" class="nav-link mobile-nav-link"><i class="fas fa-tools"></i> الأدوات</a>
+  <a href="articles.html" class="nav-link mobile-nav-link"><i class="fas fa-newspaper"></i> المقالات</a>
+  <a href="leaderboard.html" class="nav-link mobile-nav-link"><i class="fas fa-trophy"></i> المتصدرون</a>
+</div>
+
+<div class="main-wrapper" style="padding-top: var(--header-height);">
+<div class="profile-wrapper" id="profile-content">
+  <!-- محتوى ديناميكي يُحمَّل بالجافاسكريبت -->
+  <div style="text-align:center;padding:5rem 2rem;">
+    <div style="font-size:2rem;margin-bottom:1rem;animation: spin 1s linear infinite;">⚙️</div>
+    <p style="color:var(--text-muted);font-family:'Cairo',sans-serif;">جارٍ تحميل بياناتك...</p>
+  </div>
+</div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal-box">
+    <div class="modal-title"><i class="fas fa-edit"></i> تعديل الملف الشخصي</div>
+    <div class="modal-form-group">
+      <label class="modal-label">الاسم الكامل</label>
+      <input type="text" class="modal-input" id="edit-fullname" placeholder="اسمك الكامل">
+    </div>
+    <div class="modal-form-group">
+      <label class="modal-label">نبذة مختصرة</label>
+      <textarea class="modal-input" id="edit-bio" rows="3" placeholder="اكتب نبذة عنك..." style="resize:vertical;"></textarea>
+    </div>
+    <div class="modal-form-group">
+      <label class="modal-label">المستوى</label>
+      <select class="modal-input" id="edit-level">
+        <option value="beginner">مبتدئ</option>
+        <option value="intermediate">متوسط</option>
+        <option value="advanced">متقدم</option>
+      </select>
+    </div>
+    <div class="modal-form-group">
+      <label class="modal-label">اختر صورتك الرمزية</label>
+      <div class="avatar-picker" id="avatar-picker">
+        <!-- يُملأ ديناميكياً -->
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeEditModal()">إلغاء</button>
+      <button class="btn-save" onclick="saveProfile()"><i class="fas fa-save"></i> حفظ التغييرات</button>
+    </div>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-bottom" style="max-width:1200px;margin:0 auto;text-align:center;padding:1.5rem 2rem;font-size:0.8rem;color:var(--text-muted);">
+    ⚠️ للأغراض التعليمية فقط | © 2026 Kali Academy
+  </div>
+</footer>
+
+<script src="js/matrix.js"></script>
+<script src="js/main.js"></script>
+<script>
+// ===== PROFILE PAGE LOGIC =====
+
+const AVATARS = ['🐉','🦊','🐺','🦁','🐯','🐻','🦝','🐼','🐨','🐸','🦋','🐙','🦂','💀','🤖','👾','🎭','🛡️','⚔️','🔥','💎','🌙','⚡','🎯'];
+
+const LEVEL_LABELS = { beginner: 'مبتدئ', intermediate: 'متوسط', advanced: 'متقدم' };
+const LEVEL_CLASSES = { beginner: 'badge-level-beginner', intermediate: 'badge-level-intermediate', advanced: 'badge-level-advanced' };
+
+const XP_PER_LEVEL = 500;
+const RANKS = [
+  { min: 0,    max: 499,  name: 'Newbie',     icon: '🥉', cls: 'rank-bronze' },
+  { min: 500,  max: 1499, name: 'Learner',    icon: '🥈', cls: 'rank-silver' },
+  { min: 1500, max: 2999, name: 'Hacker',     icon: '🥇', cls: 'rank-gold' },
+  { min: 3000, max: 5999, name: 'Elite',      icon: '💎', cls: 'rank-platinum' },
+  { min: 6000, max: Infinity, name: 'Legend', icon: '👑', cls: 'rank-diamond' },
+];
+
+const ALL_BADGES = [
+  { id: 'first_lesson', icon: '📖', name: 'أول درس', xp: 50, desc: 'أكملت أول درس لك' },
+  { id: 'five_lessons', icon: '🎓', name: '5 دروس', xp: 100, desc: 'أكملت 5 دروس' },
+  { id: 'ten_lessons', icon: '🏆', name: '10 دروس', xp: 200, desc: 'أكملت 10 دروس' },
+  { id: 'first_command', icon: '💻', name: 'أول أمر', xp: 25, desc: 'نسخت أمراً للمرة الأولى' },
+  { id: 'explorer', icon: '🗺️', name: 'مستكشف', xp: 75, desc: 'زرت جميع الصفحات' },
+  { id: 'week_streak', icon: '🔥', name: 'أسبوع متواصل', xp: 150, desc: 'دخلت أسبوعاً متواصلاً' },
+  { id: 'first_scenario', icon: '🎯', name: 'أول سيناريو', xp: 100, desc: 'أكملت سيناريو تطبيقي' },
+  { id: 'tool_master', icon: '🛠️', name: 'خبير الأدوات', xp: 75, desc: 'استعرضت 20 أداة' },
+  { id: 'security_aware', icon: '🛡️', name: 'واعٍ أمنياً', xp: 50, desc: 'قرأت إخلاء المسؤولية' },
+  { id: 'social_sharer', icon: '📢', name: 'مشارك', xp: 30, desc: 'شاركت الموقع' },
+  { id: 'article_reader', icon: '📰', name: 'قارئ المقالات', xp: 40, desc: 'قرأت 3 مقالات' },
+  { id: 'night_owl', icon: '🦉', name: 'بومة الليل', xp: 60, desc: 'تعلمت ليلاً' },
+];
+
+function getUser() {
+  try { return JSON.parse(localStorage.getItem('kali_user') || 'null'); } 
+  catch { return null; }
+}
+
+function getProfile() {
+  try { return JSON.parse(localStorage.getItem('kali_profile') || 'null'); }
+  catch { return null; }
+}
+
+function saveToStorage(profile) {
+  localStorage.setItem('kali_profile', JSON.stringify(profile));
+}
+
+function getRank(xp) {
+  return RANKS.find(r => xp >= r.min && xp <= r.max) || RANKS[0];
+}
+
+function getLevelNum(xp) {
+  return Math.floor(xp / XP_PER_LEVEL) + 1;
+}
+
+function getXPProgress(xp) {
+  const levelXP = xp % XP_PER_LEVEL;
+  return { current: levelXP, max: XP_PER_LEVEL, pct: (levelXP / XP_PER_LEVEL) * 100 };
+}
+
+function fmtDate(iso) {
+  if (!iso) return 'غير معروف';
+  try {
+    return new Date(iso).toLocaleDateString('ar-SA', { year: 'numeric', month: 'short', day: 'numeric' });
+  } catch { return iso; }
+}
+
+function timeAgo(iso) {
+  if (!iso) return '';
+  const diff = (Date.now() - new Date(iso)) / 1000;
+  if (diff < 60) return 'الآن';
+  if (diff < 3600) return `منذ ${Math.floor(diff/60)} دقيقة`;
+  if (diff < 86400) return `منذ ${Math.floor(diff/3600)} ساعة`;
+  return `منذ ${Math.floor(diff/86400)} يوم`;
+}
+
+function countryFlag(code) {
+  const flags = { SA:'🇸🇦', EG:'🇪🇬', AE:'🇦🇪', IQ:'🇮🇶', MA:'🇲🇦', DZ:'🇩🇿', TN:'🇹🇳', JO:'🇯🇴', SY:'🇸🇾', LB:'🇱🇧', LY:'🇱🇾', SD:'🇸🇩', YE:'🇾🇪', KW:'🇰🇼', QA:'🇶🇦', BH:'🇧🇭', OM:'🇴🇲', PS:'🇵🇸', TR:'🇹🇷', US:'🇺🇸', UK:'🇬🇧', DE:'🇩🇪', FR:'🇫🇷', OTHER:'🌍' };
+  return flags[code] || '🌍';
+}
+
+function initDefaultProfile(user) {
+  return {
+    user_id: user.id || '',
+    xp: 120,
+    avatar: '🐉',
+    bio: user.bio || 'طالب متحمس لتعلم الأمن السيبراني وكالي لينكس.',
+    completed_lessons: [],
+    completed_scenarios: [],
+    badges: ['security_aware'],
+    activity: [
+      { type: 'badge', title: 'حصلت على شارة "واعٍ أمنياً"', time: new Date().toISOString(), xp: 50 },
+      { type: 'lesson', title: 'زيارة صفحة الدروس', time: new Date(Date.now() - 3600000).toISOString(), xp: 10 },
+    ],
+    joined: user.created_at || new Date().toISOString(),
+    last_login: new Date().toISOString(),
+  };
+}
+
+function renderProfile(user, profile) {
+  const rank = getRank(profile.xp);
+  const levelNum = getLevelNum(profile.xp);
+  const xpProgress = getXPProgress(profile.xp);
+  const levelLabel = LEVEL_LABELS[user.level || 'beginner'];
+  const levelCls = LEVEL_CLASSES[user.level || 'beginner'];
+  const earnedBadges = profile.badges || [];
+
+  const html = `
+    <!-- HERO CARD -->
+    <div class="profile-hero-card">
+      <div class="profile-top">
+        <div class="profile-avatar-area">
+          <div class="profile-avatar">
+            <span>${profile.avatar || '🐉'}</span>
+          </div>
+          <div class="profile-level-badge">L${levelNum}</div>
+        </div>
+
+        <div class="profile-info">
+          <div class="profile-name">${user.full_name || user.username || 'مستخدم'}</div>
+          <div class="profile-username">@${user.username || 'user'} <span>|</span> <span style="color:#00aaff;">${rank.icon} ${rank.name}</span></div>
+          <div class="profile-bio">${profile.bio || 'لم تُضف نبذة بعد.'}</div>
+
+          <div class="profile-badges-row">
+            <span class="profile-badge ${levelCls}"><i class="fas fa-signal"></i> ${levelLabel}</span>
+            <span class="profile-badge badge-country">${countryFlag(user.country)} ${user.country || '—'}</span>
+            <span class="profile-badge badge-joined"><i class="fas fa-calendar-alt"></i> انضم ${fmtDate(profile.joined)}</span>
+          </div>
+
+          <div class="profile-stats-mini">
+            <div class="profile-stat-mini">
+              <span class="num">${profile.xp.toLocaleString()}</span>
+              <span class="lbl">نقطة XP</span>
+            </div>
+            <div class="profile-stat-mini">
+              <span class="num">${profile.completed_lessons.length}</span>
+              <span class="lbl">درس مكتمل</span>
+            </div>
+            <div class="profile-stat-mini">
+              <span class="num">${profile.completed_scenarios.length}</span>
+              <span class="lbl">سيناريو</span>
+            </div>
+            <div class="profile-stat-mini">
+              <span class="num">${earnedBadges.length}</span>
+              <span class="lbl">شارة</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-actions">
+        <button class="btn-edit-profile" onclick="openEditModal()"><i class="fas fa-edit"></i> تعديل الملف</button>
+        <a href="leaderboard.html" class="btn-edit-profile" style="border-color:rgba(255,204,0,0.4);background:rgba(255,204,0,0.06);color:#ffcc00;"><i class="fas fa-trophy"></i> لوحة المتصدرين</a>
+        <button class="btn-edit-profile btn-logout" onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
+      </div>
+    </div>
+
+    <!-- XP BAR -->
+    <div class="xp-section">
+      <div class="xp-header">
+        <span class="xp-title"><i class="fas fa-star"></i> تقدم المستوى</span>
+        <span class="xp-level-info">المستوى <span>${levelNum}</span> ← المستوى <span>${levelNum+1}</span></span>
+      </div>
+      <div class="xp-bar-container">
+        <div class="xp-bar-fill" id="xp-bar" style="width:0%"></div>
+      </div>
+      <div class="xp-numbers">
+        <span>XP الحالي: <strong>${xpProgress.current}</strong> / ${xpProgress.max}</span>
+        <span>تحتاج <strong>${xpProgress.max - xpProgress.current}</strong> XP للمستوى التالي</span>
+      </div>
+    </div>
+
+    <!-- MAIN GRID -->
+    <div class="profile-grid">
+
+      <!-- BADGES -->
+      <div class="profile-section-card full-width">
+        <div class="section-card-header">
+          <span class="section-card-title"><i class="fas fa-medal"></i> الشارات والإنجازات</span>
+          <span class="section-card-count">${earnedBadges.length} / ${ALL_BADGES.length} مكتسبة</span>
+        </div>
+        <div class="achievements-grid">
+          ${ALL_BADGES.map(b => `
+            <div class="achievement-item ${earnedBadges.includes(b.id) ? 'earned' : 'locked'}" 
+                 title="${b.desc} (+${b.xp} XP)" onclick="showBadgeInfo('${b.id}')">
+              ${earnedBadges.includes(b.id) ? '<div class="achievement-earned-tick">✓</div>' : ''}
+              <span class="achievement-icon">${b.icon}</span>
+              <span class="achievement-name">${b.name}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- RECENT ACTIVITY -->
+      <div class="profile-section-card">
+        <div class="section-card-header">
+          <span class="section-card-title"><i class="fas fa-history"></i> النشاط الأخير</span>
+        </div>
+        <div class="activity-list">
+          ${(profile.activity || []).slice(0, 6).map(a => `
+            <div class="activity-item">
+              <div class="activity-icon act-${a.type}">${
+                a.type === 'lesson' ? '📖' :
+                a.type === 'command' ? '💻' :
+                a.type === 'badge' ? '🏅' : '🎯'
+              }</div>
+              <div class="activity-info">
+                <div class="activity-title">${a.title}</div>
+                <div class="activity-time">${timeAgo(a.time)}</div>
+              </div>
+              <span class="activity-xp">+${a.xp} XP</span>
+            </div>
+          `).join('') || '<div class="empty-state"><div class="empty-icon">📭</div><p>لا يوجد نشاط بعد.<br><a href="tutorials.html">ابدأ التعلم الآن!</a></p></div>'}
+        </div>
+      </div>
+
+      <!-- COMPLETED LESSONS -->
+      <div class="profile-section-card">
+        <div class="section-card-header">
+          <span class="section-card-title"><i class="fas fa-check-circle"></i> الدروس المكتملة</span>
+          <span class="section-card-count">${profile.completed_lessons.length} درس</span>
+        </div>
+        ${profile.completed_lessons.length > 0 ? `
+        <div class="completed-list">
+          ${profile.completed_lessons.map(l => `
+            <div class="completed-item">
+              <i class="fas fa-check-circle check"></i>
+              <span class="lesson-name">${l.title || l}</span>
+              <span class="lesson-xp">+${l.xp || 50} XP</span>
+            </div>
+          `).join('')}
+        </div>` : `
+        <div class="empty-state">
+          <div class="empty-icon">📚</div>
+          <p>لم تكمل أي درس بعد.<br><a href="tutorials.html">استعرض الدروس</a> وابدأ التعلم!</p>
+        </div>`}
+      </div>
+
+    </div><!-- end profile-grid -->
+
+    <!-- QUICK LINKS -->
+    <div style="margin-top:2rem;display:flex;gap:12px;flex-wrap:wrap;">
+      <a href="tutorials.html" class="btn btn-primary" style="font-size:0.85rem;padding:10px 20px;"><i class="fas fa-book-open"></i> استمر في التعلم</a>
+      <a href="commands.html" class="btn btn-secondary" style="font-size:0.85rem;padding:10px 20px;"><i class="fas fa-terminal"></i> قاعدة الأوامر</a>
+      <a href="steps.html" class="btn btn-accent" style="font-size:0.85rem;padding:10px 20px;"><i class="fas fa-list-ol"></i> سيناريوهات تنفيذية</a>
+    </div>
+  `;
+
+  document.getElementById('profile-content').innerHTML = html;
+
+  // تحريك شريط XP
+  setTimeout(() => {
+    const bar = document.getElementById('xp-bar');
+    if (bar) bar.style.width = xpProgress.pct + '%';
+  }, 300);
+}
+
+function renderLoginRequired() {
+  document.getElementById('profile-content').innerHTML = `
+    <div class="login-required">
+      <div class="lock-icon">🔒</div>
+      <h2>يجب تسجيل الدخول</h2>
+      <p>لعرض ملفك الشخصي وتتبع تقدمك ونقاط XP، يجب أن تكون مسجلاً في المنصة.</p>
+      <a href="register.html" class="btn btn-primary" style="display:inline-flex;align-items:center;gap:8px;font-size:1rem;padding:12px 28px;">
+        <i class="fas fa-sign-in-alt"></i> تسجيل الدخول / إنشاء حساب
+      </a>
+      <div style="margin-top:1.5rem;">
+        <a href="index.html" style="color:var(--text-muted);font-size:0.85rem;font-family:'Cairo',sans-serif;">العودة للرئيسية</a>
+      </div>
+    </div>
+  `;
+}
+
+function openEditModal() {
+  const user = getUser();
+  const profile = getProfile();
+  if (!user || !profile) return;
+
+  document.getElementById('edit-fullname').value = user.full_name || '';
+  document.getElementById('edit-bio').value = profile.bio || '';
+  const sel = document.getElementById('edit-level');
+  sel.value = user.level || 'beginner';
+
+  // بناء avatar picker
+  const picker = document.getElementById('avatar-picker');
+  picker.innerHTML = AVATARS.map(a => `
+    <div class="avatar-option ${profile.avatar === a ? 'selected' : ''}" 
+         onclick="selectAvatar(this, '${a}')">${a}</div>
+  `).join('');
+
+  document.getElementById('editModal').classList.add('active');
+}
+
+function closeEditModal() {
+  document.getElementById('editModal').classList.remove('active');
+}
+
+function selectAvatar(el, avatar) {
+  document.querySelectorAll('.avatar-option').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  el.dataset.val = avatar;
+}
+
+function saveProfile() {
+  const user = JSON.parse(localStorage.getItem('kali_user') || 'null');
+  const profile = getProfile();
+  if (!user || !profile) return;
+
+  user.full_name = document.getElementById('edit-fullname').value.trim() || user.full_name;
+  user.level = document.getElementById('edit-level').value;
+  profile.bio = document.getElementById('edit-bio').value.trim();
+
+  const selectedAvatar = document.querySelector('.avatar-option.selected');
+  if (selectedAvatar) profile.avatar = selectedAvatar.textContent.trim();
+
+  localStorage.setItem('kali_user', JSON.stringify(user));
+  saveToStorage(profile);
+  closeEditModal();
+  renderProfile(user, profile);
+
+  // إشعار نجاح
+  showToast('✅ تم حفظ التغييرات بنجاح!');
+}
+
+function logoutUser() {
+  if (!confirm('هل تريد تسجيل الخروج؟')) return;
+  localStorage.removeItem('kali_user');
+  localStorage.removeItem('kali_session');
+  window.location.href = 'register.html';
+}
+
+function showBadgeInfo(id) {
+  const badge = ALL_BADGES.find(b => b.id === id);
+  if (!badge) return;
+  const profile = getProfile();
+  const earned = profile && (profile.badges || []).includes(id);
+  showToast(`${badge.icon} ${badge.name} — ${badge.desc} (+${badge.xp} XP) ${earned ? '✅ مكتسبة' : '🔒 غير مكتسبة'}`);
+}
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.style.cssText = `position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#041628;border:1px solid #00ff41;color:#fff;padding:12px 24px;border-radius:12px;font-family:'Cairo',sans-serif;font-size:0.88rem;z-index:99999;box-shadow:0 8px 24px rgba(0,0,0,0.4);max-width:90vw;text-align:center;`;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+// ===== MAIN INIT =====
+(function init() {
+  const user = getUser();
+  if (!user) { renderLoginRequired(); return; }
+
+  let profile = getProfile();
+  if (!profile || profile.user_id !== (user.id || '')) {
+    profile = initDefaultProfile(user);
+    saveToStorage(profile);
+  }
+
+  // تحديث وقت الدخول
+  profile.last_login = new Date().toISOString();
+  saveToStorage(profile);
+
+  renderProfile(user, profile);
+
+  // إغلاق المودال بالنقر خارجه
+  document.getElementById('editModal').addEventListener('click', function(e) {
+    if (e.target === this) closeEditModal();
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أهم 50 أمر Linux يجب حفظها 2026 | Cheat Sheet | KaliAcademy</title>
+<meta name="description" content="أهم 50 أمر Linux أساسي لكل مستخدم Kali Linux واختبار الاختراق - Cheat Sheet شامل بالأمثلة العملية.">
+<meta name="keywords" content="أوامر Linux, Linux Commands, Kali Linux أوامر, Cheat Sheet لينكس, أوامر الطرفية, Terminal Commands">
+<meta name="author" content="Kali Academy">
+<link rel="canonical" href="https://kali-academy.github.io/article-linux-commands-cheatsheet-2026.html">
+<link rel="icon" type="image/png" href="images/logo.png">
+<meta property="og:title" content="أهم 50 أمر Linux 2026 | KaliAcademy">
+<meta property="og:description" content="Cheat Sheet شامل لأهم أوامر Linux لكل مختبر اختراق ومستخدم Kali.">
+<meta property="og:type" content="article">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/enhanced.css">
+<link rel="stylesheet" href="css/cyber-theme.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+.article-page { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+.article-header { padding: 2rem 0 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2.5rem; }
+.article-category { display: inline-flex; align-items: center; gap: 6px; padding: 4px 14px; border-radius: 20px; background: rgba(0,255,65,0.1); border: 1px solid rgba(0,255,65,0.3); color: #00ff41; font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; letter-spacing: 2px; margin-bottom: 1rem; }
+.article-title { font-family: 'Cairo', sans-serif; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 800; color: #fff; line-height: 1.4; margin-bottom: 1rem; }
+.article-title span { color: var(--primary); }
+.article-meta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; color: var(--text-muted); font-family: 'Cairo', sans-serif; font-size: 0.82rem; }
+.article-body h2 { font-family: 'Cairo', sans-serif; font-size: 1.4rem; font-weight: 800; color: #fff; margin: 2.5rem 0 1.2rem; padding-bottom: 0.5rem; border-bottom: 2px solid rgba(0,255,65,0.25); display: flex; align-items: center; gap: 8px; }
+.article-body h2 .h-icon { color: var(--primary); }
+.article-body p { font-family: 'Cairo', sans-serif; color: rgba(255,255,255,0.8); line-height: 1.9; margin-bottom: 1rem; }
+.cmd-table { width: 100%; border-collapse: collapse; margin: 1rem 0 2rem; }
+.cmd-table thead tr { background: rgba(0,255,65,0.06); border-bottom: 2px solid rgba(0,255,65,0.2); }
+.cmd-table th { padding: 0.8rem 1rem; font-family: 'Share Tech Mono', monospace; font-size: 0.72rem; color: var(--primary); letter-spacing: 1px; text-align: right; }
+.cmd-table tbody tr { border-bottom: 1px solid rgba(255,255,255,0.04); transition: background 0.2s; }
+.cmd-table tbody tr:hover { background: rgba(0,255,65,0.03); }
+.cmd-table td { padding: 0.75rem 1rem; vertical-align: middle; }
+.cmd-code { font-family: 'Share Tech Mono', monospace; font-size: 0.85rem; color: var(--primary); background: rgba(0,255,65,0.08); padding: 3px 10px; border-radius: 6px; white-space: nowrap; border: 1px solid rgba(0,255,65,0.15); cursor: pointer; transition: all 0.2s; display: inline-block; }
+.cmd-code:hover { background: rgba(0,255,65,0.15); }
+.cmd-desc { font-family: 'Cairo', sans-serif; font-size: 0.85rem; color: rgba(255,255,255,0.75); }
+.cmd-example { font-family: 'Share Tech Mono', monospace; font-size: 0.75rem; color: rgba(0,170,255,0.8); direction: ltr; text-align: left; }
+.copy-btn { background: none; border: none; color: rgba(0,255,65,0.4); cursor: pointer; font-size: 0.75rem; margin-right: 6px; transition: color 0.2s; }
+.copy-btn:hover { color: var(--primary); }
+@media (max-width: 600px) {
+  .cmd-table th:nth-child(3), .cmd-table td:nth-child(3) { display: none; }
+}
+.article-cta { background: linear-gradient(135deg, rgba(0,255,65,0.08), rgba(4,22,40,0.95)); border: 1px solid rgba(0,255,65,0.2); border-radius: 16px; padding: 2rem; text-align: center; margin-top: 3rem; }
+.article-cta h3 { font-family: 'Cairo', sans-serif; font-size: 1.3rem; font-weight: 800; margin-bottom: 0.7rem; }
+.article-cta p { color: var(--text-muted); font-family: 'Cairo', sans-serif; margin-bottom: 1.3rem; }
+</style>
+</head>
+<body class="grid-bg">
+<canvas id="matrix-canvas"></canvas>
+<script src="js/disclaimer.js"></script>
+<script src="js/social-bar.js"></script>
+<script src="js/free-offer.js"></script>
+<script src="js/site-init.js"></script>
+
+<header class="site-header">
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><img src="images/logo.png" alt="Kali Academy Logo" style="width:44px;height:44px;object-fit:contain;"></div>
+    <div><span class="logo-text">KALI ACADEMY</span><span class="logo-sub">CYBER SECURITY LEARNING</span></div>
+  </a>
+  <ul class="nav-menu">
+    <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a></li>
+    <li><a href="commands.html" class="nav-link"><i class="fas fa-terminal"></i> الأوامر</a></li>
+    <li><a href="tutorials.html" class="nav-link"><i class="fas fa-book-open"></i> الدروس</a></li>
+    <li><a href="tools.html" class="nav-link"><i class="fas fa-tools"></i> الأدوات</a></li>
+    <li><a href="articles.html" class="nav-link active"><i class="fas fa-newspaper"></i> المقالات</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</header>
+<div class="mobile-menu">
+  <a href="index.html" class="nav-link mobile-nav-link"><i class="fas fa-home"></i> الرئيسية</a>
+  <a href="articles.html" class="nav-link mobile-nav-link active"><i class="fas fa-newspaper"></i> المقالات</a>
+</div>
+
+<div class="main-wrapper" style="padding-top: var(--header-height);">
+<div class="article-page">
+
+  <div class="article-header">
+    <div class="article-category"><i class="fas fa-terminal"></i> LINUX CHEATSHEET</div>
+    <h1 class="article-title">أهم <span>50 أمر Linux</span> يجب حفظها 2026</h1>
+    <div class="article-meta">
+      <span><i class="fas fa-user-edit" style="color:var(--primary);margin-left:4px;"></i> KALI ACADEMY</span>
+      <span><i class="fas fa-calendar" style="color:var(--primary);margin-left:4px;"></i> مارس 2026</span>
+      <span><i class="fas fa-clock" style="color:var(--primary);margin-left:4px;"></i> 8 دقائق قراءة</span>
+    </div>
+  </div>
+
+  <div class="article-body">
+
+    <p>سواء كنت مبتدئاً أو محترفاً، هذه الأوامر ستكون رفيقك اليومي في العمل على Kali Linux وأي توزيعة لينكس أخرى. انقر على أي أمر لنسخه!</p>
+
+    <h2><span class="h-icon">📁</span> إدارة الملفات والمجلدات</h2>
+    <table class="cmd-table">
+      <thead><tr><th>الأمر</th><th>الوصف</th><th>مثال</th></tr></thead>
+      <tbody>
+        <tr><td><button class="copy-btn" onclick="copyCmd('ls -la')">📋</button><span class="cmd-code">ls -la</span></td><td class="cmd-desc">عرض جميع الملفات مع التفاصيل</td><td class="cmd-example">ls -la /home/user</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('cd /path')">📋</button><span class="cmd-code">cd /path</span></td><td class="cmd-desc">الانتقال لمجلد معين</td><td class="cmd-example">cd /var/www/html</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('mkdir -p dir/sub')">📋</button><span class="cmd-code">mkdir -p</span></td><td class="cmd-desc">إنشاء مجلد وجميع المسارات</td><td class="cmd-example">mkdir -p /opt/tools/web</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('cp -r src dest')">📋</button><span class="cmd-code">cp -r</span></td><td class="cmd-desc">نسخ الملفات والمجلدات</td><td class="cmd-example">cp -r /tmp/data /backup</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('mv file dest')">📋</button><span class="cmd-code">mv</span></td><td class="cmd-desc">نقل أو إعادة تسمية</td><td class="cmd-example">mv exploit.py /opt/tools</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('rm -rf dir')">📋</button><span class="cmd-code">rm -rf</span></td><td class="cmd-desc">حذف ملفات ومجلدات (تنبه!)</td><td class="cmd-example">rm -rf /tmp/old_files</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('find / -name \"*.conf\"')">📋</button><span class="cmd-code">find</span></td><td class="cmd-desc">البحث عن الملفات</td><td class="cmd-example">find / -name "*.conf" 2>/dev/null</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('cat file.txt')">📋</button><span class="cmd-code">cat</span></td><td class="cmd-desc">عرض محتوى الملف</td><td class="cmd-example">cat /etc/passwd</td></tr>
+      </tbody>
+    </table>
+
+    <h2><span class="h-icon">🌐</span> الشبكات والاتصالات</h2>
+    <table class="cmd-table">
+      <thead><tr><th>الأمر</th><th>الوصف</th><th>مثال</th></tr></thead>
+      <tbody>
+        <tr><td><button class="copy-btn" onclick="copyCmd('ip addr show')">📋</button><span class="cmd-code">ip addr</span></td><td class="cmd-desc">عرض إعدادات الشبكة</td><td class="cmd-example">ip addr show eth0</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('nmap -sV target')">📋</button><span class="cmd-code">nmap -sV</span></td><td class="cmd-desc">مسح الخدمات والإصدارات</td><td class="cmd-example">nmap -sV 192.168.1.1</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('curl -I http://target')">📋</button><span class="cmd-code">curl -I</span></td><td class="cmd-desc">عرض Headers لطلب HTTP</td><td class="cmd-example">curl -I http://example.com</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('wget -q url -O file')">📋</button><span class="cmd-code">wget</span></td><td class="cmd-desc">تنزيل الملفات</td><td class="cmd-example">wget -q http://server/payload.py -O exploit.py</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('nc -lvnp 4444')">📋</button><span class="cmd-code">nc -lvnp</span></td><td class="cmd-desc">فتح مستمع Netcat</td><td class="cmd-example">nc -lvnp 4444</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('ssh user@host')">📋</button><span class="cmd-code">ssh</span></td><td class="cmd-desc">الاتصال بخادم SSH</td><td class="cmd-example">ssh root@192.168.1.100</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('ss -tulnp')">📋</button><span class="cmd-code">ss -tulnp</span></td><td class="cmd-desc">عرض المنافذ المفتوحة</td><td class="cmd-example">ss -tulnp | grep LISTEN</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('ping -c 3 target')">📋</button><span class="cmd-code">ping -c</span></td><td class="cmd-desc">اختبار الاتصال</td><td class="cmd-example">ping -c 3 8.8.8.8</td></tr>
+      </tbody>
+    </table>
+
+    <h2><span class="h-icon">👑</span> الصلاحيات والمستخدمين</h2>
+    <table class="cmd-table">
+      <thead><tr><th>الأمر</th><th>الوصف</th><th>مثال</th></tr></thead>
+      <tbody>
+        <tr><td><button class="copy-btn" onclick="copyCmd('chmod +x file')">📋</button><span class="cmd-code">chmod +x</span></td><td class="cmd-desc">إضافة صلاحية تنفيذ</td><td class="cmd-example">chmod +x exploit.sh</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('chown user:group file')">📋</button><span class="cmd-code">chown</span></td><td class="cmd-desc">تغيير مالك الملف</td><td class="cmd-example">chown root:root /opt/tool</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('sudo -l')">📋</button><span class="cmd-code">sudo -l</span></td><td class="cmd-desc">عرض صلاحيات sudo</td><td class="cmd-example">sudo -l</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('id')">📋</button><span class="cmd-code">id</span></td><td class="cmd-desc">عرض هوية المستخدم الحالي</td><td class="cmd-example">id</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('whoami')">📋</button><span class="cmd-code">whoami</span></td><td class="cmd-desc">اسم المستخدم الحالي</td><td class="cmd-example">whoami</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('cat /etc/passwd')">📋</button><span class="cmd-code">/etc/passwd</span></td><td class="cmd-desc">قائمة المستخدمين</td><td class="cmd-example">cat /etc/passwd | grep /bin/bash</td></tr>
+      </tbody>
+    </table>
+
+    <h2><span class="h-icon">🔍</span> البحث والفلترة</h2>
+    <table class="cmd-table">
+      <thead><tr><th>الأمر</th><th>الوصف</th><th>مثال</th></tr></thead>
+      <tbody>
+        <tr><td><button class="copy-btn" onclick="copyCmd('grep -r \"pattern\" .')">📋</button><span class="cmd-code">grep -r</span></td><td class="cmd-desc">البحث في الملفات</td><td class="cmd-example">grep -r "password" /var/www</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('ps aux | grep process')">📋</button><span class="cmd-code">ps aux</span></td><td class="cmd-desc">عرض العمليات الجارية</td><td class="cmd-example">ps aux | grep apache</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('history | grep cmd')">📋</button><span class="cmd-code">history</span></td><td class="cmd-desc">سجل الأوامر السابقة</td><td class="cmd-example">history | grep nmap</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('tail -f /var/log/syslog')">📋</button><span class="cmd-code">tail -f</span></td><td class="cmd-desc">متابعة السجلات لحظياً</td><td class="cmd-example">tail -f /var/log/apache2/access.log</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('sort | uniq -c | sort -rn')">📋</button><span class="cmd-code">sort | uniq</span></td><td class="cmd-desc">ترتيب وحذف التكرارات</td><td class="cmd-example">cat ips.txt | sort | uniq -c | sort -rn</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('awk -F: \'{print $1}\'')">📋</button><span class="cmd-code">awk</span></td><td class="cmd-desc">معالجة النصوص المتقدمة</td><td class="cmd-example">awk -F: '{print $1}' /etc/passwd</td></tr>
+      </tbody>
+    </table>
+
+    <h2><span class="h-icon">⚡</span> إدارة العمليات والسكريبتات</h2>
+    <table class="cmd-table">
+      <thead><tr><th>الأمر</th><th>الوصف</th><th>مثال</th></tr></thead>
+      <tbody>
+        <tr><td><button class="copy-btn" onclick="copyCmd('kill -9 PID')">📋</button><span class="cmd-code">kill -9</span></td><td class="cmd-desc">إيقاف عملية قسراً</td><td class="cmd-example">kill -9 1234</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('crontab -l')">📋</button><span class="cmd-code">crontab -l</span></td><td class="cmd-desc">عرض المهام المجدولة</td><td class="cmd-example">crontab -l</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('screen -S session')">📋</button><span class="cmd-code">screen -S</span></td><td class="cmd-desc">إنشاء جلسة منفصلة</td><td class="cmd-example">screen -S pentest</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('python3 -m http.server 8080')">📋</button><span class="cmd-code">python3 http.server</span></td><td class="cmd-desc">سيرفر HTTP سريع</td><td class="cmd-example">python3 -m http.server 8080</td></tr>
+        <tr><td><button class="copy-btn" onclick="copyCmd('base64 -d file')">📋</button><span class="cmd-code">base64 -d</span></td><td class="cmd-desc">فك تشفير Base64</td><td class="cmd-example">echo "SGVsbG8=" | base64 -d</td></tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="article-cta">
+    <h3>هل تريد 3500+ أمر موثق؟ 💻</h3>
+    <p>استكشف قاعدة بيانات الأوامر الكاملة في KaliAcademy مع بحث متقدم وأمثلة تفصيلية.</p>
+    <a href="commands.html" class="btn btn-primary" style="font-size:0.95rem;padding:12px 28px;"><i class="fas fa-terminal"></i> استكشف قاعدة الأوامر</a>
+  </div>
+
+</div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-bottom" style="max-width:1200px;margin:0 auto;text-align:center;padding:1.5rem;font-size:0.8rem;color:var(--text-muted);">
+    ⚠️ للأغراض التعليمية فقط | © 2026 Kali Academy
+  </div>
+</footer>
+<script src="js/matrix.js"></script>
+<script src="js/main.js"></script>
+<script>
+function copyCmd(cmd) {
+  navigator.clipboard.writeText(cmd).then(() => {
+    const t = document.createElement('div');
+    t.style.cssText = 'position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:#041628;border:1px solid #00ff41;color:#00ff41;padding:8px 20px;border-radius:8px;font-family:"Share Tech Mono",monospace;font-size:0.8rem;z-index:99999;';
+    t.textContent = '✓ تم النسخ: ' + cmd.slice(0, 30) + (cmd.length > 30 ? '...' : '');
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 2000);
+  });
+}
+</script>
+</body>
+</html>

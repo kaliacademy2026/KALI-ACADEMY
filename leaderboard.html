@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة المتصدرين - KaliAcademy | أفضل المتعلمين</title>
+<meta name="description" content="لوحة متصدري KaliAcademy - تنافس مع المتعلمين الآخرين واكسب نقاط XP وارتقِ في الترتيب.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="images/logo.png">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/enhanced.css">
+<link rel="stylesheet" href="css/cyber-theme.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ===== LEADERBOARD STYLES ===== */
+.lb-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* HERO */
+.lb-hero {
+  text-align: center;
+  padding: 2.5rem 1rem 2rem;
+  margin-bottom: 2rem;
+}
+.lb-hero-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  display: block;
+  animation: float 3s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.lb-hero h1 {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(1.4rem, 4vw, 2.2rem);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+.lb-hero h1 span { color: var(--warning); }
+.lb-hero p {
+  color: var(--text-muted);
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.95rem;
+}
+
+/* STATS BAR */
+.lb-stats {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+.lb-stat {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.8rem;
+  text-align: center;
+}
+.lb-stat .n {
+  display: block;
+  font-family: 'Orbitron', monospace;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+.lb-stat .l {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: 'Cairo', sans-serif;
+}
+
+/* FILTER TABS */
+.lb-filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+.lb-filter-btn {
+  padding: 6px 16px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid rgba(0,255,65,0.2);
+  background: transparent;
+  color: var(--text-muted);
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.lb-filter-btn.active, .lb-filter-btn:hover {
+  border-color: var(--primary);
+  background: rgba(0,255,65,0.1);
+  color: var(--primary);
+}
+
+/* TOP 3 PODIUM */
+.lb-podium {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+.podium-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  position: relative;
+  transition: transform 0.3s;
+  min-width: 140px;
+}
+.podium-card:hover { transform: translateY(-4px); }
+.podium-1 {
+  border-color: rgba(255,215,0,0.5);
+  background: linear-gradient(135deg, var(--bg-card), rgba(255,215,0,0.06));
+  order: 2;
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(255,215,0,0.15);
+}
+.podium-2 {
+  border-color: rgba(192,192,192,0.4);
+  background: linear-gradient(135deg, var(--bg-card), rgba(192,192,192,0.04));
+  order: 1;
+}
+.podium-3 {
+  border-color: rgba(205,127,50,0.4);
+  background: linear-gradient(135deg, var(--bg-card), rgba(205,127,50,0.04));
+  order: 3;
+}
+.podium-rank {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.podium-avatar {
+  width: 70px; height: 70px;
+  border-radius: 50%;
+  margin: 0 auto 0.7rem;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2rem;
+  border: 3px solid;
+  background: var(--bg-card2);
+}
+.podium-1 .podium-avatar { border-color: #ffd700; box-shadow: 0 0 20px rgba(255,215,0,0.3); }
+.podium-2 .podium-avatar { border-color: #c0c0c0; }
+.podium-3 .podium-avatar { border-color: #cd7f32; }
+.podium-name {
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #fff;
+  margin-bottom: 0.3rem;
+}
+.podium-xp {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--primary);
+}
+.podium-level {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-family: 'Cairo', sans-serif;
+  margin-top: 0.3rem;
+}
+.crown {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.5rem;
+}
+
+/* TABLE */
+.lb-table-wrapper {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.lb-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.lb-table thead tr {
+  border-bottom: 2px solid rgba(0,255,65,0.15);
+}
+.lb-table thead th {
+  padding: 1rem 1.2rem;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  color: var(--primary);
+  text-align: right;
+  font-weight: 400;
+  background: rgba(0,255,65,0.03);
+}
+.lb-table thead th:first-child { text-align: center; width: 60px; }
+.lb-table tbody tr {
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  transition: background 0.2s;
+}
+.lb-table tbody tr:hover { background: rgba(0,255,65,0.03); }
+.lb-table tbody tr:last-child { border-bottom: none; }
+.lb-table tbody tr.my-row { background: rgba(0,255,65,0.06); }
+.lb-table tbody tr.my-row td { color: var(--primary); }
+.lb-table td { padding: 0.9rem 1.2rem; font-family: 'Cairo', sans-serif; font-size: 0.88rem; color: var(--text-primary); }
+.lb-table td:first-child { text-align: center; width: 60px; }
+
+.rank-num {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+.rank-1 { color: #ffd700; }
+.rank-2 { color: #c0c0c0; }
+.rank-3 { color: #cd7f32; }
+
+.player-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.player-avatar-sm {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: var(--bg-card2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  border: 2px solid rgba(0,255,65,0.2);
+  flex-shrink: 0;
+}
+.player-name { font-weight: 700; color: #fff; font-size: 0.9rem; }
+.player-username { font-size: 0.72rem; color: var(--text-muted); font-family: 'Share Tech Mono', monospace; }
+.my-row .player-name { color: var(--primary); }
+.my-row .player-username { color: rgba(0,255,65,0.5); }
+
+.xp-cell {
+  font-family: 'Orbitron', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+.level-cell {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem;
+}
+.badge-cell { font-size: 0.78rem; color: var(--text-muted); }
+
+.rank-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.68rem;
+  font-family: 'Share Tech Mono', monospace;
+}
+.rank-newbie { background: rgba(100,100,100,0.15); color: #aaa; }
+.rank-learner { background: rgba(192,192,192,0.1); color: #c0c0c0; }
+.rank-hacker { background: rgba(255,215,0,0.1); color: #ffd700; }
+.rank-elite { background: rgba(0,229,255,0.1); color: #00e5ff; }
+.rank-legend { background: rgba(185,242,255,0.1); color: #b9f2ff; }
+
+/* MY POSITION */
+.my-position-bar {
+  background: rgba(0,255,65,0.05);
+  border: 1px solid rgba(0,255,65,0.2);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.my-pos-label { font-family: 'Cairo', sans-serif; font-size: 0.9rem; color: var(--text-muted); }
+.my-pos-rank { font-family: 'Orbitron', monospace; font-size: 1.2rem; font-weight: 700; color: var(--primary); }
+.my-pos-xp { font-family: 'Share Tech Mono', monospace; font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+.my-pos-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 16px; border-radius: 8px;
+  background: rgba(0,255,65,0.1); border: 1px solid rgba(0,255,65,0.3);
+  color: var(--primary); font-family: 'Cairo', sans-serif; font-size: 0.8rem; font-weight: 700;
+  cursor: pointer; text-decoration: none; transition: all 0.2s;
+}
+.my-pos-btn:hover { background: rgba(0,255,65,0.18); }
+
+/* SEARCH */
+.lb-search-bar {
+  position: relative;
+  margin-bottom: 1rem;
+}
+.lb-search-input {
+  width: 100%;
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.75rem 1rem 0.75rem 3rem;
+  color: #fff;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.lb-search-input:focus { border-color: var(--primary); }
+.lb-search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .lb-table thead th:nth-child(4),
+  .lb-table td:nth-child(4),
+  .lb-table thead th:nth-child(5),
+  .lb-table td:nth-child(5) { display: none; }
+  .podium-card { min-width: 110px; }
+}
+</style>
+</head>
+<body class="grid-bg">
+<canvas id="matrix-canvas"></canvas>
+<script src="js/disclaimer.js"></script>
+<script src="js/social-bar.js"></script>
+<script src="js/free-offer.js"></script>
+<script src="js/site-init.js"></script>
+
+<!-- HEADER -->
+<header class="site-header">
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><img src="images/logo.png" alt="Kali Academy Logo" style="width:44px;height:44px;object-fit:contain;"></div>
+    <div><span class="logo-text">KALI ACADEMY</span><span class="logo-sub">CYBER SECURITY LEARNING</span></div>
+  </a>
+  <ul class="nav-menu">
+    <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a></li>
+    <li><a href="commands.html" class="nav-link"><i class="fas fa-terminal"></i> الأوامر</a></li>
+    <li><a href="tutorials.html" class="nav-link"><i class="fas fa-book-open"></i> الدروس</a></li>
+    <li><a href="steps.html" class="nav-link"><i class="fas fa-list-ol"></i> خطوات التنفيذ</a></li>
+    <li><a href="tools.html" class="nav-link"><i class="fas fa-tools"></i> الأدوات</a></li>
+    <li><a href="articles.html" class="nav-link"><i class="fas fa-newspaper"></i> المقالات</a></li>
+    <li><a href="leaderboard.html" class="nav-link active"><i class="fas fa-trophy"></i> المتصدرون</a></li>
+  </ul>
+  <div class="header-status"><div class="status-dot"></div><span>SYSTEM ONLINE</span></div>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</header>
+
+<div class="mobile-menu">
+  <a href="index.html" class="nav-link mobile-nav-link"><i class="fas fa-home"></i> الرئيسية</a>
+  <a href="commands.html" class="nav-link mobile-nav-link"><i class="fas fa-terminal"></i> الأوامر</a>
+  <a href="tutorials.html" class="nav-link mobile-nav-link"><i class="fas fa-book-open"></i> الدروس</a>
+  <a href="steps.html" class="nav-link mobile-nav-link"><i class="fas fa-list-ol"></i> خطوات التنفيذ</a>
+  <a href="tools.html" class="nav-link mobile-nav-link"><i class="fas fa-tools"></i> الأدوات</a>
+  <a href="articles.html" class="nav-link mobile-nav-link"><i class="fas fa-newspaper"></i> المقالات</a>
+  <a href="leaderboard.html" class="nav-link mobile-nav-link active"><i class="fas fa-trophy"></i> المتصدرون</a>
+</div>
+
+<div class="main-wrapper" style="padding-top: var(--header-height);">
+<div class="lb-wrapper">
+
+  <!-- HERO -->
+  <div class="lb-hero">
+    <span class="lb-hero-icon">🏆</span>
+    <h1>لوحة <span>المتصدرين</span></h1>
+    <p>تنافس مع المتعلمين، اكسب نقاط XP، وارتقِ في رتبتك الأمنية!</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="lb-stats" id="lb-stats">
+    <div class="lb-stat"><span class="n" id="stat-total-players">—</span><span class="l">مستخدم مسجل</span></div>
+    <div class="lb-stat"><span class="n" id="stat-total-xp">—</span><span class="l">مجموع نقاط XP</span></div>
+    <div class="lb-stat"><span class="n" id="stat-active-today">—</span><span class="l">نشط اليوم</span></div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="lb-filters">
+    <button class="lb-filter-btn active" data-filter="xp" onclick="setFilter('xp', this)"><i class="fas fa-star"></i> نقاط XP</button>
+    <button class="lb-filter-btn" data-filter="lessons" onclick="setFilter('lessons', this)"><i class="fas fa-book"></i> الدروس</button>
+    <button class="lb-filter-btn" data-filter="badges" onclick="setFilter('badges', this)"><i class="fas fa-medal"></i> الشارات</button>
+    <button class="lb-filter-btn" data-filter="scenarios" onclick="setFilter('scenarios', this)"><i class="fas fa-flag"></i> السيناريوهات</button>
+  </div>
+
+  <!-- PODIUM TOP 3 -->
+  <div class="lb-podium" id="lb-podium"></div>
+
+  <!-- SEARCH -->
+  <div class="lb-search-bar">
+    <i class="fas fa-search lb-search-icon"></i>
+    <input type="text" class="lb-search-input" id="lb-search" placeholder="ابحث عن مستخدم..." oninput="filterTable(this.value)">
+  </div>
+
+  <!-- TABLE -->
+  <div class="lb-table-wrapper">
+    <table class="lb-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>المستخدم</th>
+          <th>نقاط XP</th>
+          <th>المستوى</th>
+          <th>الشارات</th>
+          <th>الرتبة</th>
+        </tr>
+      </thead>
+      <tbody id="lb-tbody"></tbody>
+    </table>
+  </div>
+
+  <!-- MY POSITION -->
+  <div class="my-position-bar" id="my-position-bar" style="display:none;">
+    <div>
+      <div class="my-pos-label">ترتيبك الحالي</div>
+      <div class="my-pos-rank" id="my-rank-display">—</div>
+      <div class="my-pos-xp" id="my-xp-display">—</div>
+    </div>
+    <a href="profile.html" class="my-pos-btn"><i class="fas fa-user"></i> عرض ملفك الشخصي</a>
+  </div>
+
+</div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-bottom" style="max-width:1200px;margin:0 auto;text-align:center;padding:1.5rem 2rem;font-size:0.8rem;color:var(--text-muted);">
+    ⚠️ للأغراض التعليمية فقط | © 2026 Kali Academy
+  </div>
+</footer>
+
+<script src="js/matrix.js"></script>
+<script src="js/main.js"></script>
+<script>
+// ===== LEADERBOARD LOGIC =====
+
+const RANKS_DEF = [
+  { min: 0,    name: 'Newbie',   icon: '🥉', cls: 'rank-newbie' },
+  { min: 500,  name: 'Learner',  icon: '🥈', cls: 'rank-learner' },
+  { min: 1500, name: 'Hacker',   icon: '🥇', cls: 'rank-hacker' },
+  { min: 3000, name: 'Elite',    icon: '💎', cls: 'rank-elite' },
+  { min: 6000, name: 'Legend',   icon: '👑', cls: 'rank-legend' },
+];
+
+// بيانات افتراضية للمتصدرين (سيتم دمجها مع بيانات localStorage)
+const DEMO_PLAYERS = [
+  { id: 'demo_1', username: 'cyberking', full_name: 'أحمد الراشد', avatar: '👑', level: 'advanced', xp: 8750, lessons: 28, badges: 11, scenarios: 8, country: 'SA' },
+  { id: 'demo_2', username: 'h4x0r_sa', full_name: 'محمد العمري', avatar: '💀', level: 'advanced', xp: 6200, lessons: 22, badges: 9, scenarios: 5, country: 'SA' },
+  { id: 'demo_3', username: 'blue_team', full_name: 'فاطمة الزهراني', avatar: '🛡️', level: 'intermediate', xp: 4100, lessons: 18, badges: 7, scenarios: 3, country: 'EG' },
+  { id: 'demo_4', username: 'pentest_pro', full_name: 'علي حسن', avatar: '🎯', level: 'intermediate', xp: 3200, lessons: 15, badges: 6, scenarios: 2, country: 'IQ' },
+  { id: 'demo_5', username: 'kali_ninja', full_name: 'خالد المطيري', avatar: '🐉', level: 'intermediate', xp: 2800, lessons: 13, badges: 5, scenarios: 2, country: 'SA' },
+  { id: 'demo_6', username: 'sec_hawk', full_name: 'نورة السالم', avatar: '🦅', level: 'intermediate', xp: 2100, lessons: 11, badges: 4, scenarios: 1, country: 'AE' },
+  { id: 'demo_7', username: 'root_access', full_name: 'عمر القحطاني', avatar: '🔥', level: 'beginner', xp: 1850, lessons: 9, badges: 4, scenarios: 1, country: 'SA' },
+  { id: 'demo_8', username: 'linux_guru', full_name: 'يوسف إبراهيم', avatar: '🐧', level: 'beginner', xp: 1400, lessons: 7, badges: 3, scenarios: 0, country: 'MA' },
+  { id: 'demo_9', username: 'crypto_wolf', full_name: 'سارة الدوسري', avatar: '🦊', level: 'beginner', xp: 980, lessons: 5, badges: 2, scenarios: 0, country: 'SA' },
+  { id: 'demo_10', username: 'newbie_hax', full_name: 'حمد العتيبي', avatar: '🤖', level: 'beginner', xp: 620, lessons: 3, badges: 1, scenarios: 0, country: 'SA' },
+];
+
+const COUNTRY_FLAGS = { SA:'🇸🇦', EG:'🇪🇬', AE:'🇦🇪', IQ:'🇮🇶', MA:'🇲🇦', DZ:'🇩🇿', TN:'🇹🇳', JO:'🇯🇴', OTHER:'🌍' };
+
+let currentFilter = 'xp';
+let allPlayers = [];
+let myPlayer = null;
+
+function getRank(xp) {
+  const r = [...RANKS_DEF].reverse().find(r => xp >= r.min);
+  return r || RANKS_DEF[0];
+}
+
+function getLevelNum(xp) { return Math.floor(xp / 500) + 1; }
+
+function buildPlayers() {
+  allPlayers = [...DEMO_PLAYERS];
+
+  // إضافة المستخدم الحالي إن وجد
+  const user = (() => { try { return JSON.parse(localStorage.getItem('kali_user') || 'null'); } catch { return null; } })();
+  const profile = (() => { try { return JSON.parse(localStorage.getItem('kali_profile') || 'null'); } catch { return null; } })();
+
+  if (user && profile) {
+    const existing = allPlayers.find(p => p.id === user.id);
+    if (!existing) {
+      myPlayer = {
+        id: user.id || 'me',
+        username: user.username || 'أنت',
+        full_name: user.full_name || user.username || 'أنت',
+        avatar: profile.avatar || '🐉',
+        level: user.level || 'beginner',
+        xp: profile.xp || 0,
+        lessons: (profile.completed_lessons || []).length,
+        badges: (profile.badges || []).length,
+        scenarios: (profile.completed_scenarios || []).length,
+        country: user.country || 'SA',
+        isMe: true,
+      };
+      allPlayers.push(myPlayer);
+    } else {
+      existing.isMe = true;
+      myPlayer = existing;
+    }
+  }
+}
+
+function sortPlayers(filter) {
+  return [...allPlayers].sort((a, b) => {
+    if (filter === 'xp') return b.xp - a.xp;
+    if (filter === 'lessons') return b.lessons - a.lessons;
+    if (filter === 'badges') return b.badges - a.badges;
+    if (filter === 'scenarios') return b.scenarios - a.scenarios;
+    return b.xp - a.xp;
+  });
+}
+
+function renderPodium(sorted) {
+  const top3 = sorted.slice(0, 3);
+  const positions = [
+    { data: top3[1], posClass: 'podium-2', medal: '🥈', order: 1 },
+    { data: top3[0], posClass: 'podium-1', medal: '👑', order: 2 },
+    { data: top3[2], posClass: 'podium-3', medal: '🥉', order: 3 },
+  ];
+
+  document.getElementById('lb-podium').innerHTML = positions.map(pos => {
+    if (!pos.data) return '';
+    const rank = getRank(pos.data.xp);
+    return `
+      <div class="podium-card ${pos.posClass}">
+        ${pos.posClass === 'podium-1' ? '<div class="crown">👑</div>' : ''}
+        <span class="podium-rank">${pos.medal}</span>
+        <div class="podium-avatar">${pos.data.avatar}</div>
+        <div class="podium-name">${pos.data.full_name || pos.data.username}</div>
+        <div class="podium-xp">${pos.data.xp.toLocaleString()} XP</div>
+        <div class="podium-level">${rank.icon} ${rank.name}</div>
+        ${pos.data.isMe ? '<div style="margin-top:6px;font-size:0.65rem;color:var(--primary);font-family:\'Share Tech Mono\',monospace;">← أنت</div>' : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+function renderTable(sorted) {
+  const tbody = document.getElementById('lb-tbody');
+  tbody.innerHTML = sorted.map((p, i) => {
+    const rank = getRank(p.xp);
+    const rankCls = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : '';
+    const flag = COUNTRY_FLAGS[p.country] || '🌍';
+    const levelLabel = { beginner: 'مبتدئ', intermediate: 'متوسط', advanced: 'متقدم' }[p.level] || '—';
+    const levelColor = { beginner: '#00ff41', intermediate: '#ffcc00', advanced: '#ff0080' }[p.level] || '#fff';
+
+    return `
+      <tr class="${p.isMe ? 'my-row' : ''}" data-name="${(p.full_name||'').toLowerCase()} ${(p.username||'').toLowerCase()}">
+        <td><span class="rank-num ${rankCls}">${i+1}</span></td>
+        <td>
+          <div class="player-cell">
+            <div class="player-avatar-sm">${p.avatar}</div>
+            <div>
+              <div class="player-name">${p.full_name || p.username} ${p.isMe ? '<span style="font-size:0.7rem;color:var(--primary);">(أنت)</span>' : ''}</div>
+              <div class="player-username">@${p.username} ${flag}</div>
+            </div>
+          </div>
+        </td>
+        <td><span class="xp-cell">${p.xp.toLocaleString()}</span></td>
+        <td><span class="level-cell" style="color:${levelColor};">Lv${getLevelNum(p.xp)} — ${levelLabel}</span></td>
+        <td><span class="badge-cell">🏅 ${p.badges} شارة</span></td>
+        <td><span class="rank-tag ${rank.cls}">${rank.icon} ${rank.name}</span></td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function updateStats(sorted) {
+  document.getElementById('stat-total-players').textContent = sorted.length;
+  const totalXP = sorted.reduce((s, p) => s + p.xp, 0);
+  document.getElementById('stat-total-xp').textContent = totalXP.toLocaleString();
+  document.getElementById('stat-active-today').textContent = Math.floor(sorted.length * 0.4);
+}
+
+function renderMyPosition(sorted) {
+  if (!myPlayer) return;
+  const bar = document.getElementById('my-position-bar');
+  bar.style.display = 'flex';
+  const myPos = sorted.findIndex(p => p.isMe) + 1;
+  document.getElementById('my-rank-display').textContent = `#${myPos} من أصل ${sorted.length}`;
+  document.getElementById('my-xp-display').textContent = `${myPlayer.xp.toLocaleString()} XP`;
+}
+
+function setFilter(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.lb-filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAll();
+}
+
+function filterTable(query) {
+  const q = query.toLowerCase().trim();
+  document.querySelectorAll('#lb-tbody tr').forEach(row => {
+    const name = row.dataset.name || '';
+    row.style.display = !q || name.includes(q) ? '' : 'none';
+  });
+}
+
+function renderAll() {
+  const sorted = sortPlayers(currentFilter);
+  renderPodium(sorted);
+  renderTable(sorted);
+  updateStats(sorted);
+  renderMyPosition(sorted);
+}
+
+// INIT
+buildPlayers();
+renderAll();
+
+// تحديث كل 30 ثانية لمحاكاة اللايف
+setInterval(() => {
+  DEMO_PLAYERS.forEach(p => {
+    if (Math.random() < 0.15) p.xp += Math.floor(Math.random() * 50);
+  });
+  renderAll();
+}, 30000);
+</script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دليل CTF للمبتدئين 2026 | Capture The Flag بالعربي | KaliAcademy</title>
+<meta name="description" content="دليل شامل للبدء في مسابقات CTF (Capture The Flag) 2026 - تعلم حل التحديات الأمنية وطور مهاراتك في الأمن السيبراني.">
+<meta name="keywords" content="CTF, Capture The Flag, مسابقات أمن, CTF عربي, CTF للمبتدئين, Reverse Engineering, Cryptography, PWN, Web Exploitation">
+<meta name="author" content="Kali Academy">
+<link rel="canonical" href="https://kali-academy.github.io/article-ctf-guide-2026.html">
+<link rel="icon" type="image/png" href="images/logo.png">
+<meta property="og:title" content="دليل CTF للمبتدئين 2026 | KaliAcademy">
+<meta property="og:description" content="تعلم حل تحديات CTF وطور مهارات الأمن السيبراني بطريقة ممتعة ومنظمة.">
+<meta property="og:type" content="article">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/enhanced.css">
+<link rel="stylesheet" href="css/cyber-theme.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+.article-page { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+.article-header { padding: 2rem 0 2rem; border-bottom: 1px solid var(--border); margin-bottom: 2.5rem; }
+.article-category { display: inline-flex; align-items: center; gap: 6px; padding: 4px 14px; border-radius: 20px; background: rgba(0,170,255,0.1); border: 1px solid rgba(0,170,255,0.3); color: #00aaff; font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; letter-spacing: 2px; margin-bottom: 1rem; }
+.article-title { font-family: 'Cairo', sans-serif; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 800; color: #fff; line-height: 1.4; margin-bottom: 1rem; }
+.article-title span { color: #00aaff; }
+.article-meta { display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; color: var(--text-muted); font-family: 'Cairo', sans-serif; font-size: 0.82rem; }
+.article-meta i { color: #00aaff; margin-left: 4px; }
+.article-hero-box { background: linear-gradient(135deg, rgba(0,170,255,0.08), rgba(4,22,40,0.9)); border: 1px solid rgba(0,170,255,0.2); border-radius: 16px; padding: 2rem; margin-bottom: 2.5rem; text-align: center; }
+.article-hero-icon { font-size: 4rem; margin-bottom: 1rem; }
+.article-hero-desc { font-family: 'Cairo', sans-serif; color: rgba(255,255,255,0.7); line-height: 1.8; }
+.article-body h2 { font-family: 'Cairo', sans-serif; font-size: 1.4rem; font-weight: 800; color: #fff; margin: 2rem 0 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid rgba(0,170,255,0.3); display: flex; align-items: center; gap: 8px; }
+.article-body h2 .h-icon { color: #00aaff; }
+.article-body h3 { font-family: 'Cairo', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--primary); margin: 1.5rem 0 0.7rem; }
+.article-body p { font-family: 'Cairo', sans-serif; color: rgba(255,255,255,0.8); line-height: 1.9; margin-bottom: 1rem; font-size: 0.95rem; }
+.article-body ul, .article-body ol { padding-right: 1.5rem; margin-bottom: 1rem; }
+.article-body li { font-family: 'Cairo', sans-serif; color: rgba(255,255,255,0.75); line-height: 2; font-size: 0.93rem; margin-bottom: 0.3rem; }
+.highlight-box { background: rgba(0,170,255,0.05); border: 1px solid rgba(0,170,255,0.2); border-right: 4px solid #00aaff; border-radius: 8px; padding: 1rem 1.3rem; margin: 1.2rem 0; }
+.highlight-box.green { background: rgba(0,255,65,0.05); border-color: rgba(0,255,65,0.2); border-right-color: var(--primary); }
+.ctf-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin: 1.2rem 0; }
+.ctf-cat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.2rem; text-align: center; transition: all 0.25s; cursor: default; }
+.ctf-cat-card:hover { border-color: rgba(0,170,255,0.4); transform: translateY(-3px); }
+.ctf-cat-icon { font-size: 2.2rem; margin-bottom: 0.5rem; display: block; }
+.ctf-cat-name { font-family: 'Share Tech Mono', monospace; font-size: 0.8rem; color: #00aaff; font-weight: 700; margin-bottom: 0.3rem; }
+.ctf-cat-desc { font-family: 'Cairo', sans-serif; font-size: 0.75rem; color: var(--text-muted); line-height: 1.6; }
+.platform-list { display: flex; flex-direction: column; gap: 0.8rem; }
+.platform-row { background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.3rem; display: flex; align-items: center; justify-content: space-between; gap: 12px; transition: border-color 0.2s; flex-wrap: wrap; }
+.platform-row:hover { border-color: rgba(0,170,255,0.35); }
+.platform-row .p-name { font-family: 'Cairo', sans-serif; font-weight: 700; color: #fff; font-size: 0.95rem; }
+.platform-row .p-desc { font-family: 'Cairo', sans-serif; font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+.platform-row .p-lvl { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; padding: 3px 10px; border-radius: 6px; white-space: nowrap; }
+.lvl-beginner { background: rgba(0,255,65,0.1); color: var(--primary); }
+.lvl-intermediate { background: rgba(255,204,0,0.1); color: #ffcc00; }
+.lvl-advanced { background: rgba(255,0,128,0.1); color: #ff0080; }
+.article-cta { background: linear-gradient(135deg, rgba(0,170,255,0.1), rgba(4,22,40,0.95)); border: 1px solid rgba(0,170,255,0.3); border-radius: 16px; padding: 2rem; text-align: center; margin-top: 3rem; }
+.article-cta h3 { font-family: 'Cairo', sans-serif; font-size: 1.3rem; font-weight: 800; margin-bottom: 0.7rem; }
+.article-cta p { color: var(--text-muted); font-family: 'Cairo', sans-serif; margin-bottom: 1.3rem; }
+.related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 1.2rem; }
+.related-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 1.2rem; text-decoration: none; color: inherit; display: flex; align-items: center; gap: 12px; transition: all 0.25s; }
+.related-card:hover { border-color: rgba(0,255,65,0.4); transform: translateY(-2px); }
+.related-card .r-icon { font-size: 1.8rem; flex-shrink: 0; }
+.related-card h4 { font-family: 'Cairo', sans-serif; font-size: 0.85rem; font-weight: 700; color: #fff; margin-bottom: 0.2rem; line-height: 1.4; }
+.related-card span { font-family: 'Cairo', sans-serif; font-size: 0.72rem; color: var(--primary); }
+</style>
+</head>
+<body class="grid-bg">
+<canvas id="matrix-canvas"></canvas>
+<script src="js/disclaimer.js"></script>
+<script src="js/social-bar.js"></script>
+<script src="js/free-offer.js"></script>
+<script src="js/site-init.js"></script>
+
+<header class="site-header">
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><img src="images/logo.png" alt="Kali Academy Logo" style="width:44px;height:44px;object-fit:contain;"></div>
+    <div><span class="logo-text">KALI ACADEMY</span><span class="logo-sub">CYBER SECURITY LEARNING</span></div>
+  </a>
+  <ul class="nav-menu">
+    <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a></li>
+    <li><a href="commands.html" class="nav-link"><i class="fas fa-terminal"></i> الأوامر</a></li>
+    <li><a href="tutorials.html" class="nav-link"><i class="fas fa-book-open"></i> الدروس</a></li>
+    <li><a href="tools.html" class="nav-link"><i class="fas fa-tools"></i> الأدوات</a></li>
+    <li><a href="articles.html" class="nav-link active"><i class="fas fa-newspaper"></i> المقالات</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</header>
+<div class="mobile-menu">
+  <a href="index.html" class="nav-link mobile-nav-link"><i class="fas fa-home"></i> الرئيسية</a>
+  <a href="articles.html" class="nav-link mobile-nav-link active"><i class="fas fa-newspaper"></i> المقالات</a>
+</div>
+
+<div class="main-wrapper" style="padding-top: var(--header-height);">
+<div class="article-page">
+
+  <div class="article-header">
+    <div class="article-category"><i class="fas fa-flag"></i> CTF GUIDE</div>
+    <h1 class="article-title">دليل <span>CTF</span> الشامل للمبتدئين 2026</h1>
+    <div class="article-meta">
+      <span><i class="fas fa-user-edit"></i> KALI ACADEMY</span>
+      <span><i class="fas fa-calendar"></i> مارس 2026</span>
+      <span><i class="fas fa-clock"></i> 10 دقائق قراءة</span>
+      <span><i class="fas fa-eye"></i> 3,800+ قراءة</span>
+    </div>
+  </div>
+
+  <div class="article-hero-box">
+    <div class="article-hero-icon">🚩🔓</div>
+    <div class="article-hero-desc">
+      <strong style="color:#00aaff;">Capture The Flag (CTF)</strong> هي مسابقات أمن سيبراني تحتوي على تحديات من فئات متعددة. هي أفضل طريقة لتطوير مهاراتك الأمنية بطريقة ممتعة وقانونية 100%.
+    </div>
+  </div>
+
+  <div class="article-body">
+
+    <h2><span class="h-icon">🎮</span> ما هي مسابقات CTF؟</h2>
+    <p>CTF هي مسابقات أمن سيبراني تحتوي على تحديات يجب على المتسابقين حلها لاستخراج "الراية" (Flag) — وهي نص سري بصيغة محددة مثل <code style="color:var(--primary);background:rgba(0,255,65,0.1);padding:2px 6px;border-radius:4px;">CTF{this_is_a_flag}</code>. يمكن المشاركة فردياً أو كفريق.</p>
+
+    <h2><span class="h-icon">🗂️</span> فئات تحديات CTF</h2>
+    <div class="ctf-cat-grid">
+      <div class="ctf-cat-card">
+        <span class="ctf-cat-icon">🌐</span>
+        <div class="ctf-cat-name">Web</div>
+        <div class="ctf-cat-desc">ثغرات تطبيقات الويب: SQLi, XSS, SSRF, IDOR وغيرها</div>
+      </div>
+      <div class="ctf-cat-card">
+        <span class="ctf-cat-icon">🔐</span>
+        <div class="ctf-cat-name">Crypto</div>
+        <div class="ctf-cat-desc">فك تشفير الرسائل: RSA, AES, Base64, Caesar Cipher</div>
+      </div>
+      <div class="ctf-cat-card">
+        <span class="ctf-cat-icon">🔬</span>
+        <div class="ctf-cat-name">Forensics</div>
+        <div class="ctf-cat-desc">تحليل الملفات والصور وسجلات النظام وحزم الشبكة</div>
+      </div>
+      <div class="ctf-cat-card">
+        <span class="ctf-cat-icon">⚙️</span>
+        <div class="ctf-cat-name">Reverse</div>
+        <div class="ctf-cat-desc">هندسة عكسية للبرامج والملفات التنفيذية (ELF, PE)</div>
+      </div>
+      <div class="ctf-cat-card">
+        <span class="ctf-cat-icon">💥</span>
+        <div class="ctf-cat-name">PWN / Binary</div>
+        <div class="ctf-cat-desc">استغلال ثغرات الذاكرة: Buffer Overflow, ROP Chains</div>
+      </div>
+      <div class="ctf-cat-card">
+        <span class="ctf-cat-icon">🔍</span>
+        <div class="ctf-cat-name">OSINT</div>
+        <div class="ctf-cat-desc">جمع المعلومات من المصادر المفتوحة</div>
+      </div>
+    </div>
+
+    <h2><span class="h-icon">🏟️</span> أفضل منصات CTF للتدريب</h2>
+    <div class="platform-list">
+      <div class="platform-row">
+        <div><div class="p-name">🖥️ HackTheBox (HTB)</div><div class="p-desc">أشهر منصة CTF عالمياً. مئات الآلات الافتراضية والتحديات التنافسية.</div></div>
+        <span class="p-lvl lvl-intermediate">متوسط/متقدم</span>
+      </div>
+      <div class="platform-row">
+        <div><div class="p-name">🟩 TryHackMe</div><div class="p-desc">الأنسب للمبتدئين. مسارات تعليمية موجهة مع شرح كامل وبيئة جاهزة.</div></div>
+        <span class="p-lvl lvl-beginner">مبتدئ</span>
+      </div>
+      <div class="platform-row">
+        <div><div class="p-name">🌐 PicoCTF</div><div class="p-desc">منصة Carnegie Mellon للطلاب. مثالية لتعلم أساسيات CTF بالعربي والإنجليزي.</div></div>
+        <span class="p-lvl lvl-beginner">مبتدئ</span>
+      </div>
+      <div class="platform-row">
+        <div><div class="p-name">🔴 CTFtime.org</div><div class="p-desc">التقويم الشامل لجميع مسابقات CTF حول العالم. تابع المسابقات القادمة.</div></div>
+        <span class="p-lvl lvl-intermediate">جميع المستويات</span>
+      </div>
+      <div class="platform-row">
+        <div><div class="p-name">🏁 pwn.college</div><div class="p-desc">متخصص في البرمجيات والـ PWN من جامعة أريزونا. شروحات ممتازة.</div></div>
+        <span class="p-lvl lvl-advanced">متقدم</span>
+      </div>
+    </div>
+
+    <h2><span class="h-icon">🛠️</span> الأدوات الأساسية لـ CTF Player</h2>
+    <ul>
+      <li><strong>Ghidra / IDA Pro:</strong> للهندسة العكسية وتحليل الـ Binaries</li>
+      <li><strong>CyberChef:</strong> أداة ويب سحرية لفك جميع أنواع التشفير</li>
+      <li><strong>pwntools:</strong> مكتبة Python لحل تحديات PWN وBuffer Overflow</li>
+      <li><strong>Wireshark:</strong> لتحليل حزم الشبكة في تحديات Forensics</li>
+      <li><strong>Burp Suite:</strong> لتحديات Web Exploitation</li>
+      <li><strong>binwalk / strings:</strong> لتحليل الملفات واستخراج البيانات المخفية</li>
+      <li><strong>SageMath / pycryptodome:</strong> لحل تحديات التشفير الرياضية</li>
+    </ul>
+
+    <h2><span class="h-icon">📈</span> كيف تتطور في CTF؟</h2>
+    <div class="highlight-box green">
+      <ul style="margin:0;padding-right:1.2rem;">
+        <li>اقرأ <strong>Writeups</strong> للتحديات التي لم تستطع حلها بعد انتهاء المسابقة</li>
+        <li>انضم لفريق CTF مع مجموعة من الأصدقاء</li>
+        <li>ركز على فئة واحدة حتى تتقنها قبل الانتقال للتالية</li>
+        <li>تابع Writeups من لاعبين خبراء مثل LiveOverflow وIppSec</li>
+        <li>شارك في Competitions محلية عربية قبل العالمية</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="article-cta">
+    <h3>ابدأ تحديات CTF الآن! 🚩</h3>
+    <p>تعلم الأدوات والتقنيات مع KaliAcademy قبل دخول المسابقات.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="tutorials.html" class="btn btn-primary" style="font-size:0.9rem;"><i class="fas fa-book-open"></i> الدروس التعليمية</a>
+      <a href="steps.html" class="btn btn-secondary" style="font-size:0.9rem;"><i class="fas fa-list-ol"></i> السيناريوهات التطبيقية</a>
+    </div>
+  </div>
+
+  <div style="margin-top:3rem;">
+    <div style="font-family:'Share Tech Mono',monospace;font-size:0.75rem;letter-spacing:2px;color:var(--primary);margin-bottom:1.2rem;display:flex;align-items:center;gap:8px;"><i class="fas fa-link"></i> مقالات ذات صلة</div>
+    <div class="related-grid">
+      <a href="article-bug-bounty-guide-2026.html" class="related-card">
+        <span class="r-icon">🐛</span>
+        <div><h4>دليل Bug Bounty الشامل 2026</h4><span>اقرأ المقال</span></div>
+      </a>
+      <a href="article-roadmap-cybersecurity-2026.html" class="related-card">
+        <span class="r-icon">🗺️</span>
+        <div><h4>خريطة طريق الأمن السيبراني</h4><span>اقرأ المقال</span></div>
+      </a>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-bottom" style="max-width:1200px;margin:0 auto;text-align:center;padding:1.5rem;font-size:0.8rem;color:var(--text-muted);">
+    ⚠️ للأغراض التعليمية فقط | © 2026 Kali Academy
+  </div>
+</footer>
+<script src="js/matrix.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
