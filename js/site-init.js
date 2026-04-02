@@ -205,11 +205,15 @@ const css = document.createElement('style');
     }
 
     body {
-      transition: opacity 0.12s ease !important;
-      will-change: opacity;
+      animation: pageIn 0.2s ease forwards;
     }
 
-    body.page-leaving { opacity: 0 !important; }
+    @keyframes pageIn {
+      from { opacity: 0.7; }
+      to   { opacity: 1; }
+    }
+
+    body.page-leaving { opacity: 1 !important; }
 
     .nav-link.active,
     .nav-link:hover {
@@ -327,11 +331,8 @@ const css = document.createElement('style');
         document.body.appendChild(loader);
       }
 
-      document.body.classList.add('page-leaving');
-
-      requestAnimationFrame(() => {
-        window.location.assign(abs.href);
-      });
+      // navigate directly without fade-out to avoid black screen
+      window.location.assign(abs.href);
     }
 
     // prefetch روابط التنقل الأساسية مباشرة بعد الجاهزية
