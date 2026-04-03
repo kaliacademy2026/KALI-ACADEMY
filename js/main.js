@@ -8,7 +8,7 @@ const I18N_STRINGS = {
     navHome: 'الرئيسية',
     navCommands: 'الأوامر',
     navTutorials: 'الدروس',
-    navSteps: 'خطوات التنفيذ',
+    navSteps: 'السيناريوهات التطبيقية',
     navTools: 'الأدوات',
     navArticles: 'المقالات',
     languageBtn: 'EN',
@@ -37,7 +37,7 @@ const I18N_STRINGS = {
     navHome: 'Home',
     navCommands: 'Commands',
     navTutorials: 'Tutorials',
-    navSteps: 'Execution Steps',
+    navSteps: 'Applied Scenarios',
     navTools: 'Tools',
     navArticles: 'Articles',
     languageBtn: 'AR',
@@ -106,20 +106,7 @@ function toggleLanguage() {
 }
 
 function createLanguageToggle() {
-  const header = document.querySelector('.site-header');
-  if (!header || document.getElementById('langToggleBtn')) return;
-
-  const btn = document.createElement('button');
-  btn.type = 'button';
-  btn.id = 'langToggleBtn';
-  btn.className = 'lang-toggle-btn';
-  btn.setAttribute('aria-label', 'Language Toggle');
-  btn.textContent = t('languageBtn', 'EN');
-  btn.addEventListener('click', toggleLanguage);
-
-  const status = header.querySelector('.header-status');
-  if (status) status.insertAdjacentElement('afterend', btn);
-  else header.appendChild(btn);
+  // Language toggle removed - site is Arabic only
 }
 
 window.kaliGetCurrentLang = function () {

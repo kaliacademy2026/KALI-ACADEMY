@@ -13,7 +13,7 @@
       navHome: 'Home',
       navCommands: 'Commands',
       navTutorials: 'Tutorials',
-      navSteps: 'Execution Steps',
+      navSteps: 'Applied Scenarios',
       navTools: 'Tools',
       navArticles: 'Articles',
       navDisclaimer: 'Disclaimer',
@@ -21,7 +21,7 @@
       indexTitle: 'Kali Academy | Learn Kali Linux and Cybersecurity',
       tutorialsTitle: 'Tutorials - KaliAcademy | Cybersecurity Lessons',
       commandsTitle: 'Commands Database - KaliAcademy | 500+ Kali Linux Commands',
-      stepsTitle: 'Execution Steps - KaliAcademy | Practical Pentest Scenarios',
+      stepsTitle: 'Applied Scenarios - KaliAcademy | Practical Pentest Scenarios',
       toolsTitle: 'Tools Directory - KaliAcademy | Cybersecurity Tools',
       articlesTitle: 'Articles - KaliAcademy | Cybersecurity Learning Blog',
       educationalOnly: 'For educational purposes only'
@@ -30,7 +30,7 @@
       navHome: 'الرئيسية',
       navCommands: 'الأوامر',
       navTutorials: 'الدروس',
-      navSteps: 'خطوات التنفيذ',
+      navSteps: 'السيناريوهات التطبيقية',
       navTools: 'الأدوات',
       navArticles: 'مقالات',
       navDisclaimer: 'إخلاء المسؤولية',
@@ -38,7 +38,7 @@
       indexTitle: 'Kali Academy | تعلم كالي لينكس والأمن السيبراني بالعربي',
       tutorialsTitle: 'الدروس التعليمية - KaliAcademy | تعلم الأمن السيبراني',
       commandsTitle: 'قاعدة الأوامر - KaliAcademy | 500+ أمر Kali Linux',
-      stepsTitle: 'خطوات التنفيذ - KaliAcademy | سيناريوهات اختبار الاختراق خطوة بخطوة',
+      stepsTitle: 'السيناريوهات التطبيقية - KaliAcademy | سيناريوهات اختبار اختراق عملية',
       toolsTitle: 'دليل الأدوات - KaliAcademy | 100 أداة أمن سيبراني',
       articlesTitle: 'المقالات - KaliAcademy | مدونة تعلم الأمن السيبراني',
       educationalOnly: 'للأغراض التعليمية فقط'
@@ -135,22 +135,7 @@
   }
 
   function createLanguageToggle() {
-    const header = document.querySelector('.site-header');
-    if (!header || document.getElementById('langToggleBtn')) return;
-
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.id = 'langToggleBtn';
-    btn.className = 'lang-toggle-btn';
-    btn.setAttribute('aria-label', 'Language Toggle');
-    btn.addEventListener('click', () => {
-      const next = getCurrentLang() === 'en' ? 'ar' : 'en';
-      applyLanguage(next);
-    });
-
-    const status = header.querySelector('.header-status');
-    if (status) status.insertAdjacentElement('afterend', btn);
-    else header.appendChild(btn);
+    // Language toggle removed - site is Arabic only
   }
 
   window.kaliGetCurrentLang = getCurrentLang;
