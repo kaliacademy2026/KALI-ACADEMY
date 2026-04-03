@@ -190,11 +190,12 @@ const css = document.createElement('style');
     }
 
     body {
-      transition: opacity 0.12s ease !important;
-      will-change: opacity;
+      transition: opacity 0.15s ease !important;
     }
 
     body.page-leaving { opacity: 0 !important; }
+    body.page-entering { opacity: 0; }
+    body.page-ready { opacity: 1; transition: opacity 0.15s ease; }
 
     .nav-link.active,
     .nav-link:hover {
@@ -314,9 +315,10 @@ const css = document.createElement('style');
 
       document.body.classList.add('page-leaving');
 
-      requestAnimationFrame(() => {
+      // Navigate after the fade-out transition completes
+      setTimeout(function () {
         window.location.assign(abs.href);
-      });
+      }, 150);
     }
 
     // prefetch روابط التنقل الأساسية مباشرة بعد الجاهزية
@@ -349,7 +351,23 @@ const css = document.createElement('style');
     }, true);
   }
 
+  // Fix: Remove page-leaving class on page show (handles bfcache restoration)
+  window.addEventListener('pageshow', function (e) {
+    document.body.classList.remove('page-leaving');
+    // Remove the loader if it exists from a previous navigation
+    var loader = document.getElementById('page-loader');
+    if (loader) loader.remove();
+  });
+
+  // Fix: Ensure body is always visible when the page first becomes interactive
+  function ensureBodyVisible() {
+    document.body.classList.remove('page-leaving');
+    var loader = document.getElementById('page-loader');
+    if (loader) loader.remove();
+  }
+
   function init() {
+    ensureBodyVisible();
     createLanguageToggle();
     applyLanguage(getCurrentLang());
     removeRegisterLinks();
