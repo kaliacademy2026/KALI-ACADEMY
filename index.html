@@ -88,10 +88,9 @@
     <li><a href="index.html" class="nav-link active"><i class="fas fa-home"></i> <span data-i18n="navHome">الرئيسية</span></a></li>
     <li><a href="commands.html" class="nav-link"><i class="fas fa-terminal"></i> <span data-i18n="navCommands">الأوامر</span></a></li>
     <li><a href="tutorials.html" class="nav-link"><i class="fas fa-book-open"></i> <span data-i18n="navTutorials">الدروس</span></a></li>
-    <li><a href="steps.html" class="nav-link"><i class="fas fa-list-ol"></i> <span data-i18n="navSteps">خطوات التنفيذ</span></a></li>
+    <li><a href="steps.html" class="nav-link"><i class="fas fa-list-ol"></i> <span data-i18n="navSteps">السيناريوهات التطبيقية</span></a></li>
     <li><a href="tools.html" class="nav-link"><i class="fas fa-tools"></i> <span data-i18n="navTools">الأدوات</span></a></li>
     <li><a href="articles.html" class="nav-link"><i class="fas fa-newspaper"></i> <span data-i18n="navArticles">المقالات</span></a></li>
-    <li><a href="leaderboard.html" class="nav-link"><i class="fas fa-trophy"></i> <span>المتصدرون</span></a></li>
     <li><a href="register.html" class="nav-link" style="color:var(--primary);border:1px solid rgba(0,255,65,0.3);border-radius:8px;padding:4px 12px;"><i class="fas fa-user-circle"></i> <span>حسابي</span></a></li>
     <li>
       <a href="#" class="nav-link" data-share-button data-share-title="Kali Academy" data-share-text="تعرف على Kali Academy لتعلم الأمن السيبراني" onclick="return false;">
@@ -116,15 +115,97 @@
   <a href="index.html" class="nav-link mobile-nav-link"><i class="fas fa-home"></i> <span data-i18n="navHome">الرئيسية</span></a>
   <a href="commands.html" class="nav-link mobile-nav-link"><i class="fas fa-terminal"></i> <span data-i18n="navCommands">الأوامر</span></a>
   <a href="tutorials.html" class="nav-link mobile-nav-link"><i class="fas fa-book-open"></i> <span data-i18n="navTutorials">الدروس</span></a>
-  <a href="steps.html" class="nav-link mobile-nav-link"><i class="fas fa-list-ol"></i> <span data-i18n="navSteps">خطوات التنفيذ</span></a>
+  <a href="steps.html" class="nav-link mobile-nav-link"><i class="fas fa-list-ol"></i> <span data-i18n="navSteps">السيناريوهات التطبيقية</span></a>
   <a href="tools.html" class="nav-link mobile-nav-link"><i class="fas fa-tools"></i> <span data-i18n="navTools">الأدوات</span></a>
   <a href="articles.html" class="nav-link mobile-nav-link"><i class="fas fa-newspaper"></i> <span data-i18n="navArticles">المقالات</span></a>
-  <a href="leaderboard.html" class="nav-link mobile-nav-link"><i class="fas fa-trophy"></i> المتصدرون</a>
   <a href="register.html" class="nav-link mobile-nav-link" style="color:var(--primary);"><i class="fas fa-user-circle"></i> حسابي / تسجيل</a>
   <a href="#" class="nav-link mobile-nav-link" data-share-button data-share-title="Kali Academy" data-share-text="تعرف على Kali Academy لتعلم الأمن السيبراني" onclick="return false;"><i class="fas fa-share-alt"></i> <span data-i18n="shareSite">مشاركة الموقع</span></a>
 
 <a href="disclaimer-owner.html" class="nav-link mobile-nav-link" style="color:#ff9966;"><i class="fas fa-exclamation-triangle"></i> إخلاء المسؤولية</a>
 </div>
+
+<!-- FREE NOTICE BANNER -->
+<div id="free-notice-banner" style="
+  max-width: 100%;
+  background: linear-gradient(90deg, rgba(0,255,65,0.06) 0%, rgba(4,22,40,0.95) 30%, rgba(4,22,40,0.95) 70%, rgba(0,255,65,0.06) 100%);
+  border-bottom: 1px solid rgba(0,255,65,0.15);
+  padding: 10px 1.5rem;
+  text-align: center;
+  position: relative;
+  z-index: 90;
+  animation: bannerFadeIn 0.5s ease;
+">
+  <div style="
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  ">
+    <span style="
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(0,255,65,0.1);
+      border: 1px solid rgba(0,255,65,0.25);
+      border-radius: 20px;
+      padding: 3px 12px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.65rem;
+      color: #00ff41;
+      letter-spacing: 1px;
+    ">
+      <span style="width:6px;height:6px;background:#00ff41;border-radius:50%;animation:fbDotPulse 2s ease-in-out infinite;box-shadow:0 0 6px rgba(0,255,65,0.6);"></span>
+      FREE
+    </span>
+    <span style="
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #fff;
+    ">
+      الموقع <span style="color:#00ff41;">مجاني</span> لفترة محدودة
+    </span>
+    <a href="tutorials.html" style="
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(0,255,65,0.12);
+      border: 1px solid rgba(0,255,65,0.3);
+      border-radius: 8px;
+      padding: 4px 14px;
+      color: #00ff41;
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s;
+    " onmouseover="this.style.background='rgba(0,255,65,0.2)';this.style.transform='translateY(-1px)'" onmouseout="this.style.background='rgba(0,255,65,0.12)';this.style.transform='none'">
+      <i class="fas fa-rocket" style="font-size:0.7rem;"></i>
+      ابدأ الآن
+    </a>
+    <button onclick="this.closest('#free-notice-banner').style.display='none'" style="
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.25);
+      cursor: pointer;
+      font-size: 0.75rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: all 0.2s;
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+    " onmouseover="this.style.color='rgba(255,255,255,0.7)';this.style.background='rgba(255,50,50,0.15)'" onmouseout="this.style.color='rgba(255,255,255,0.25)';this.style.background='none'" title="إغلاق">&#10005;</button>
+  </div>
+</div>
+<style>
+@keyframes bannerFadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
 
 <!-- MAIN CONTENT -->
 <div class="main-wrapper">
@@ -161,7 +242,7 @@
       </a>
       <a href="steps.html" class="btn btn-accent">
         <i class="fas fa-list-ol"></i>
-        خطوات التنفيذ
+        السيناريوهات التطبيقية
       </a>
     </div>
     
@@ -348,7 +429,7 @@
       </div>
       <div class="stat-card">
         <span class="stat-icon">🎯</span>
-        <span id="stat-scenarios" class="stat-number" data-count="0" data-suffix="">0</span>
+        <span id="stat-scenarios" class="stat-number" data-count="115" data-suffix="">115</span>
         <span class="stat-label">سيناريو تطبيقي</span>
       </div>
       <div class="stat-card">
@@ -386,9 +467,9 @@
       
       <div class="feature-card">
         <div class="feature-icon">🗺️</div>
-        <h3 class="feature-title">خطوات تنفيذ مفصلة</h3>
+        <h3 class="feature-title">سيناريوهات تطبيقية مفصلة</h3>
         <p class="feature-desc">دليل خطوة بخطوة لكل سيناريو — من التثبيت وضبط الشبكة حتى اختبارات الاختراق المتقدمة.</p>
-        <a href="steps.html" class="feature-link">عرض الخطوات <i class="fas fa-arrow-left"></i></a>
+        <a href="steps.html" class="feature-link">عرض السيناريوهات <i class="fas fa-arrow-left"></i></a>
       </div>
       
       <div class="feature-card">
@@ -609,10 +690,9 @@
         <li><a href="index.html">الرئيسية</a></li>
         <li><a href="commands.html">قاعدة الأوامر</a></li>
         <li><a href="tutorials.html">الدروس</a></li>
-        <li><a href="steps.html">خطوات التنفيذ</a></li>
+        <li><a href="steps.html">السيناريوهات التطبيقية</a></li>
         <li><a href="tools.html">الأدوات</a></li>
         <li><a href="articles.html">المقالات</a></li>
-        <li><a href="leaderboard.html">🏆 المتصدرون</a></li>
         <li><a href="register.html">👤 إنشاء حساب</a></li>
         <li><a href="profile.html">📊 ملفي الشخصي</a></li>
         <li><a href="disclaimer-owner.html" style="color:#ff6060;">⚠️ إخلاء المسؤولية</a></li>
@@ -760,16 +840,20 @@ async function calcRealStats() {
   const commandsCount = countUniqueCommands();
   const { totalLessons, tracksCount } = await getLessonsData();
 
-  const [toolsCount, scenariosCount] = await Promise.all([
+  const [toolsCount, scenariosFromPage] = await Promise.all([
     countByRegexFromPage('tools.html', /\bid\s*:\s*(\d+)\b/g),
     countByRegexFromPage('steps.html', /\bid\s*:\s*(\d+)\b/g),
   ]);
+
+  // حساب السيناريوهات الديناميكي: سيناريوهات الصفحة + خطوات الدروس
+  const lessonStepsCount = (window.LESSON_STEPS || []).length;
+  const totalScenarios = (scenariosFromPage || 65) + lessonStepsCount;
 
   const finalStats = {
     commands: commandsCount,
     lessons: totalLessons,
     tools: toolsCount || 100,
-    scenarios: scenariosCount || (window.LESSON_STEPS || []).length,
+    scenarios: totalScenarios,
     tracks: tracksCount,
   };
 

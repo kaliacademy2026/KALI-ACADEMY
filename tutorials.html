@@ -305,7 +305,7 @@
     <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> <span data-i18n="navHome">الرئيسية</span></a></li>
     <li><a href="commands.html" class="nav-link"><i class="fas fa-terminal"></i> <span data-i18n="navCommands">الأوامر</span></a></li>
     <li><a href="tutorials.html" class="nav-link active"><i class="fas fa-book-open"></i> <span data-i18n="navTutorials">الدروس</span></a></li>
-    <li><a href="steps.html" class="nav-link"><i class="fas fa-list-ol"></i> <span data-i18n="navSteps">خطوات التنفيذ</span></a></li>
+    <li><a href="steps.html" class="nav-link"><i class="fas fa-list-ol"></i> <span data-i18n="navSteps">السيناريوهات التطبيقية</span></a></li>
     <li><a href="tools.html" class="nav-link"><i class="fas fa-tools"></i> <span data-i18n="navTools">الأدوات</span></a></li>
     <li><a href="articles.html" class="nav-link"><i class="fas fa-newspaper"></i> <span data-i18n="navArticles">المقالات</span></a></li>
     
@@ -316,7 +316,7 @@
   <a href="index.html" class="nav-link mobile-nav-link"><i class="fas fa-home"></i> <span data-i18n="navHome">الرئيسية</span></a>
   <a href="commands.html" class="nav-link mobile-nav-link"><i class="fas fa-terminal"></i> <span data-i18n="navCommands">الأوامر</span></a>
   <a href="tutorials.html" class="nav-link mobile-nav-link active"><i class="fas fa-book-open"></i> <span data-i18n="navTutorials">الدروس</span></a>
-  <a href="steps.html" class="nav-link mobile-nav-link"><i class="fas fa-list-ol"></i> <span data-i18n="navSteps">خطوات التنفيذ</span></a>
+  <a href="steps.html" class="nav-link mobile-nav-link"><i class="fas fa-list-ol"></i> <span data-i18n="navSteps">السيناريوهات التطبيقية</span></a>
   <a href="tools.html" class="nav-link mobile-nav-link"><i class="fas fa-tools"></i> <span data-i18n="navTools">الأدوات</span></a>
   <a href="articles.html" class="nav-link mobile-nav-link"><i class="fas fa-newspaper"></i> <span data-i18n="navArticles">المقالات</span></a>
   
@@ -1703,7 +1703,7 @@ function openLesson(id) {
     <div style="background:rgba(0,200,255,0.06);border:1px solid rgba(0,200,255,0.15);border-radius:10px;padding:0.8rem 1rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
       <span style="color:var(--text-muted);font-size:0.82rem;font-family:'Cairo',sans-serif;"><i class="fas fa-list-ol" style="color:#0cf;margin-left:6px;"></i>${t.steps.length} خطوات تنفيذية</span>
       <a href="steps.html?lesson=${t.id}" class="exec-link-btn" style="background:linear-gradient(135deg,rgba(0,200,255,0.15),rgba(0,255,65,0.08));border:1px solid rgba(0,200,255,0.3);color:#0cf;padding:6px 16px;border-radius:8px;font-size:0.8rem;font-family:'Cairo',sans-serif;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;" onclick="closeTutModalDirect()">
-        <i class="fas fa-play-circle"></i> عرض خطوات التنفيذ الكاملة
+        <i class="fas fa-play-circle"></i> عرض السيناريوهات التطبيقية الكاملة
       </a>
     </div>
     ${t.steps.map((s,i)=>`
@@ -1723,7 +1723,7 @@ function openLesson(id) {
     `).join('')}
     <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border);text-align:center;">
       <a href="steps.html?lesson=${t.id}" class="exec-link-btn" style="background:linear-gradient(135deg,rgba(0,255,65,0.12),rgba(0,200,255,0.08));border:1px solid rgba(0,200,255,0.3);color:#0cf;padding:10px 24px;border-radius:10px;font-family:'Cairo',sans-serif;font-size:0.88rem;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:8px;" onclick="closeTutModalDirect()">
-        <i class="fas fa-list-ol"></i> انتقل لصفحة خطوات التنفيذ
+        <i class="fas fa-list-ol"></i> انتقل لصفحة السيناريوهات التطبيقية
       </a>
     </div>
   `;

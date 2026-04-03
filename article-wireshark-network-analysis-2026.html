@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دليل Wireshark الشامل 2026 - تحليل حركة الشبكة باحتراف | KaliAcademy</title>
+<meta name="description" content="دليل Wireshark الشامل باللغة العربية 2026 - تعلم تحليل حركة الشبكة، التقاط الحزم، واكتشاف التهديدات الأمنية مع أمثلة عملية.">
+<meta name="keywords" content="Wireshark, تحليل الشبكات, Packet Analysis, Network Forensics, Kali Linux, أمن سيبراني, التقاط الحزم">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:title" content="دليل Wireshark الشامل 2026 - تحليل حركة الشبكة باحتراف">
+<meta property="og:description" content="تعلم Wireshark من الصفر: التقاط وتحليل حزم الشبكة واكتشاف التهديدات - KaliAcademy">
+<meta property="og:image" content="https://kali-academy.github.io/images/logo.png">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ar_AR">
+<meta property="og:site_name" content="Kali Academy">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="دليل Wireshark الشامل 2026 | KaliAcademy">
+<meta name="twitter:description" content="تعلم تحليل حركة الشبكة واكتشاف التهديدات بأداة Wireshark">
+<meta name="twitter:image" content="https://kali-academy.github.io/images/logo.png">
+<link rel="icon" type="image/png" href="images/logo.png">
+<link rel="canonical" href="https://kali-academy.github.io/article-wireshark-network-analysis-2026.html">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/enhanced.css">
+<link rel="stylesheet" href="css/cyber-theme.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+.article-page { max-width: 920px; margin: 0 auto; padding: 2rem 1.2rem 4rem; }
+.article-body { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem 1.2rem; direction: rtl; }
+.article-body h1, .article-body h2, .article-body h3, .article-body h4 { font-family: 'Cairo', sans-serif; line-height: 1.7; }
+.article-body p, .article-body li, .article-body td, .article-body th { font-family: 'Cairo', sans-serif; line-height: 1.9; color: var(--text-secondary); }
+.article-body img { max-width: 260px; border-radius: 14px; margin: .6rem auto 1rem; display: block; }
+.article-body table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+.article-body th, .article-body td { border: 1px solid var(--border); padding: .65rem .6rem; text-align: right; }
+.article-body blockquote { border-right: 3px solid #00aaff; margin: 1rem 0; padding: .7rem 1rem; background: rgba(0,170,255,.05); border-radius: 8px; }
+.article-body pre { background: #0a0f1a; border: 1px solid #1a2a1a; padding: .8rem; border-radius: 8px; overflow: auto; direction: ltr; }
+.article-body code { font-family: 'Share Tech Mono', monospace; color: #0cf; background: rgba(0,200,255,0.08); padding: 2px 6px; border-radius: 4px; }
+.article-body pre code { background: none; padding: 0; color: #00ff41; }
+.back-to-articles { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 1rem; text-decoration: none; color: var(--primary); border: 1px solid var(--border); padding: .5rem .8rem; border-radius: 10px; }
+.cmd-box { background: #060d12; border: 1px solid #1a2a1a; border-right: 3px solid #00aaff; border-radius: 8px; padding: 0.7rem 1rem; margin: 0.5rem 0; direction: ltr; }
+.cmd-box code { color: #00aaff; background: none; }
+.filter-box { background: rgba(0,170,255,0.04); border: 1px solid rgba(0,170,255,0.2); border-radius: 10px; padding: 1rem; margin: 0.8rem 0; }
+.filter-box h4 { margin: 0 0 0.5rem; color: #00aaff; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "دليل Wireshark الشامل 2026 - تحليل حركة الشبكة باحتراف",
+  "author": { "@type": "Organization", "name": "Kali Academy" },
+  "publisher": { "@type": "Organization", "name": "Kali Academy", "logo": { "@type": "ImageObject", "url": "https://kali-academy.github.io/images/logo.png" } },
+  "datePublished": "2026-04-03",
+  "dateModified": "2026-04-03",
+  "description": "دليل شامل لتعلم Wireshark وتحليل حركة الشبكة واكتشاف التهديدات الأمنية.",
+  "inLanguage": "ar",
+  "mainEntityOfPage": "https://kali-academy.github.io/article-wireshark-network-analysis-2026.html"
+}
+</script>
+</head>
+<body class="grid-bg">
+<script src="js/disclaimer.js"></script>
+<script src="js/social-bar.js"></script>
+<script src="js/free-offer.js"></script>
+<script src="js/site-init.js"></script>
+<canvas id="matrix-canvas"></canvas>
+
+<header class="site-header">
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><img src="images/logo.png" alt="Kali Academy Logo" style="width:44px;height:44px;object-fit:contain;"></div>
+    <div><span class="logo-text">KALI ACADEMY</span><span class="logo-sub">CYBER SECURITY LEARNING</span></div>
+  </a>
+  <ul class="nav-menu">
+    <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a></li>
+    <li><a href="commands.html" class="nav-link"><i class="fas fa-terminal"></i> الأوامر</a></li>
+    <li><a href="tutorials.html" class="nav-link"><i class="fas fa-book-open"></i> الدروس</a></li>
+    <li><a href="steps.html" class="nav-link"><i class="fas fa-list-ol"></i> السيناريوهات التطبيقية</a></li>
+    <li><a href="tools.html" class="nav-link"><i class="fas fa-tools"></i> الأدوات</a></li>
+    <li><a href="articles.html" class="nav-link active"><i class="fas fa-newspaper"></i> المقالات</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</header>
+
+<div class="mobile-menu">
+  <a href="index.html" class="nav-link mobile-nav-link"><i class="fas fa-home"></i> الرئيسية</a>
+  <a href="commands.html" class="nav-link mobile-nav-link"><i class="fas fa-terminal"></i> الأوامر</a>
+  <a href="tutorials.html" class="nav-link mobile-nav-link"><i class="fas fa-book-open"></i> الدروس</a>
+  <a href="steps.html" class="nav-link mobile-nav-link"><i class="fas fa-list-ol"></i> السيناريوهات التطبيقية</a>
+  <a href="tools.html" class="nav-link mobile-nav-link"><i class="fas fa-tools"></i> الأدوات</a>
+  <a href="articles.html" class="nav-link mobile-nav-link active"><i class="fas fa-newspaper"></i> المقالات</a>
+</div>
+
+<div class="article-page">
+  <a class="back-to-articles" href="articles.html"><i class="fas fa-arrow-right"></i> العودة إلى صفحة المقالات</a>
+
+  <article class="article-body">
+    <h1>دليل Wireshark الشامل 2026 — تحليل حركة الشبكة واكتشاف التهديدات</h1>
+    <p><img src="images/logo.png" alt="Wireshark Network Analysis Guide" /></p>
+    <blockquote>
+      <p><strong>بقلم فريق KALI ACADEMY</strong> | الأداة الأولى عالمياً في تحليل حزم الشبكة</p>
+    </blockquote>
+    <hr />
+
+    <h2>جدول المحتويات</h2>
+    <ol>
+      <li><a href="#what-is-wireshark">ما هو Wireshark؟</a></li>
+      <li><a href="#use-cases">حالات الاستخدام</a></li>
+      <li><a href="#interface">فهم الواجهة</a></li>
+      <li><a href="#capture">التقاط الحزم</a></li>
+      <li><a href="#filters">فلاتر العرض — المهارة الأهم</a></li>
+      <li><a href="#protocols">تحليل البروتوكولات الشائعة</a></li>
+      <li><a href="#security-analysis">تحليل أمني عملي</a></li>
+      <li><a href="#tshark">TShark — Wireshark في سطر الأوامر</a></li>
+      <li><a href="#conclusion">الخاتمة</a></li>
+    </ol>
+    <hr />
+
+    <h2 id="what-is-wireshark">ما هو Wireshark؟</h2>
+    <p><strong>Wireshark</strong> هو أقوى محلل حزم شبكة (Packet Analyzer) مفتوح المصدر في العالم. يتيح لك التقاط وفحص البيانات المتدفقة عبر الشبكة في الزمن الحقيقي، حزمة بحزمة، مع تفكيك كامل لطبقات البروتوكولات.</p>
+    <p>يُعدّ Wireshark أداة لا غنى عنها في ثلاث مجالات رئيسية: <strong>إدارة الشبكات</strong>، <strong>التحقيق الجنائي الرقمي</strong>، و<strong>اختبار الاختراق</strong>.</p>
+
+    <h3>لمحة سريعة:</h3>
+    <table>
+      <thead><tr><th>المعلومة</th><th>التفاصيل</th></tr></thead>
+      <tbody>
+        <tr><td>النوع</td><td>محلل حزم شبكة مفتوح المصدر</td></tr>
+        <tr><td>المطور الأصلي</td><td>Gerald Combs (1998)</td></tr>
+        <tr><td>البروتوكولات المدعومة</td><td>3000+ بروتوكول</td></tr>
+        <tr><td>المنصات</td><td>Windows, Linux, macOS</td></tr>
+        <tr><td>الترخيص</td><td>GPLv2 (مجاني بالكامل)</td></tr>
+        <tr><td>أهم شهادة مرتبطة</td><td>Wireshark Certified Network Analyst (WCNA)</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="use-cases">حالات الاستخدام</h2>
+    <ul>
+      <li><strong>استكشاف مشاكل الشبكة:</strong> تأخيرات، فقدان حزم، اتصالات فاشلة</li>
+      <li><strong>تحليل أمني:</strong> كشف حركة مشبوهة، برمجيات خبيثة، تسريب بيانات</li>
+      <li><strong>التحقيق الجنائي:</strong> تحليل ملفات PCAP من حوادث أمنية</li>
+      <li><strong>تطوير البروتوكولات:</strong> اختبار وتحليل بروتوكولات جديدة</li>
+      <li><strong>تحديات CTF:</strong> حل تحديات Network Forensics</li>
+      <li><strong>تعلم الشبكات:</strong> فهم عملي لكيفية عمل TCP/IP</li>
+    </ul>
+
+    <h2 id="interface">فهم واجهة Wireshark</h2>
+    <p>واجهة Wireshark تتكون من ثلاث لوحات رئيسية:</p>
+    <table>
+      <thead><tr><th>اللوحة</th><th>الوظيفة</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Packet List</strong> (القائمة العلوية)</td><td>عرض جميع الحزم الملتقطة مع معلومات سريعة</td></tr>
+        <tr><td><strong>Packet Details</strong> (الوسطى)</td><td>تفكيك طبقات البروتوكول لكل حزمة</td></tr>
+        <tr><td><strong>Packet Bytes</strong> (السفلية)</td><td>البيانات الخام بصيغة Hex و ASCII</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="capture">التقاط الحزم</h2>
+    <h3>بدء الالتقاط:</h3>
+    <ol>
+      <li>افتح Wireshark</li>
+      <li>اختر واجهة الشبكة (مثل <code>eth0</code> أو <code>wlan0</code>)</li>
+      <li>اضغط على زر <strong>Start Capturing</strong> (الزعنفة الزرقاء)</li>
+    </ol>
+
+    <h3>فلاتر الالتقاط (Capture Filters):</h3>
+    <p>تُطبّق <strong>قبل</strong> الالتقاط لتقليل حجم البيانات:</p>
+    <div class="cmd-box"><code># التقاط HTTP فقط
+port 80
+
+# التقاط من/إلى IP محدد
+host 192.168.1.100
+
+# التقاط TCP فقط
+tcp
+
+# التقاط حزم DNS
+port 53</code></div>
+
+    <h2 id="filters">فلاتر العرض — المهارة الأهم في Wireshark</h2>
+    <p>فلاتر العرض (Display Filters) تُطبّق <strong>بعد</strong> الالتقاط لتصفية ما تشاهده. إتقانها هو الفرق بين المبتدئ والمحترف.</p>
+
+    <div class="filter-box">
+      <h4>فلاتر أساسية:</h4>
+      <div class="cmd-box"><code># عرض HTTP فقط
+http
+
+# عرض DNS فقط
+dns
+
+# عرض حزم من IP محدد
+ip.src == 192.168.1.100
+
+# عرض حزم إلى IP محدد
+ip.dst == 10.0.0.1
+
+# عرض حزم TCP على منفذ 443
+tcp.port == 443
+
+# عرض حزم تحتوي على أخطاء
+tcp.analysis.flags</code></div>
+    </div>
+
+    <div class="filter-box">
+      <h4>فلاتر متقدمة:</h4>
+      <div class="cmd-box"><code># HTTP POST requests فقط
+http.request.method == "POST"
+
+# طلبات DNS لنطاق محدد
+dns.qry.name contains "example.com"
+
+# حزم تحتوي على كلمة "password"
+frame contains "password"
+
+# اتصالات TCP غير مكتملة (SYN بدون ACK)
+tcp.flags.syn == 1 && tcp.flags.ack == 0
+
+# حزم أكبر من 1000 بايت
+frame.len > 1000
+
+# استبعاد ARP و ICMP
+!(arp || icmp)</code></div>
+    </div>
+
+    <div class="filter-box">
+      <h4>فلاتر للتحليل الأمني:</h4>
+      <div class="cmd-box"><code># كشف محاولات Port Scanning
+tcp.flags.syn == 1 && tcp.flags.ack == 0 && tcp.window_size <= 1024
+
+# كشف ARP Spoofing
+arp.duplicate-address-detected
+
+# حركة مشبوهة على منافذ غير معتادة
+tcp.port > 49151
+
+# كشف Brute Force على SSH
+tcp.port == 22 && tcp.flags.syn == 1</code></div>
+    </div>
+
+    <h2 id="protocols">تحليل البروتوكولات الشائعة</h2>
+
+    <h3>1. تحليل HTTP/HTTPS</h3>
+    <p>لتحليل HTTP غير المشفر:</p>
+    <div class="cmd-box"><code>http.request || http.response</code></div>
+    <p>ميزة <strong>Follow HTTP Stream</strong>: انقر يميناً على أي حزمة HTTP واختر Follow → HTTP Stream لرؤية المحادثة الكاملة.</p>
+
+    <h3>2. تحليل DNS</h3>
+    <div class="cmd-box"><code># جميع استعلامات DNS
+dns.flags.response == 0
+
+# ردود DNS فاشلة
+dns.flags.rcode != 0</code></div>
+
+    <h3>3. تحليل TCP</h3>
+    <div class="cmd-box"><code># اتصالات TCP مُعاد تعيينها
+tcp.flags.reset == 1
+
+# إعادة إرسال (Retransmissions)
+tcp.analysis.retransmission</code></div>
+
+    <h2 id="security-analysis">تحليل أمني عملي</h2>
+
+    <h3>السيناريو 1: كشف تسريب بيانات</h3>
+    <div class="cmd-box"><code># ابحث عن بيانات حساسة في HTTP
+http.request.method == "POST" && frame contains "password"
+
+# ابحث عن بيانات بطاقات ائتمان (نمط)
+frame matches "[0-9]{4}[- ]?[0-9]{4}[- ]?[0-9]{4}[- ]?[0-9]{4}"</code></div>
+
+    <h3>السيناريو 2: تحليل حركة برمجية خبيثة</h3>
+    <div class="cmd-box"><code># كشف اتصال C2 (Command & Control)
+# ابحث عن DNS لنطاقات مشبوهة
+dns.qry.name matches "^[a-z0-9]{20,}\."
+
+# حركة على منافذ غير معتادة
+tcp.port == 4444 || tcp.port == 5555 || tcp.port == 1337
+
+# HTTP مع User-Agent مشبوه
+http.user_agent contains "bot" || http.user_agent == ""</code></div>
+
+    <h3>السيناريو 3: تحليل ملف PCAP من حادث أمني</h3>
+    <ol>
+      <li>افتح ملف PCAP في Wireshark</li>
+      <li>استخدم <code>Statistics → Conversations</code> لمعرفة أكثر الاتصالات نشاطاً</li>
+      <li>استخدم <code>Statistics → Protocol Hierarchy</code> لفهم توزيع البروتوكولات</li>
+      <li>ابحث عن حركة غير طبيعية باستخدام الفلاتر أعلاه</li>
+      <li>استخدم <code>File → Export Objects → HTTP</code> لاستخراج الملفات المنقولة</li>
+    </ol>
+
+    <h2 id="tshark">TShark — Wireshark في سطر الأوامر</h2>
+    <p><strong>TShark</strong> هو النسخة النصية من Wireshark — مثالي للتحليل الآلي والسيرفرات بدون واجهة رسومية.</p>
+    <div class="cmd-box"><code># التقاط 100 حزمة
+tshark -c 100
+
+# التقاط على واجهة محددة
+tshark -i eth0
+
+# التقاط مع فلتر
+tshark -i eth0 -f "port 80"
+
+# تحليل ملف PCAP
+tshark -r capture.pcap
+
+# استخراج URLs من حركة HTTP
+tshark -r capture.pcap -Y http.request -T fields -e http.host -e http.request.uri
+
+# حفظ النتائج
+tshark -i eth0 -w output.pcap -c 1000</code></div>
+
+    <h2 id="conclusion">الخاتمة</h2>
+    <p>Wireshark هو <strong>العين التي ترى كل شيء على الشبكة</strong>. إتقانه يمنحك القدرة على فهم ما يحدث فعلاً في شبكتك، اكتشاف التهديدات، وحل المشاكل بسرعة ودقة.</p>
+    <p>المفتاح هو الممارسة المستمرة — حمّل ملفات PCAP من مواقع مثل <strong>Malware Traffic Analysis</strong> و<strong>PacketTotal</strong> وتدرّب على تحليلها.</p>
+    <p><strong>في KaliAcademy</strong>، نوفر لك دروساً تفاعلية وسيناريوهات تطبيقية تتضمن تحليل الشبكات باستخدام Wireshark وأدوات أخرى.</p>
+
+    <div style="margin-top:2rem;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+      <a href="tutorials.html" class="btn btn-primary" style="font-size:0.9rem;"><i class="fas fa-book-open"></i> الدروس التعليمية</a>
+      <a href="tools.html" class="btn btn-secondary" style="font-size:0.9rem;"><i class="fas fa-tools"></i> دليل الأدوات</a>
+      <a href="steps.html" class="btn btn-accent" style="font-size:0.9rem;"><i class="fas fa-list-ol"></i> السيناريوهات التطبيقية</a>
+    </div>
+  </article>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-bottom" style="max-width:1200px;margin:0 auto;text-align:center;padding:1.5rem 2rem;font-size:0.8rem;color:var(--text-muted);">
+    ⚠️ لأغراض تعليمية فقط | © 2026 Kali Academy
+  </div>
+</footer>
+
+<script src="js/matrix.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

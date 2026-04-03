@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>دليل Nmap الشامل 2026 - تعلم مسح الشبكات من الصفر | KaliAcademy</title>
+<meta name="description" content="دليل Nmap الشامل باللغة العربية 2026 - تعلم مسح الشبكات واكتشاف المنافذ والخدمات خطوة بخطوة مع أمثلة عملية وأوامر جاهزة للنسخ.">
+<meta name="keywords" content="Nmap, مسح الشبكات, اكتشاف المنافذ, Network Scanner, Kali Linux, اختبار الاختراق, أمن سيبراني">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:title" content="دليل Nmap الشامل 2026 - تعلم مسح الشبكات من الصفر">
+<meta property="og:description" content="تعلم Nmap من الصفر حتى الاحتراف مع أمثلة عملية وأوامر جاهزة - KaliAcademy">
+<meta property="og:image" content="https://kali-academy.github.io/images/logo.png">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ar_AR">
+<meta property="og:site_name" content="Kali Academy">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="دليل Nmap الشامل 2026 | KaliAcademy">
+<meta name="twitter:description" content="تعلم Nmap من الصفر حتى الاحتراف - أوامر وأمثلة عملية">
+<meta name="twitter:image" content="https://kali-academy.github.io/images/logo.png">
+<link rel="icon" type="image/png" href="images/logo.png">
+<link rel="canonical" href="https://kali-academy.github.io/article-nmap-complete-guide-2026.html">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/enhanced.css">
+<link rel="stylesheet" href="css/cyber-theme.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+.article-page { max-width: 920px; margin: 0 auto; padding: 2rem 1.2rem 4rem; }
+.article-body { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem 1.2rem; direction: rtl; }
+.article-body h1, .article-body h2, .article-body h3, .article-body h4 { font-family: 'Cairo', sans-serif; line-height: 1.7; }
+.article-body p, .article-body li, .article-body td, .article-body th { font-family: 'Cairo', sans-serif; line-height: 1.9; color: var(--text-secondary); }
+.article-body img { max-width: 260px; border-radius: 14px; margin: .6rem auto 1rem; display: block; }
+.article-body table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+.article-body th, .article-body td { border: 1px solid var(--border); padding: .65rem .6rem; text-align: right; }
+.article-body blockquote { border-right: 3px solid var(--primary); margin: 1rem 0; padding: .7rem 1rem; background: rgba(0,255,65,.05); border-radius: 8px; }
+.article-body pre { background: #0a0f1a; border: 1px solid #1a2a1a; padding: .8rem; border-radius: 8px; overflow: auto; direction: ltr; }
+.article-body code { font-family: 'Share Tech Mono', monospace; color: #0cf; background: rgba(0,200,255,0.08); padding: 2px 6px; border-radius: 4px; }
+.article-body pre code { background: none; padding: 0; color: #00ff41; }
+.back-to-articles { display: inline-flex; align-items: center; gap: 8px; margin: 0 0 1rem; text-decoration: none; color: var(--primary); border: 1px solid var(--border); padding: .5rem .8rem; border-radius: 10px; }
+.cmd-box { background: #060d12; border: 1px solid #1a2a1a; border-right: 3px solid #0cf; border-radius: 8px; padding: 0.7rem 1rem; margin: 0.5rem 0; direction: ltr; }
+.cmd-box code { color: #0cf; background: none; }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "دليل Nmap الشامل 2026 - تعلم مسح الشبكات من الصفر",
+  "author": { "@type": "Organization", "name": "Kali Academy" },
+  "publisher": { "@type": "Organization", "name": "Kali Academy", "logo": { "@type": "ImageObject", "url": "https://kali-academy.github.io/images/logo.png" } },
+  "datePublished": "2026-04-03",
+  "dateModified": "2026-04-03",
+  "description": "دليل شامل لتعلم Nmap من الصفر حتى الاحتراف مع أوامر عملية وسيناريوهات واقعية.",
+  "inLanguage": "ar",
+  "mainEntityOfPage": "https://kali-academy.github.io/article-nmap-complete-guide-2026.html"
+}
+</script>
+</head>
+<body class="grid-bg">
+<script src="js/disclaimer.js"></script>
+<script src="js/social-bar.js"></script>
+<script src="js/free-offer.js"></script>
+<script src="js/site-init.js"></script>
+<canvas id="matrix-canvas"></canvas>
+
+<header class="site-header">
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><img src="images/logo.png" alt="Kali Academy Logo" style="width:44px;height:44px;object-fit:contain;"></div>
+    <div><span class="logo-text">KALI ACADEMY</span><span class="logo-sub">CYBER SECURITY LEARNING</span></div>
+  </a>
+  <ul class="nav-menu">
+    <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a></li>
+    <li><a href="commands.html" class="nav-link"><i class="fas fa-terminal"></i> الأوامر</a></li>
+    <li><a href="tutorials.html" class="nav-link"><i class="fas fa-book-open"></i> الدروس</a></li>
+    <li><a href="steps.html" class="nav-link"><i class="fas fa-list-ol"></i> السيناريوهات التطبيقية</a></li>
+    <li><a href="tools.html" class="nav-link"><i class="fas fa-tools"></i> الأدوات</a></li>
+    <li><a href="articles.html" class="nav-link active"><i class="fas fa-newspaper"></i> المقالات</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</header>
+
+<div class="mobile-menu">
+  <a href="index.html" class="nav-link mobile-nav-link"><i class="fas fa-home"></i> الرئيسية</a>
+  <a href="commands.html" class="nav-link mobile-nav-link"><i class="fas fa-terminal"></i> الأوامر</a>
+  <a href="tutorials.html" class="nav-link mobile-nav-link"><i class="fas fa-book-open"></i> الدروس</a>
+  <a href="steps.html" class="nav-link mobile-nav-link"><i class="fas fa-list-ol"></i> السيناريوهات التطبيقية</a>
+  <a href="tools.html" class="nav-link mobile-nav-link"><i class="fas fa-tools"></i> الأدوات</a>
+  <a href="articles.html" class="nav-link mobile-nav-link active"><i class="fas fa-newspaper"></i> المقالات</a>
+</div>
+
+<div class="article-page">
+  <a class="back-to-articles" href="articles.html"><i class="fas fa-arrow-right"></i> العودة إلى صفحة المقالات</a>
+
+  <article class="article-body">
+    <h1>دليل Nmap الشامل 2026 - تعلم مسح الشبكات من الصفر حتى الاحتراف</h1>
+    <p><img src="images/logo.png" alt="Nmap Network Scanner Guide" /></p>
+    <blockquote>
+      <p><strong>بقلم فريق KALI ACADEMY</strong> | أقوى أداة مسح شبكات في عالم الأمن السيبراني</p>
+    </blockquote>
+    <hr />
+
+    <h2>جدول المحتويات</h2>
+    <ol>
+      <li><a href="#what-is-nmap">ما هو Nmap؟</a></li>
+      <li><a href="#why-nmap">لماذا Nmap هو الأداة الأولى؟</a></li>
+      <li><a href="#install">التثبيت والإعداد</a></li>
+      <li><a href="#basic-scans">المسح الأساسي</a></li>
+      <li><a href="#advanced-scans">تقنيات المسح المتقدمة</a></li>
+      <li><a href="#nse">Nmap Scripting Engine (NSE)</a></li>
+      <li><a href="#real-scenarios">سيناريوهات واقعية</a></li>
+      <li><a href="#tips">نصائح احترافية</a></li>
+      <li><a href="#conclusion">الخاتمة</a></li>
+    </ol>
+    <hr />
+
+    <h2 id="what-is-nmap">ما هو Nmap؟</h2>
+    <p><strong>Nmap</strong> (Network Mapper) هو أداة مسح شبكات مفتوحة المصدر تُعدّ الأكثر استخداماً في عالم الأمن السيبراني واختبار الاختراق. طوّرها <strong>Gordon "Fyodor" Lyon</strong> عام 1997، ومنذ ذلك الحين أصبحت الأداة المرجعية لكل محترف أمن معلومات.</p>
+    <p>تتيح Nmap اكتشاف الأجهزة المتصلة بالشبكة، المنافذ المفتوحة، الخدمات العاملة، أنظمة التشغيل، وحتى الثغرات الأمنية المحتملة — كل ذلك من خلال سطر الأوامر.</p>
+
+    <h3>أبرز قدرات Nmap:</h3>
+    <table>
+      <thead><tr><th>القدرة</th><th>الوصف</th></tr></thead>
+      <tbody>
+        <tr><td>اكتشاف المضيفين (Host Discovery)</td><td>معرفة الأجهزة النشطة على الشبكة</td></tr>
+        <tr><td>مسح المنافذ (Port Scanning)</td><td>تحديد المنافذ المفتوحة والمغلقة</td></tr>
+        <tr><td>كشف الخدمات (Service Detection)</td><td>معرفة نوع وإصدار الخدمة على كل منفذ</td></tr>
+        <tr><td>كشف نظام التشغيل (OS Detection)</td><td>تحديد نظام التشغيل عبر بصمة TCP/IP</td></tr>
+        <tr><td>NSE Scripts</td><td>تشغيل سكربتات متخصصة للكشف عن الثغرات</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="why-nmap">لماذا Nmap هو الأداة الأولى؟</h2>
+    <p>Nmap ليست مجرد أداة عادية — هي <strong>أول أداة يتعلمها أي مختبر اختراق</strong> وآخر أداة يتخلى عنها. إليك الأسباب:</p>
+    <ul>
+      <li><strong>مجانية ومفتوحة المصدر</strong> — لا تكاليف ترخيص</li>
+      <li><strong>متعددة المنصات</strong> — تعمل على Linux, Windows, macOS</li>
+      <li><strong>مُثبّتة مسبقاً</strong> في Kali Linux</li>
+      <li><strong>مرنة للغاية</strong> — من مسح بسيط إلى عمليات معقدة</li>
+      <li><strong>محرك سكربتات NSE</strong> يحتوي على 600+ سكربت جاهز</li>
+      <li><strong>مجتمع ضخم</strong> ووثائق شاملة</li>
+      <li><strong>معتمدة في الشهادات</strong> مثل CEH, OSCP, CompTIA PenTest+</li>
+    </ul>
+
+    <h2 id="install">التثبيت والإعداد</h2>
+    <p>في <strong>Kali Linux</strong>، Nmap مُثبّت مسبقاً. للتحقق:</p>
+    <div class="cmd-box"><code>nmap --version</code></div>
+    <p>للتثبيت على أنظمة أخرى:</p>
+    <div class="cmd-box"><code># Debian/Ubuntu
+sudo apt install nmap
+
+# CentOS/RHEL
+sudo yum install nmap
+
+# macOS
+brew install nmap</code></div>
+
+    <h2 id="basic-scans">المسح الأساسي — الأوامر التي يجب حفظها</h2>
+
+    <h3>1. مسح سريع لجهاز واحد</h3>
+    <div class="cmd-box"><code>nmap 192.168.1.1</code></div>
+    <p>يمسح أشهر 1000 منفذ TCP ويعرض حالة كل منفذ.</p>
+
+    <h3>2. مسح شبكة كاملة</h3>
+    <div class="cmd-box"><code>nmap 192.168.1.0/24</code></div>
+    <p>يكتشف جميع الأجهزة النشطة على الشبكة الفرعية.</p>
+
+    <h3>3. مسح منافذ محددة</h3>
+    <div class="cmd-box"><code>nmap -p 22,80,443,8080 192.168.1.1</code></div>
+
+    <h3>4. مسح جميع المنافذ (65535)</h3>
+    <div class="cmd-box"><code>nmap -p- 192.168.1.1</code></div>
+    <p>هذا المسح شامل لكنه يأخذ وقتاً أطول.</p>
+
+    <h3>5. كشف الخدمات والإصدارات</h3>
+    <div class="cmd-box"><code>nmap -sV 192.168.1.1</code></div>
+    <p>يحدد نوع الخدمة وإصدارها — مفيد جداً لاكتشاف الثغرات.</p>
+
+    <h3>6. كشف نظام التشغيل</h3>
+    <div class="cmd-box"><code>sudo nmap -O 192.168.1.1</code></div>
+
+    <h3>7. المسح الشامل (الأكثر استخداماً)</h3>
+    <div class="cmd-box"><code>sudo nmap -sV -sC -O -p- 192.168.1.1</code></div>
+    <p>يجمع بين كشف الخدمات، تشغيل السكربتات الافتراضية، وكشف نظام التشغيل.</p>
+
+    <h2 id="advanced-scans">تقنيات المسح المتقدمة</h2>
+
+    <h3>SYN Scan (المسح الخفي)</h3>
+    <div class="cmd-box"><code>sudo nmap -sS 192.168.1.0/24</code></div>
+    <p>لا يُكمل اتصال TCP الثلاثي — أسرع وأقل إثارة للإنذارات.</p>
+
+    <h3>UDP Scan</h3>
+    <div class="cmd-box"><code>sudo nmap -sU --top-ports 100 192.168.1.1</code></div>
+    <p>يمسح منافذ UDP — مهم لاكتشاف خدمات مثل DNS, SNMP, DHCP.</p>
+
+    <h3>مسح مع التخفي</h3>
+    <div class="cmd-box"><code>sudo nmap -sS -T2 --randomize-hosts -D RND:5 192.168.1.0/24</code></div>
+    <p>يستخدم سرعة بطيئة مع عناوين وهمية (Decoys) لتجنب أنظمة كشف التسلل.</p>
+
+    <h3>حفظ النتائج في ملفات</h3>
+    <div class="cmd-box"><code># حفظ بصيغة نصية
+nmap -oN scan_results.txt 192.168.1.0/24
+
+# حفظ بصيغة XML
+nmap -oX scan_results.xml 192.168.1.0/24
+
+# حفظ بجميع الصيغ
+nmap -oA full_scan 192.168.1.0/24</code></div>
+
+    <h2 id="nse">Nmap Scripting Engine (NSE) — قوة Nmap الحقيقية</h2>
+    <p>محرك السكربتات NSE يحوّل Nmap من ماسح شبكات بسيط إلى أداة فحص ثغرات متكاملة.</p>
+
+    <h3>أهم فئات السكربتات:</h3>
+    <table>
+      <thead><tr><th>الفئة</th><th>الوصف</th><th>مثال</th></tr></thead>
+      <tbody>
+        <tr><td>vuln</td><td>كشف الثغرات المعروفة</td><td><code>--script vuln</code></td></tr>
+        <tr><td>auth</td><td>اختبار المصادقة</td><td><code>--script auth</code></td></tr>
+        <tr><td>brute</td><td>هجمات القوة الغاشمة</td><td><code>--script brute</code></td></tr>
+        <tr><td>discovery</td><td>جمع المعلومات</td><td><code>--script discovery</code></td></tr>
+        <tr><td>safe</td><td>سكربتات آمنة</td><td><code>--script safe</code></td></tr>
+      </tbody>
+    </table>
+
+    <h3>أمثلة عملية على NSE:</h3>
+    <div class="cmd-box"><code># فحص ثغرات الويب
+nmap --script http-vuln* -p 80,443 192.168.1.1
+
+# كشف ثغرة SMB الشهيرة EternalBlue
+nmap --script smb-vuln-ms17-010 -p 445 192.168.1.0/24
+
+# فحص SSL/TLS
+nmap --script ssl-enum-ciphers -p 443 target.com
+
+# اكتشاف معلومات DNS
+nmap --script dns-brute target.com</code></div>
+
+    <h2 id="real-scenarios">سيناريوهات واقعية</h2>
+
+    <h3>السيناريو 1: فحص أمني سريع لشبكة مكتب</h3>
+    <div class="cmd-box"><code># الخطوة 1: اكتشاف الأجهزة النشطة
+nmap -sn 192.168.1.0/24
+
+# الخطوة 2: مسح تفصيلي للأجهزة المكتشفة
+nmap -sV -sC -O -oA office_scan 192.168.1.0/24
+
+# الخطوة 3: فحص الثغرات
+nmap --script vuln -oA vuln_scan 192.168.1.0/24</code></div>
+
+    <h3>السيناريو 2: فحص خادم ويب</h3>
+    <div class="cmd-box"><code>nmap -sV -sC --script http-enum,http-vuln*,http-headers -p 80,443,8080,8443 target.com</code></div>
+
+    <h3>السيناريو 3: فحص شبكة لاسلكية</h3>
+    <div class="cmd-box"><code># اكتشف الأجهزة أولاً
+nmap -sn 192.168.0.0/24
+
+# مسح تفصيلي مع كشف OS
+sudo nmap -sV -O --osscan-guess 192.168.0.0/24 -oA wifi_audit</code></div>
+
+    <h2 id="tips">نصائح احترافية</h2>
+    <ul>
+      <li><strong>ابدأ دائماً بـ <code>-sn</code></strong> لاكتشاف الأجهزة قبل المسح التفصيلي</li>
+      <li><strong>استخدم <code>-T3</code></strong> كسرعة افتراضية — T4 سريع لكن قد يُفوّت نتائج</li>
+      <li><strong>احفظ النتائج دائماً</strong> بصيغة <code>-oA</code> للرجوع إليها لاحقاً</li>
+      <li><strong>استخدم <code>--reason</code></strong> لفهم سبب تصنيف المنفذ كـ open أو filtered</li>
+      <li><strong>جرّب <code>-sU</code></strong> لمنافذ UDP — كثير من المختبرين يتجاهلونها</li>
+      <li><strong>استخدم <code>--min-rate</code></strong> للتحكم في سرعة المسح دون فقد دقة</li>
+      <li><strong>لا تمسح أبداً</strong> شبكة بدون تصريح كتابي — هذا غير قانوني</li>
+    </ul>
+
+    <blockquote>
+      <p><strong>تنبيه مهم:</strong> استخدام Nmap لمسح شبكات بدون إذن صريح يُعدّ مخالفة قانونية. استخدم المعرفة بمسؤولية.</p>
+    </blockquote>
+
+    <h2 id="conclusion">الخاتمة</h2>
+    <p>Nmap ليست مجرد أداة — هي <strong>مهارة أساسية</strong> يجب على كل مختص أمن سيبراني إتقانها. من خلال هذا الدليل، تعلمت الأساسيات والتقنيات المتقدمة والسيناريوهات العملية التي ستحتاجها في عملك اليومي.</p>
+    <p><strong>في KaliAcademy</strong> ستجد أكثر من 500 أمر موثق وسيناريوهات تطبيقية كاملة تتضمن Nmap وأدوات أخرى.</p>
+
+    <div style="margin-top:2rem;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
+      <a href="commands.html" class="btn btn-primary" style="font-size:0.9rem;"><i class="fas fa-terminal"></i> استكشف أوامر Nmap</a>
+      <a href="tools.html" class="btn btn-secondary" style="font-size:0.9rem;"><i class="fas fa-tools"></i> دليل الأدوات</a>
+      <a href="steps.html" class="btn btn-accent" style="font-size:0.9rem;"><i class="fas fa-list-ol"></i> السيناريوهات التطبيقية</a>
+    </div>
+  </article>
+</div>
+
+<footer class="site-footer">
+  <div class="footer-bottom" style="max-width:1200px;margin:0 auto;text-align:center;padding:1.5rem 2rem;font-size:0.8rem;color:var(--text-muted);">
+    ⚠️ لأغراض تعليمية فقط | © 2026 Kali Academy
+  </div>
+</footer>
+
+<script src="js/matrix.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
