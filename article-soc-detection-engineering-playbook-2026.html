@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#020b14">
+<title>هندسة الكشف في SOC 2026 | بناء Playbook احترافي يقلل الإنذارات الكاذبة</title>
+<meta name="description" content="مقال احترافي حول Detection Engineering داخل SOC: تحويل التهديدات إلى قواعد فعالة، تقليل False Positives، وقياس جودة التنبيهات بأمثلة عملية.">
+<meta name="keywords" content="SOC, Detection Engineering, SIEM, Threat Hunting, SOC Playbook, Sigma Rules, MITRE ATT&CK">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://kali-academy.github.io/article-soc-detection-engineering-playbook-2026.html">
+<link rel="icon" type="image/svg+xml" href="images/logo-brand.svg">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/enhanced.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<style>
+.article-wrap{max-width:980px;margin:0 auto;padding:2rem 1rem 4rem}
+.article-hero{padding:2rem 1.2rem;border:1px solid var(--border);border-radius:16px;background:linear-gradient(180deg,rgba(0,170,255,.08),transparent)}
+.article-hero h1{font-size:clamp(1.5rem,4vw,2.3rem);margin:0 0 .8rem;color:#fff}
+.article-hero p{color:var(--text-secondary);line-height:1.9}
+.article-section{margin-top:1.7rem;padding:1.3rem;border:1px solid rgba(0,170,255,.18);border-radius:14px;background:var(--bg-card)}
+.article-section h2{font-size:1.25rem;margin:0 0 .7rem;color:#00d5ff}
+.article-section h3{font-size:1.02rem;color:#e7fff0;margin:1rem 0 .5rem}
+.article-section p,.article-section li{color:var(--text-secondary);line-height:1.9}
+.article-section ul{margin:0;padding-right:1.1rem}
+.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.8rem;margin-top:.8rem}
+.metric{border:1px solid rgba(0,170,255,.2);border-radius:10px;padding:.8rem;background:rgba(0,170,255,.06)}
+.metric strong{display:block;color:#00d5ff;font-size:1.05rem}
+.code-box{background:#01131f;border:1px solid rgba(0,170,255,.28);border-radius:10px;padding:.85rem 1rem;font-family:'Share Tech Mono',monospace;color:#a9e8ff;direction:ltr;overflow:auto}
+</style>
+</head>
+<body class="grid-bg">
+<script defer src="js/disclaimer.js"></script>
+<script defer src="js/social-bar.js"></script>
+<script defer src="js/free-offer.js"></script>
+<script defer src="js/site-init.js"></script>
+<canvas id="matrix-canvas"></canvas>
+
+<header class="site-header">
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><img src="images/logo-brand.svg" alt="Kali Academy Logo"></div>
+    <div><span class="logo-text">KALI ACADEMY</span><span class="logo-sub">CYBER SECURITY LEARNING</span></div>
+  </a>
+  <ul class="nav-menu">
+    <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a></li>
+    <li><a href="articles.html" class="nav-link active"><i class="fas fa-newspaper"></i> المقالات</a></li>
+  </ul>
+</header>
+
+<div class="main-wrapper">
+  <article class="article-wrap">
+    <section class="article-hero">
+      <h1>هندسة الكشف في SOC: كيف تبني نظام تنبيه يفيد فعلاً وليس مجرد ضجيج؟</h1>
+      <p>
+        كثير من مراكز العمليات الأمنية (SOC) تمتلك SIEM قوي، لكن ما يزال الفريق يغرق في آلاف التنبيهات يومياً.
+        السبب عادة ليس نقص الأدوات، بل ضعف هندسة الكشف: قواعد غير دقيقة، غياب سياق العمل، وعدم وجود دورة تحسين مستمرة.
+      </p>
+    </section>
+
+    <section class="article-section">
+      <h2>1) ما هي Detection Engineering؟</h2>
+      <p>
+        هي عملية تحويل سلوك المهاجم (TTPs) إلى قواعد إنذار قابلة للتنفيذ والقياس داخل SIEM/EDR.
+        الفكرة ليست "اكتشاف كل شيء"، بل "اكتشاف المهم بسرعة وبدقة".
+      </p>
+      <ul>
+        <li>مصدر التهديد: MITRE ATT&CK / Threat Intel</li>
+        <li>المصدر البياني: Logs من Endpoint, Identity, Network, Cloud</li>
+        <li>المخرج: تنبيه قابل للتحقيق Incident-Ready Alert</li>
+      </ul>
+    </section>
+
+    <section class="article-section">
+      <h2>2) لماذا تفشل قواعد الكشف غالباً؟</h2>
+      <h3>أ) الاعتماد على IOC فقط</h3>
+      <p>عنوان IP أو Hash يتغير بسرعة. السلوك (TTP) أكثر ثباتاً.</p>
+      <h3>ب) تجاهل baseline البيئة</h3>
+      <p>ما هو شاذ في شركة قد يكون طبيعياً في شركة أخرى.</p>
+      <h3>ج) غياب مرحلة tuning</h3>
+      <p>أي قاعدة جديدة بدون tuning ستنتج False Positives كثيرة.</p>
+    </section>
+
+    <section class="article-section">
+      <h2>3) Playbook عملي لبناء قاعدة كشف جديدة</h2>
+      <h3>الخطوة 1: تحديد التهديد</h3>
+      <p>مثال: اكتشاف استخدام PowerShell المشفّر في Windows endpoints.</p>
+      <h3>الخطوة 2: ربطه بمصدر البيانات</h3>
+      <p>تأكد أن Event ID المناسب يصل إلى SIEM (مثل Sysmon Event 1).</p>
+      <h3>الخطوة 3: كتابة منطق الكشف</h3>
+      <div class="code-box">Image: powershell.exe AND CommandLine contains "-enc" OR "FromBase64String"</div>
+      <h3>الخطوة 4: إضافة الاستثناءات</h3>
+      <p>استثنِ أدوات الإدارة الشرعية الموثقة لتقليل الإنذارات الكاذبة.</p>
+      <h3>الخطوة 5: تعريف الاستجابة</h3>
+      <p>عند إطلاق التنبيه: جمع parent process + user + host + recent network connections.</p>
+    </section>
+
+    <section class="article-section">
+      <h2>4) المقاييس التي يجب أن تتابعها أسبوعياً</h2>
+      <div class="metric-grid">
+        <div class="metric"><strong>Precision</strong><span>كم تنبيه كان صحيحاً فعلاً</span></div>
+        <div class="metric"><strong>Recall</strong><span>كم تهديداً حقيقياً اكتشفناه</span></div>
+        <div class="metric"><strong>MTTD</strong><span>متوسط زمن الاكتشاف</span></div>
+        <div class="metric"><strong>MTTR</strong><span>متوسط زمن الاحتواء/المعالجة</span></div>
+      </div>
+      <p>إذا تحسنت هذه الأرقام، فأنت تبني SOC ناضج. إذا ساءت، راجع جودة البيانات والمنطق أولاً.</p>
+    </section>
+
+    <section class="article-section">
+      <h2>5) الدمج بين Detection Engineering وThreat Hunting</h2>
+      <p>
+        الـ Hunting يكشف أنماط جديدة لم تُغطها القواعد الحالية. بعد كل Hunt ناجح، حوّل النتيجة إلى Rule جديدة.
+        بهذه الطريقة، يتحول SOC من رد فعل إلى منظومة تعلم وتحسين مستمر.
+      </p>
+      <div class="code-box">Hunt Finding -> Validate -> Detection Rule -> Tuning -> Production -> Metrics Review</div>
+    </section>
+
+    <section class="article-section">
+      <h2>6) نصائح تنفيذية لفريق صغير</h2>
+      <ul>
+        <li>ابدأ بـ 10 قواعد عالية الأثر بدل 200 قاعدة ضعيفة.</li>
+        <li>ضع Runbook قصير لكل تنبيه: ماذا تجمع؟ من تتصل؟ متى تصعّد؟</li>
+        <li>استخدم Sigma كصيغة موحدة ثم ترجمها لـ SIEM الخاص بك.</li>
+        <li>راجع القواعد شهرياً: disable, tune, merge, or rewrite.</li>
+      </ul>
+    </section>
+
+    <section class="article-section">
+      <h2>الخلاصة</h2>
+      <p>
+        SOC القوي ليس الذي يملك أكثر أدوات، بل الذي يملك قواعد كشف دقيقة وسريعة التحسين.
+        مع Detection Engineering منظم، ستقلل الضجيج، ترفع سرعة الاستجابة، وتحسن ثقة الإدارة في فريق الأمن.
+      </p>
+      <p><a class="btn btn-primary" href="articles.html"><i class="fas fa-arrow-right"></i> العودة إلى صفحة المقالات</a></p>
+    </section>
+  </article>
+</div>
+
+<script defer src="js/matrix.js"></script>
+</body>
+</html>

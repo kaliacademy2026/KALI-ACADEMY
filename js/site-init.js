@@ -294,11 +294,6 @@ const css = document.createElement('style');
       link.href = abs.href;
       link.as = 'document';
       document.head.appendChild(link);
-
-      // fetch منخفض الأولوية لرفع فرصة وجود الصفحة في الكاش
-      try {
-        fetch(abs.href, { mode: 'same-origin', credentials: 'same-origin', cache: 'force-cache' }).catch(() => {});
-      } catch (_) { /* ignore */ }
     }
 
     function navigateFast(href) {
@@ -315,17 +310,13 @@ const css = document.createElement('style');
 
       document.body.classList.add('page-leaving');
 
-      // Navigate after the fade-out transition completes
+      // Navigate after lightweight transition
       setTimeout(function () {
         window.location.assign(abs.href);
-      }, 150);
+      }, 70);
     }
 
-    // prefetch روابط التنقل الأساسية مباشرة بعد الجاهزية
-    document.querySelectorAll('a[href]').forEach((a) => {
-      if (shouldHandleLink(a)) preloadPage(a.getAttribute('href'));
-    });
-
+    // prefetch فقط عند نية المستخدم (hover/touch) لتقليل الحمل
     document.addEventListener('pointerenter', function (e) {
       const a = e.target.closest('a[href]');
       if (!shouldHandleLink(a)) return;
@@ -371,7 +362,11 @@ const css = document.createElement('style');
     createLanguageToggle();
     applyLanguage(getCurrentLang());
     removeRegisterLinks();
-    fastNav();
+
+    const lowEnd = (navigator.deviceMemory && navigator.deviceMemory <= 2) || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
+    if (!lowEnd) {
+      fastNav();
+    }
   }
 
   if (document.readyState === 'loading') {

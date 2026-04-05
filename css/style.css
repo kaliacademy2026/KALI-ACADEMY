@@ -148,28 +148,23 @@ body {
 }
 
 .logo-icon {
-  width: 45px;
-  height: 45px;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  border-radius: 10px;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
-  animation: pulse-glow 2s ease-in-out infinite;
   position: relative;
   overflow: hidden;
+  background: rgba(0, 255, 65, 0.05);
+  border: 1px solid rgba(0, 255, 65, 0.22);
 }
 
-.logo-icon::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-  animation: rotate 3s linear infinite;
+.logo-icon img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(0, 255, 65, 0.25));
 }
 
 .logo-text {
@@ -267,6 +262,93 @@ body {
   background: var(--primary);
   border-radius: 2px;
   transition: var(--transition);
+}
+
+/* ===== FREE NOTICE BAR ===== */
+.site-free-banner {
+  position: relative;
+  z-index: 950;
+  margin-top: var(--header-height);
+  border-bottom: 1px solid rgba(0, 255, 65, 0.16);
+  background: linear-gradient(90deg, rgba(0, 255, 65, 0.08), rgba(2, 11, 20, 0.96) 25%, rgba(2, 11, 20, 0.96) 75%, rgba(0, 230, 255, 0.08));
+  backdrop-filter: blur(8px);
+}
+
+.site-free-banner-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 8px 14px;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.site-free-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 255, 65, 0.24);
+  background: rgba(0, 255, 65, 0.12);
+  color: var(--primary);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.66rem;
+  padding: 3px 10px;
+  letter-spacing: 1px;
+}
+
+.site-free-pill .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+.site-free-text {
+  margin: 0;
+  font-size: 0.84rem;
+  color: #e8fff0;
+}
+
+.site-free-text strong { color: var(--primary); }
+
+.site-free-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  text-decoration: none;
+  border: 1px solid rgba(0, 255, 65, 0.25);
+  background: rgba(0, 255, 65, 0.1);
+  border-radius: 8px;
+  padding: 4px 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.site-free-close {
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  padding: 3px 7px;
+  border-radius: 6px;
+  position: absolute;
+  left: 8px;
+}
+
+.site-free-close:hover {
+  color: #fff;
+  background: rgba(255, 51, 51, 0.18);
+}
+
+.site-free-banner.is-hidden {
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: all 0.2s ease;
 }
 
 /* ===== MAIN LAYOUT ===== */
@@ -1405,6 +1487,17 @@ body {
   .site-header { padding: 0 0.9rem; gap: 0.8rem; }
   .logo-text { font-size: 0.95rem; }
   .logo-sub { font-size: 0.58rem; letter-spacing: 1px; }
+  .logo-icon { width: 40px; height: 40px; }
+  .logo-icon img { width: 34px; height: 34px; }
+
+  .site-free-banner-inner {
+    padding: 10px 38px 10px 12px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .site-free-text { font-size: 0.78rem; }
+  .site-free-close { left: 6px; top: 6px; position: absolute; }
 
   .nav-menu { display: none; }
   .hamburger { display: flex; }
@@ -1440,6 +1533,31 @@ body {
   .hero-buttons { flex-direction: column; align-items: center; }
   .btn { width: 100%; justify-content: center; }
   .categories-grid { grid-template-columns: 1fr; }
+}
+
+/* ===== PERFORMANCE HELPERS ===== */
+.feature-card,
+.tutorial-card,
+.step-group,
+.command-card,
+.article-card,
+.disc-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 460px;
+}
+
+@media (max-width: 992px) {
+  #matrix-canvas { display: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+
+  #matrix-canvas { display: none !important; }
 }
 
 /* ===== SPECIAL EFFECTS ===== */

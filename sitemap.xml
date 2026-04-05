@@ -121,4 +121,18 @@
 <priority>0.7</priority>
 </url>
 
+<url>
+<loc>https://kali-academy.github.io/article-api-security-testing-2026.html</loc>
+<lastmod>2026-04-05</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+
+<url>
+<loc>https://kali-academy.github.io/article-soc-detection-engineering-playbook-2026.html</loc>
+<lastmod>2026-04-05</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+
 </urlset>

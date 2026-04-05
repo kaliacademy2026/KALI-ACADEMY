@@ -16,11 +16,11 @@
 <link rel="canonical" href="https://kali-academy.github.io/">
 <link rel="alternate" hreflang="ar" href="https://kali-academy.github.io/">
 
-<link rel="icon" type="image/png" href="images/logo.png">
+<link rel="icon" type="image/svg+xml" href="images/logo-brand.svg">
 
 <meta property="og:title" content="Kali Academy - تعلم كالي لينكس والأمن السيبراني">
 <meta property="og:description" content="تعلم Kali Linux واختبار الاختراق والأمن السيبراني بالعربي مع شرح عملي وأدوات احترافية.">
-<meta property="og:image" content="https://kali-academy.github.io/images/logo.png">
+<meta property="og:image" content="https://kali-academy.github.io/images/logo-brand.svg">
 <meta property="og:image:alt" content="شعار Kali Academy">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://kali-academy.github.io/">
@@ -30,7 +30,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Kali Academy | تعلم كالي لينكس والأمن السيبراني بالعربي">
 <meta name="twitter:description" content="تعلم الأمن السيبراني عمليًا: 500+ أمر موثق، 100 درس، وخطوات تنفيذية واضحة.">
-<meta name="twitter:image" content="https://kali-academy.github.io/images/logo.png">
+<meta name="twitter:image" content="https://kali-academy.github.io/images/logo-brand.svg">
 
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/enhanced.css">
@@ -45,7 +45,7 @@
       "@type": "EducationalOrganization",
       "name": "Kali Academy",
       "url": "https://kali-academy.github.io/",
-      "logo": "https://kali-academy.github.io/images/logo.png",
+      "logo": "https://kali-academy.github.io/images/logo-brand.svg",
       "description": "منصة عربية لتعلم Kali Linux والأمن السيبراني خطوة بخطوة.",
       "sameAs": [
         "https://kali-academy.github.io/"
@@ -71,15 +71,15 @@
 <canvas id="matrix-canvas"></canvas>
 
 <!-- DISCLAIMER - يُحمّل أولاً -->
-<script src="js/disclaimer.js"></script>
-<script src="js/social-bar.js"></script>
-<script src="js/free-offer.js"></script>
-<script src="js/site-init.js"></script>
+<script defer src="js/disclaimer.js"></script>
+<script defer src="js/social-bar.js"></script>
+<script defer src="js/free-offer.js"></script>
+<script defer src="js/site-init.js"></script>
 
 <!-- HEADER -->
 <header class="site-header">
   <a href="index.html" class="logo">
-    <div class="logo-icon"><img src="images/logo.png" alt="Kali Academy Logo" style="width:44px;height:44px;object-fit:contain;"></div>
+    <div class="logo-icon"><img src="images/logo-brand.svg" alt="Kali Academy Logo" style="width:44px;height:44px;object-fit:contain;"></div>
     <div>
       <span class="logo-text">KALI ACADEMY</span>
       <span class="logo-sub">CYBER SECURITY LEARNING</span>
@@ -126,90 +126,8 @@
 <a href="disclaimer-owner.html" class="nav-link mobile-nav-link" style="color:#ff9966;"><i class="fas fa-exclamation-triangle"></i> إخلاء المسؤولية</a>
 </div>
 
-<!-- FREE NOTICE BANNER -->
-<div id="free-notice-banner" style="
-  max-width: 100%;
-  background: linear-gradient(90deg, rgba(0,255,65,0.06) 0%, rgba(4,22,40,0.95) 30%, rgba(4,22,40,0.95) 70%, rgba(0,255,65,0.06) 100%);
-  border-bottom: 1px solid rgba(0,255,65,0.15);
-  padding: 10px 1.5rem;
-  text-align: center;
-  position: relative;
-  z-index: 90;
-  animation: bannerFadeIn 0.5s ease;
-">
-  <div style="
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    justify-content: center;
-  ">
-    <span style="
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: rgba(0,255,65,0.1);
-      border: 1px solid rgba(0,255,65,0.25);
-      border-radius: 20px;
-      padding: 3px 12px;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 0.65rem;
-      color: #00ff41;
-      letter-spacing: 1px;
-    ">
-      <span style="width:6px;height:6px;background:#00ff41;border-radius:50%;animation:fbDotPulse 2s ease-in-out infinite;box-shadow:0 0 6px rgba(0,255,65,0.6);"></span>
-      FREE
-    </span>
-    <span style="
-      font-family: 'Cairo', sans-serif;
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: #fff;
-    ">
-      الموقع <span style="color:#00ff41;">مجاني</span> لفترة محدودة
-    </span>
-    <a href="tutorials.html" style="
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      background: rgba(0,255,65,0.12);
-      border: 1px solid rgba(0,255,65,0.3);
-      border-radius: 8px;
-      padding: 4px 14px;
-      color: #00ff41;
-      font-family: 'Cairo', sans-serif;
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-decoration: none;
-      transition: all 0.2s;
-    " onmouseover="this.style.background='rgba(0,255,65,0.2)';this.style.transform='translateY(-1px)'" onmouseout="this.style.background='rgba(0,255,65,0.12)';this.style.transform='none'">
-      <i class="fas fa-rocket" style="font-size:0.7rem;"></i>
-      ابدأ الآن
-    </a>
-    <button onclick="this.closest('#free-notice-banner').style.display='none'" style="
-      background: none;
-      border: none;
-      color: rgba(255,255,255,0.25);
-      cursor: pointer;
-      font-size: 0.75rem;
-      padding: 2px 6px;
-      border-radius: 4px;
-      transition: all 0.2s;
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-    " onmouseover="this.style.color='rgba(255,255,255,0.7)';this.style.background='rgba(255,50,50,0.15)'" onmouseout="this.style.color='rgba(255,255,255,0.25)';this.style.background='none'" title="إغلاق">&#10005;</button>
-  </div>
-</div>
-<style>
-@keyframes bannerFadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-</style>
-
 <!-- MAIN CONTENT -->
+
 <div class="main-wrapper">
 
   <!-- HERO -->
@@ -227,9 +145,9 @@
     
     <p class="hero-desc">
       منصة تعليمية شاملة لتعلم نظام كالي لينكس والأمن السيبراني — تشمل أكثر من
-      <strong id="hero-count-commands" style="color: var(--primary);">500</strong> أمر موثق،
+      <strong id="hero-count-commands" style="color: var(--primary);">3500</strong> أمر موثق،
       <strong id="hero-count-lessons" style="color: var(--primary);">100</strong> درس،
-      و<strong id="hero-count-tools" style="color: var(--primary);">100</strong> أداة،
+      و<strong id="hero-count-tools" style="color: var(--primary);">500</strong> أداة،
       مع شروحات تفصيلية، خطوات تطبيقية، ودروس تفاعلية لكل المستويات.
     </p>
     
@@ -683,7 +601,7 @@
 <footer class="site-footer">
   <div class="footer-grid">
     <div class="footer-brand">
-      <div class="footer-logo">🐉 KALI ACADEMY</div>
+      <div class="footer-logo">KALI ACADEMY</div>
       <p class="footer-tagline">منصتك الشاملة لتعلم الأمن السيبراني واختبار الاختراق باستخدام كالي لينكس.</p>
     </div>
     <div>
@@ -726,154 +644,48 @@
   </div>
 </footer>
 
-<!-- Load all command databases for real counts -->
-<script src="js/commands-db-part1.js"></script>
-<script src="js/commands-db-part2.js"></script>
-<script src="js/commands-db-part3.js"></script>
-<script src="js/commands-db-part4.js"></script>
-<script src="js/commands-db-part5.js"></script>
-<script src="js/commands-db-part6.js"></script>
-<script src="js/commands-db-part7.js"></script>
-<script src="js/commands-db-part8.js"></script>
-<script src="js/commands-db-part9.js"></script>
-<script src="js/commands-db-part10.js"></script>
-<script src="js/commands-db-part11.js"></script>
-<script src="js/commands-db-part12.js"></script>
-<script src="js/commands-db-part13.js"></script>
-<script src="js/commands-db-part14.js"></script>
-<script src="js/commands-db-part15.js"></script>
-<script src="js/commands-db-part16.js"></script>
-<script src="js/commands-db-part17.js"></script>
-<script src="js/commands-data.js"></script>
-<script src="js/tutorials-extra.js"></script>
-<script src="js/tutorials-extra2.js"></script>
-<script src="js/tutorials-part2.js"></script>
-<script src="js/lesson-steps.js"></script>
-<script src="js/matrix.js"></script>
-<script src="js/main.js"></script>
+<!-- Optimized scripts -->
+<script defer src="js/matrix.js"></script>
+<script defer src="js/main.js"></script>
 <script>
-// ── حساب الأرقام الحقيقية ──
-function countUniqueCommands() {
-  const TARGET_COUNT = 500;
-  const names = new Set();
-
-  const partKeys = Object.keys(window)
-    .filter(key => /^CMD_PART\d+$/.test(key) && Array.isArray(window[key]))
-    .sort((a, b) => Number(a.replace('CMD_PART', '')) - Number(b.replace('CMD_PART', '')));
-
-  for (const key of partKeys) {
-    for (const command of window[key]) {
-      if (!command || !command.name) continue;
-      names.add(String(command.name).trim().toLowerCase());
-      if (names.size >= TARGET_COUNT) return TARGET_COUNT;
-    }
-  }
-
-  const fallbackCommands = window.COMMANDS_DB || (typeof COMMANDS_DB !== 'undefined' ? COMMANDS_DB : []);
-  for (const command of fallbackCommands) {
-    if (!command || !command.name) continue;
-    names.add(String(command.name).trim().toLowerCase());
-    if (names.size >= TARGET_COUNT) return TARGET_COUNT;
-  }
-
-  return names.size;
-}
-
-async function getLessonsData() {
-  const lessonIds = new Set();
-  const tracks = new Set();
-
-  [
-    ...(window.TUTORIALS_EXTRA || []),
-    ...(window.TUTORIALS_EXTRA2 || []),
-    ...(window.TUTORIALS_PART2 || []),
-  ].forEach(lesson => {
-    if (lesson && lesson.id) lessonIds.add(String(lesson.id));
-    if (lesson && lesson.cat) tracks.add(String(lesson.cat).trim());
-  });
-
-  (window.LESSON_STEPS || []).forEach(stepLesson => {
-    if (stepLesson && stepLesson.type) tracks.add(String(stepLesson.type).trim());
-  });
-
-  const lessonsFromData = lessonIds.size + 10;
-  const lessonsFromPage = await countByRegexFromPage('tutorials.html', /\bid\s*:\s*(\d+)\b/g);
-  const normalizedLessons = lessonsFromPage || lessonsFromData || 100;
-  const totalLessons = normalizedLessons >= 100 ? 100 : normalizedLessons;
-
-  return {
-    totalLessons,
-    tracksCount: tracks.size,
-  };
-}
-
-async function countByRegexFromPage(url, regex) {
-  try {
-    const response = await fetch(url, { cache: 'no-store' });
-    if (!response.ok) return 0;
-
-    const content = await response.text();
-    const matches = [...content.matchAll(regex)];
-    const ids = new Set(matches.map(match => match[1]));
-    return ids.size;
-  } catch (_) {
-    return 0;
-  }
-}
-
 function updateStatElement(id, value) {
   const element = document.getElementById(id);
   if (!element) return;
   element.setAttribute('data-count', String(value));
   element.setAttribute('data-suffix', '');
+  element.textContent = Number(value).toLocaleString('ar');
 }
 
-function updateHeroCounts({ commands, lessons, tools }) {
+function updateHeroCounts(stats) {
   const heroCommands = document.getElementById('hero-count-commands');
   const heroLessons = document.getElementById('hero-count-lessons');
   const heroTools = document.getElementById('hero-count-tools');
 
-  if (heroCommands) heroCommands.textContent = commands.toLocaleString('ar');
-  if (heroLessons) heroLessons.textContent = lessons.toLocaleString('ar');
-  if (heroTools) heroTools.textContent = tools.toLocaleString('ar');
+  if (heroCommands) heroCommands.textContent = stats.commands.toLocaleString('ar');
+  if (heroLessons) heroLessons.textContent = stats.lessons.toLocaleString('ar');
+  if (heroTools) heroTools.textContent = stats.tools.toLocaleString('ar');
 }
 
-async function calcRealStats() {
-  const commandsCount = countUniqueCommands();
-  const { totalLessons, tracksCount } = await getLessonsData();
+const HOMEPAGE_STATS = {
+  commands: 3500,
+  lessons: 100,
+  tools: 500,
+  scenarios: 66,
+  tracks: 12
+};
 
-  const [toolsCount, scenariosFromPage] = await Promise.all([
-    countByRegexFromPage('tools.html', /\bid\s*:\s*(\d+)\b/g),
-    countByRegexFromPage('steps.html', /\bid\s*:\s*(\d+)\b/g),
-  ]);
-
-  // حساب السيناريوهات الديناميكي: سيناريوهات الصفحة + خطوات الدروس
-  const lessonStepsCount = (window.LESSON_STEPS || []).length;
-  const totalScenarios = (scenariosFromPage || 65) + lessonStepsCount;
-
-  const finalStats = {
-    commands: commandsCount,
-    lessons: totalLessons,
-    tools: toolsCount || 100,
-    scenarios: totalScenarios,
-    tracks: tracksCount,
-  };
-
-  updateStatElement('stat-commands', finalStats.commands);
-  updateStatElement('stat-lessons', finalStats.lessons);
-  updateStatElement('stat-tools', finalStats.tools);
-  updateStatElement('stat-scenarios', finalStats.scenarios);
-  updateStatElement('stat-tracks', finalStats.tracks);
-
-  updateHeroCounts(finalStats);
+window.addEventListener('load', () => {
+  updateStatElement('stat-commands', HOMEPAGE_STATS.commands);
+  updateStatElement('stat-lessons', HOMEPAGE_STATS.lessons);
+  updateStatElement('stat-tools', HOMEPAGE_STATS.tools);
+  updateStatElement('stat-scenarios', HOMEPAGE_STATS.scenarios);
+  updateStatElement('stat-tracks', HOMEPAGE_STATS.tracks);
+  updateHeroCounts(HOMEPAGE_STATS);
 
   if (typeof animateCounters === 'function') {
-    animateCounters();
+    requestAnimationFrame(() => animateCounters());
   }
-}
-
-// استدعاء بعد تحميل الصفحة
-window.addEventListener('load', calcRealStats);
+});
 
 // Terminal typing demo
 const commands = [
