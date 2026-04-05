@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Kali Academy Logo">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#06192b"/>
+      <stop offset="100%" stop-color="#020b14"/>
+    </linearGradient>
+    <linearGradient id="neon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00ff41"/>
+      <stop offset="100%" stop-color="#00e6ff"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect x="18" y="18" width="476" height="476" rx="96" fill="url(#bg)" stroke="#0f3d54" stroke-width="8"/>
+
+  <path d="M120 360 L196 132 L256 270 L316 132 L392 360" fill="none" stroke="url(#neon)" stroke-width="30" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+
+  <path d="M196 132 L160 212 L232 212 Z" fill="#00ff41" opacity="0.95"/>
+  <circle cx="256" cy="270" r="16" fill="#00e6ff"/>
+
+  <text x="256" y="430" text-anchor="middle" fill="#d7ffe8" font-size="48" font-weight="700" font-family="Orbitron, Arial, sans-serif" letter-spacing="4">KA</text>
+</svg>

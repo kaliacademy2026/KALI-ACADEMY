@@ -11,7 +11,7 @@
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta property="og:title" content="السيناريوهات التطبيقية - KaliAcademy | 115+ سيناريو عملي">
 <meta property="og:description" content="115+ سيناريو عملي مفصل لاختبار الاختراق خطوة بخطوة مع أوامر جاهزة">
-<meta property="og:image" content="https://kali-academy.github.io/images/logo.png">
+<meta property="og:image" content="https://kali-academy.github.io/images/logo-brand.svg">
 <meta property="og:image:alt" content="Kali Academy Applied Scenarios">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://kali-academy.github.io/steps.html">
@@ -20,8 +20,8 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="السيناريوهات التطبيقية - KaliAcademy | 115+ سيناريو">
 <meta name="twitter:description" content="سيناريوهات تنفيذ عملية مع خطوات واضحة وأوامر قابلة للنسخ">
-<meta name="twitter:image" content="https://kali-academy.github.io/images/logo.png">
-<link rel="icon" type="image/png" href="images/logo.png">
+<meta name="twitter:image" content="https://kali-academy.github.io/images/logo-brand.svg">
+<link rel="icon" type="image/svg+xml" href="images/logo-brand.svg">
 <link rel="canonical" href="https://kali-academy.github.io/steps.html">
 <link rel="alternate" hreflang="ar" href="https://kali-academy.github.io/steps.html">
 <script type="application/ld+json">
@@ -218,15 +218,15 @@
 </style>
 </head>
 <body class="grid-bg">
-<script src="js/disclaimer.js"></script>
-<script src="js/social-bar.js"></script>
-<script src="js/free-offer.js"></script>
-<script src="js/site-init.js"></script>
+<script defer src="js/disclaimer.js"></script>
+<script defer src="js/social-bar.js"></script>
+<script defer src="js/free-offer.js"></script>
+<script defer src="js/site-init.js"></script>
 <canvas id="matrix-canvas"></canvas>
 
 <header class="site-header">
   <a href="index.html" class="logo">
-    <div class="logo-icon"><img src="images/logo.png" alt="Kali Academy Logo" style="width:44px;height:44px;object-fit:contain;"></div>
+    <div class="logo-icon"><img src="images/logo-brand.svg" alt="Kali Academy Logo" style="width:44px;height:44px;object-fit:contain;"></div>
     <div><span class="logo-text">KALI ACADEMY</span><span class="logo-sub">CYBER SECURITY LEARNING</span></div>
   </a>
   <ul class="nav-menu">
@@ -318,8 +318,8 @@
   </div>
 </footer>
 
-<script src="js/matrix.js"></script>
-<script src="js/lesson-steps.js"></script>
+<script defer src="js/matrix.js"></script>
+<script defer src="js/lesson-steps.js"></script>
 <script>
 // ============================================================
 // SCENARIOS DATABASE
@@ -1340,6 +1340,66 @@ const SCENARIOS = [
     { title: 'تنظيف الآثار', desc: 'APT يُنظف الآثار لتجنب الاكتشاف.', commands: [{ cmd: '# Linux:\nhistory -c && > ~/.bash_history\n> /var/log/auth.log\n# Windows:\nwevtutil cl Security\nwevtutil cl System\n# Timestomping:\ntouch -t 202001010101 malware.exe\n# أو:\npowershell "Set-Item (Get-Item malware.exe).LastWriteTime \'01/01/2020\'"', note: 'في الاختبارات الحقيقية: وثّق كل شيء قبل الحذف' }] }
   ]
 },
+{
+  id: 66, icon: '🛒', title: 'اختبار أمان متجر إلكتروني قبل الإطلاق',
+  desc: 'سيناريو واقعي لفحص متجر إلكتروني صغير من منظور تقني وتجاري مع خطوات عملية واضحة.',
+  difficulty: 'medium', type: 'Web App', time: '90-150 دقيقة',
+  steps: [
+    {
+      title: 'تحديد نطاق الفحص وتجهيز بيئة آمنة',
+      desc: 'قبل أي اختبار، حدد النطاق: الدومين الرئيسي، صفحات الدفع، API تسجيل الدخول، ولوحة الإدارة التجريبية. اعمل على نسخة staging وليس الإنتاج.',
+      commands: [
+        { cmd: 'mkdir -p ecommerce-audit/{recon,findings,evidence,reports}', note: 'إنشاء هيكل مشروع للتوثيق المنظم' },
+        { cmd: 'cat > ecommerce-audit/scope.txt << EOF\nTarget: staging.shop-example.local\nIn Scope: /, /login, /cart, /checkout, /api/*\nOut of Scope: Third-party payment gateway\nEOF', note: 'تثبيت النطاق كتابةً قبل البدء' }
+      ],
+      tip: 'الخطأ الشائع: اختبار نطاق غير مصرح به داخل نفس البنية.'
+    },
+    {
+      title: 'فحص السطح الخارجي للموقع بسرعة',
+      desc: 'ابدأ باكتشاف الخدمات والمجلدات الحساسة لتكوين صورة سريعة عن نقاط التعرض.',
+      commands: [
+        { cmd: 'nmap -sV -Pn -p 80,443,8080 staging.shop-example.local -oN ecommerce-audit/recon/nmap.txt', note: 'فحص الخدمات والإصدارات الأساسية' },
+        { cmd: 'gobuster dir -u https://staging.shop-example.local -w /usr/share/seclists/Discovery/Web-Content/common.txt -x php,js,bak,old -o ecommerce-audit/recon/dirs.txt', note: 'اكتشاف المسارات الحساسة والنسخ الاحتياطية' }
+      ],
+      warning: 'لا تستخدم معدلات عالية في بيئة فيها بيانات عملاء حقيقية.'
+    },
+    {
+      title: 'اختبار تسجيل الدخول واسترجاع كلمة المرور',
+      desc: 'هذه النقطة حرجة في المتاجر لأنها مرتبطة بحسابات العملاء والطلبات. اختبر رسائل الخطأ، سياسة القفل، وإمكانية تعداد المستخدمين.',
+      commands: [
+        { cmd: 'ffuf -w users.txt:USER -w passwords.txt:PASS -X POST -d "email=USER&password=PASS" -u "https://staging.shop-example.local/login" -fr "Invalid credentials" -mc 200,302', note: 'اختبار أولي للقفل والحد من المحاولات' },
+        { cmd: 'curl -i "https://staging.shop-example.local/forgot-password?email=test@example.com"', note: 'مراجعة تسريب معلومات في صفحة الاسترجاع' }
+      ],
+      tip: 'إذا كانت الرسالة تختلف بين بريد موجود وغير موجود فهذه ثغرة User Enumeration.'
+    },
+    {
+      title: 'فحص سلة الشراء وقيمة الطلب (Business Logic)',
+      desc: 'اختبر منطق الأسعار، الخصومات، والكمية عبر اعتراض الطلبات في Burp وإعادة إرسالها بقيم معدلة.',
+      commands: [
+        { cmd: 'burpsuite &', note: 'تشغيل Burp لاعتراض طلبات cart/checkout' },
+        { cmd: 'curl -X POST https://staging.shop-example.local/api/cart/update -H "Content-Type: application/json" -d "{\"item_id\":12,\"qty\":-1,\"price\":1}"', note: 'اختبار التلاعب بالقيمة والكمية عبر API' }
+      ],
+      warning: 'ثغرات Business Logic غالباً لا تُكتشف بالفحص الآلي فقط.'
+    },
+    {
+      title: 'فحص API الخاصة بالطلبات وحسابات المستخدمين',
+      desc: 'تحقق من صلاحيات الوصول (IDOR) ومنع الوصول إلى طلبات مستخدمين آخرين عبر تغيير المعرفات.',
+      commands: [
+        { cmd: 'curl -H "Authorization: Bearer USER_TOKEN" https://staging.shop-example.local/api/orders/1001', note: 'طلب order يخص المستخدم الحالي' },
+        { cmd: 'curl -H "Authorization: Bearer USER_TOKEN" https://staging.shop-example.local/api/orders/1002', note: 'إذا عاد Order لمستخدم آخر فهناك IDOR' }
+      ],
+      tip: 'اختبر أيضاً /api/profile و /api/addresses بنفس الطريقة.'
+    },
+    {
+      title: 'توثيق النتائج وإرسال تقرير قابل للتنفيذ',
+      desc: 'حوّل الملاحظات إلى تقرير واضح للفريق التقني: الشدة، التأثير التجاري، خطوات إعادة الإنتاج، والحل المقترح.',
+      commands: [
+        { cmd: 'cat > ecommerce-audit/reports/final-report.md << EOF\n# E-commerce Security Assessment\n- Finding: IDOR in orders API\n- Severity: High\n- Business Impact: Disclosure of customer orders\n- Reproduction: GET /api/orders/{id}\n- Fix: Enforce owner check server-side\nEOF', note: 'تجهيز تقرير نهائي قابل للتسليم' }
+      ],
+      tip: 'أفضل تقرير هو الذي يستطيع المطور إصلاح الثغرة منه مباشرة بدون اجتماعات إضافية.'
+    }
+  ]
+},
 ];
 
 // ============================================================
@@ -1670,7 +1730,15 @@ function showLessonFromTutorials(lessonId) {
   grid.insertBefore(banner, grid.firstChild);
 }
 
-renderScenarios();
+function initScenariosPage() {
+  renderScenarios();
+}
+
+if ('requestIdleCallback' in window) {
+  requestIdleCallback(initScenariosPage, { timeout: 800 });
+} else {
+  setTimeout(initScenariosPage, 120);
+}
 </script>
 </body>
 </html>

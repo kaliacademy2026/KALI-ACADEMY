@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#020b14">
+<title>اختبار أمان API عملياً 2026 | دليل شامل للمطورين ومختبري الاختراق</title>
+<meta name="description" content="دليل احترافي لاختبار أمان API خطوة بخطوة: جمع المعلومات، التوثيق، المصادقة، IDOR، Rate Limiting، JWT، والتقرير النهائي مع أمثلة عملية.">
+<meta name="keywords" content="اختبار أمان API, API Security Testing, OWASP API, IDOR, JWT, Rate Limiting, Burp Suite, Postman">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://kali-academy.github.io/article-api-security-testing-2026.html">
+<link rel="icon" type="image/svg+xml" href="images/logo-brand.svg">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/enhanced.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+<style>
+.article-wrap{max-width:980px;margin:0 auto;padding:2rem 1rem 4rem}
+.article-hero{padding:2rem 1.2rem;border:1px solid var(--border);border-radius:16px;background:linear-gradient(180deg,rgba(0,255,65,.06),transparent)}
+.article-hero h1{font-size:clamp(1.5rem,4vw,2.3rem);margin:0 0 .8rem;color:#fff}
+.article-hero p{color:var(--text-secondary);line-height:1.9}
+.article-section{margin-top:1.7rem;padding:1.3rem;border:1px solid rgba(0,255,65,.15);border-radius:14px;background:var(--bg-card)}
+.article-section h2{font-size:1.25rem;margin:0 0 .7rem;color:var(--primary)}
+.article-section h3{font-size:1.02rem;color:#e7fff0;margin:1rem 0 .5rem}
+.article-section p,.article-section li{color:var(--text-secondary);line-height:1.9}
+.article-section ul{margin:0;padding-right:1.1rem}
+.code-box{background:#01131f;border:1px solid rgba(0,255,65,.2);border-radius:10px;padding:.85rem 1rem;font-family:'Share Tech Mono',monospace;color:#9dffd0;direction:ltr;overflow:auto}
+.note{background:rgba(255,204,0,.08);border-right:3px solid #ffc800;padding:.7rem .9rem;border-radius:8px;color:#ffe7a3}
+</style>
+</head>
+<body class="grid-bg">
+<script defer src="js/disclaimer.js"></script>
+<script defer src="js/social-bar.js"></script>
+<script defer src="js/free-offer.js"></script>
+<script defer src="js/site-init.js"></script>
+<canvas id="matrix-canvas"></canvas>
+
+<header class="site-header">
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><img src="images/logo-brand.svg" alt="Kali Academy Logo"></div>
+    <div><span class="logo-text">KALI ACADEMY</span><span class="logo-sub">CYBER SECURITY LEARNING</span></div>
+  </a>
+  <ul class="nav-menu">
+    <li><a href="index.html" class="nav-link"><i class="fas fa-home"></i> الرئيسية</a></li>
+    <li><a href="articles.html" class="nav-link active"><i class="fas fa-newspaper"></i> المقالات</a></li>
+  </ul>
+</header>
+
+<div class="main-wrapper">
+  <article class="article-wrap">
+    <section class="article-hero">
+      <h1>اختبار أمان API عملياً في 2026: الدليل الذي تحتاجه فعلاً</h1>
+      <p>
+        أصبحت واجهات البرمجة (APIs) العمود الفقري لأي تطبيق حديث: متجر إلكتروني، تطبيق جوال، لوحة إدارة، أو حتى نظام بنكي داخلي.
+        لذلك، أي ضعف في API لا يعني خطأ تقني فقط، بل قد يعني تسريب بيانات العملاء، أو تعديل طلبات، أو خسائر مالية مباشرة.
+        في هذا الدليل سنعمل بمنهجية عملية تصلح للمبتدئ والمتقدم.
+      </p>
+    </section>
+
+    <section class="article-section">
+      <h2>1) قبل الاختبار: افهم سياق الـ API</h2>
+      <p>أكبر خطأ هو بدء الفحص قبل فهم كيف يعمل المنتج. ابدأ بهذه الأسئلة:</p>
+      <ul>
+        <li>من هم المستخدمون؟ (عميل، مدير، دعم فني)</li>
+        <li>ما العمليات الحساسة؟ (الطلب، الدفع، التحويل، تعديل الحساب)</li>
+        <li>ما نوع المصادقة؟ (JWT، Session Cookie، OAuth)</li>
+        <li>هل API داخلي أم عام؟ وهل له Rate Limit حقيقي؟</li>
+      </ul>
+      <div class="note">معلومة مهمة: فهم منطق العمل Business Logic مهم أحياناً أكثر من الأدوات نفسها.</div>
+    </section>
+
+    <section class="article-section">
+      <h2>2) مرحلة الاستكشاف (Recon)</h2>
+      <h3>جمع الـ Endpoints</h3>
+      <p>اجمع جميع المسارات من Swagger/OpenAPI، تطبيق الويب، وتطبيق الجوال.</p>
+      <div class="code-box">curl -s https://api.example.com/swagger.json | jq '.paths | keys[]'</div>
+      <h3>تحليل سلوك الاستجابات</h3>
+      <p>سجّل بدقة: أكواد HTTP، رسائل الخطأ، وحالات النجاح والفشل.</p>
+      <div class="code-box">ffuf -w endpoints.txt -u https://api.example.com/FUZZ -H "Authorization: Bearer TOKEN" -mc 200,401,403,405</div>
+    </section>
+
+    <section class="article-section">
+      <h2>3) أكثر 5 ثغرات API تظهر في المشاريع الواقعية</h2>
+      <h3>1. Broken Object Level Authorization (IDOR)</h3>
+      <p>غيّر <code>order_id</code> أو <code>user_id</code> وشاهد إن كان السيرفر يتحقق من المالك أم لا.</p>
+      <h3>2. Broken Authentication</h3>
+      <p>جلسات طويلة، رموز JWT غير منتهية، أو إعادة استخدام refresh token بدون ضوابط.</p>
+      <h3>3. Excessive Data Exposure</h3>
+      <p>الواجهة تعرض الاسم فقط، لكن API تعيد البريد، العنوان، أرقام إضافية لا حاجة لها.</p>
+      <h3>4. Missing Rate Limiting</h3>
+      <p>يمكن تنفيذ آلاف الطلبات على login/OTP/reset بدون حظر فعلي.</p>
+      <h3>5. Unsafe File Upload / Parsing</h3>
+      <p>رفع ملفات SVG/CSV/ZIP قد يفتح الباب لتنفيذ غير مباشر أو SSRF أو path traversal.</p>
+    </section>
+
+    <section class="article-section">
+      <h2>4) اختبار JWT وOAuth بطريقة احترافية</h2>
+      <p>اختبر دائماً النقاط التالية:</p>
+      <ul>
+        <li>هل يتم التحقق من التوقيع؟</li>
+        <li>هل الخوارزمية مقيدة أم تقبل <code>none</code>؟</li>
+        <li>هل يوجد تحقق من <code>aud</code> و<code>iss</code> و<code>exp</code>؟</li>
+      </ul>
+      <div class="code-box">jwt_tool token.jwt -S hs256 -p weak_secret</div>
+      <p>في OAuth، راجع بدقة: redirect_uri، state، code replay، صلاحيات scopes.</p>
+    </section>
+
+    <section class="article-section">
+      <h2>5) منهجية تقرير تجعل الفريق يصلح بسرعة</h2>
+      <p>كل نتيجة يجب أن تحتوي:</p>
+      <ul>
+        <li>الوصف المختصر + الشدة (CVSS أو internal risk)</li>
+        <li>الأثر التجاري (ما الذي يمكن سرقته أو تغييره؟)</li>
+        <li>خطوات إعادة الإنتاج الدقيقة</li>
+        <li>الطلب/الاستجابة قبل وبعد الاستغلال</li>
+        <li>حل عملي قابل للتنفيذ خلال Sprint</li>
+      </ul>
+      <div class="note">أفضل تقرير أمني هو الذي يُغلق الثغرة بسرعة، وليس الذي يستعرض المصطلحات فقط.</div>
+    </section>
+
+    <section class="article-section">
+      <h2>خلاصة</h2>
+      <p>
+        اختبار API ليس مجرد إرسال طلبات عشوائية. هو مزيج من فهم المنتج، تحليل الصلاحيات، واختبار حالات الاستخدام الواقعية.
+        إذا أتقنت هذه المنهجية، ستنتقل من "مستخدم أدوات" إلى مختبر أمني يقدم قيمة فعلية للفريق والشركة.
+      </p>
+      <p><a class="btn btn-primary" href="articles.html"><i class="fas fa-arrow-right"></i> العودة إلى صفحة المقالات</a></p>
+    </section>
+  </article>
+</div>
+
+<script defer src="js/matrix.js"></script>
+</body>
+</html>
